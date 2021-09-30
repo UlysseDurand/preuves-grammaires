@@ -43,39 +43,68 @@ let preuve5 = P ( "X", [preuve4;preuve 7], ("X",["X";"X";"+"]));;
 (*Prouvons que 236*+16*7+* est dans L*)
 let preuvefinale = P ( "X", [preuve3;preuve5], ("X",["X";"X";"*"]));;
 
-let rec verif_preuve g p = match p with
+let rec verif_preuve g p = 
+	match p with
     |A x -> g.axiome = x
-    |P (x,l,r) -> (not (List.mem false (List.map (verif_preuve g) l) )) && (fst r = x) && (List.mem r g.regles);;
+    |P (x,l,r) -> 
+			(
+				not 
+				(
+					List.mem false 
+					(
+						List.map (verif_preuve g)	l
+					) 
+				)
+			)
+			&&
+			(fst r = x)
+			&&
+			(List.mem r	g.regles)
+;;
 
 verif_preuve g_op_suffixe (preuvefinale);;
 
-let rec resultat_preuve g p = match p with
-	|A x -> ""
-	|P (x,l,r) ->
-		let r1,r2 = r in 
-		let nl = ref l in
-		List.fold_right
-			(fun x y -> x^y)
+let rec resultat_preuve g p = 
+	match p with
+		|A x -> ""
+		|P (x,l,r) ->
+			let r1,r2 = r in 
+			let nl = ref l in
+			List.fold_right
+			(
+				fun x y -> x^y
+			)
 			(
 				List.map
-					(
-					fun x ->
-					if List.mem x g.nonterminaux then
+				(
+				fun x ->
+					if List.mem x g.nonterminaux 
+					then
 						if (r1 = x) 
-							then
-								(
-								let t,q = (List.hd (!nl),List.tl (!nl)) in
-								nl:=q;
-								resultat_preuve g t
-								) 
-							else
-								failwith "eh oh elle va pas ta grammaire la"
+						then
+						(
+							let t,q = (List.hd (!nl),List.tl (!nl)) in
+							nl:=q;
+							resultat_preuve g t
+						) 
 						else
+							failwith "eh oh elle va pas ta grammaire la"
+					else
 						x
-					)
+				)
 				r2
 			)
 			""
-		;;
+;;
 
-resultat_preuve g_op_suffixe (preuvefinale);;
+resultat_preuve g_op_suffixe preuvefinale;;
+
+let rec distance_levenshtein m1 m2 =
+	match m1,m2 with
+		|_,[] -> List.length m1
+		|[],_ -> List.length m2
+		|t1::q1,t2::q2 when t1=t2 -> distance_levenshtein q1 q2
+		|t1::q1,t2::q2 -> 1 + min ( min (distance_levenshtein q1 m2) (distance_levenshtein m1 q2) ) (distance_levenshtein q1 q2)
+;;
+
+distance_levenshtein ["a";"a";"a";"a"] ["b";"b";"b";"b"];;

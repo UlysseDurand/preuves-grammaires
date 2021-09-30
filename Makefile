@@ -1,0 +1,2 @@
+toplevel:
+	ocaml < main.ml
