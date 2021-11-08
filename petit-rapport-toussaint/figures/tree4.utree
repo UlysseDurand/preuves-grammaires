@@ -1,0 +1,71 @@
+\tikzstyle{level 1}=[sibling distance=40mm]
+\tikzstyle{level 2}=[sibling distance=15mm]
+\tikzstyle{level 3}=[sibling distance=5mm]
+\ndSnd
+# {
+    ndSnd
+    # {
+        ndSnd
+        # { nd"nd }
+        # {
+            ndNnd
+            # {
+                ndNnd
+                # {
+                    ndCnd
+                    # {
+                        nd1nd
+                    }
+                }
+            }
+            # {
+                ndCnd
+                # {
+                    nd0nd
+                }
+            }
+        }
+        # { nd"nd }
+    }
+    # {
+        ndSnd
+        # { nd"nd }
+        # {
+            ndNnd
+            # {
+                ndNnd
+                # {
+                    ndCnd
+                    # {
+                        nd1nd
+                    }
+                }
+            }
+            # {
+                ndCnd
+                # {
+                    nd1nd
+                }
+            }
+        }
+    # { nd"nd }
+    }
+    # {nd+nd}
+}
+# {
+    ndSnd
+    # {nd"nd}
+    # {
+        ndNnd
+        # {
+            ndCnd
+            # {
+                nd0nd
+            }
+        }
+    }
+    # {nd"nd}
+}
+# {
+    nd*nd
+}

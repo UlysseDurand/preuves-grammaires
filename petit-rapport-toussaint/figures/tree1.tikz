@@ -1,0 +1,27 @@
+
+\begin{tikzpicture}[level distance=20pt]
+    \node {S}
+child { node {"} }
+child {
+    node {N}
+    child {
+        node {N}
+        child {
+            node {C}
+            child {
+                node {1}
+            }
+        }
+    }
+    child {
+        node {C}
+        child {
+            node {0}
+        }
+    }
+}
+child { node {"} }
+
+    ;
+\end{tikzpicture}
+    

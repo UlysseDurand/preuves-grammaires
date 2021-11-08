@@ -1,0 +1,55 @@
+
+\begin{tikzpicture}[level distance=20pt]
+    \tikzstyle{level 1}=[sibling distance=30mm]
+\tikzstyle{level 2}=[sibling distance=10mm] 
+\node {S}
+child {
+    node {S}
+    child { node {"} }
+    child {
+        node {N}
+        child {
+            node {N}
+            child {
+                node {C}
+                child {
+                    node {1}
+                }
+            }
+        }
+        child {
+            node {C}
+            child {
+                node {0}
+            }
+        }
+    }
+    child { node {"} }
+}
+child {
+    node {S}
+    child { node {"} }
+    child {
+        node {N}
+        child {
+            node {N}
+            child {
+                node {C}
+                child {
+                    node {1}
+                }
+            }
+        }
+        child {
+            node {C}
+            child {
+                node {1}
+            }
+        }
+    }
+child { node {"} }
+}
+child {node {+}}
+    ;
+\end{tikzpicture}
+    

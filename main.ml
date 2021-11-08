@@ -18,7 +18,7 @@ type 'e grammairemoche = {terminaux : 'e array ; nonterminaux : 'e array ; axiom
 
 type 'e grammairebelle = {terminaux : 'e array ; nonterminaux : 'e array ; axiome : 'e ; joliregles : 'e regle array };;
 
-type 'e preuve_appartenance = A of ('e caractere) | P of ('e caractere) * ('e preuve_appartenance list) * ('e caractere) regle;;
+type 'e preuve = A of ('e caractere) | P of ('e caractere) * ('e preuve list) * ('e caractere) regle;;
 
 let rendmoche gr = 
 	{
@@ -73,24 +73,24 @@ let g_op_suffixe_moche = rendmoche g_op_suffixe;;
 
 
 (*Prouvons que n est dans L*)
-let preuve n = P ( Nt 0, [A (Nt 0)], (Nt 0, [T (string_of_int n)]) );;
+let preuven n = P ( Nt 0, [A (Nt 0)], (Nt 0, [T (string_of_int n)]) );;
 
 (*Prouvons que 36* est dans L*)
-let preuve2 = P ( (Nt 0), [preuve 3;preuve 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
+let preuve2 = P ( (Nt 0), [preuven 3;preuven 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
 (*Prouvons que 236*+ est dans L*)
-let preuve3 = P ( (Nt 0), [preuve 2;preuve2], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
+let preuve3 = P ( (Nt 0), [preuven 2;preuve2], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
 
 (*Prouvons que 16* est dans L*)
-let preuve4 = P ( (Nt 0), [preuve 1;preuve 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
+let preuve4 = P ( (Nt 0), [preuven 1;preuven 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
 (*Prouvons que 16*7+ est dans L*)
-let preuve5 = P ( (Nt 0), [preuve4;preuve 7], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
+let preuve5 = P ( (Nt 0), [preuve4;preuven 7], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
 
 (*Prouvons que 236*+16*7+* est dans L*)
 let preuvefinale = P ( (Nt 0), [preuve3;preuve5], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
 
-let rec verif_preuve (g : 'e grammairemoche) (p: 'e preuve_appartenance) = 
+let rec verif_preuve g p = 
 	match p with
-    |A x -> g.axiome = x
+    |A x -> true
     |P (x,l,r) -> 
 			(
 				List.for_all
@@ -176,4 +176,11 @@ let construit gr r els =
 	List.map (fun combi -> P (fst r,combi,r)) combinaison_de_preuves
 ;;
 
-construit g_op_suffixe ((Nt 0),[(Nt 0);(Nt 0);T "+"]) [|[preuve 2;preuve 3]|];;
+construit g_op_suffixe ((Nt 0),[(Nt 0);(Nt 0);T "+"]) [|[preuven 2;preuven 3]|];;
+
+let construit_prueves gr els =
+	let nouveauxmots = Array.to_list (Array.map gr.regles (fun r -> construit gr r els)) in
+	Array.flatten nouveauxmots
+;;
+
+ 

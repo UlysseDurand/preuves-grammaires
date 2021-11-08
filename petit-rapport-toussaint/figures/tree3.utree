@@ -1,0 +1,50 @@
+\tikzstyle{level 1}=[sibling distance=30mm]
+\tikzstyle{level 2}=[sibling distance=10mm] 
+\ndSnd
+# {
+    ndSnd
+    # { nd"nd }
+    # {
+        ndNnd
+        # {
+            ndNnd
+            # {
+                ndCnd
+                # {
+                    nd1nd
+                }
+            }
+        }
+        # {
+            ndCnd
+            # {
+                nd0nd
+            }
+        }
+    }
+    # { nd"nd }
+}
+# {
+    ndSnd
+    # { nd"nd }
+    # {
+        ndNnd
+        # {
+            ndNnd
+            # {
+                ndCnd
+                # {
+                    nd1nd
+                }
+            }
+        }
+        # {
+            ndCnd
+            # {
+                nd1nd
+            }
+        }
+    }
+# { nd"nd }
+}
+# {nd+nd}

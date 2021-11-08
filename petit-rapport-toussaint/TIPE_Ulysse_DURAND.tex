@@ -1,25 +1,57 @@
-# TIPE Sur la vérification de preuve et la preuve automatique
+\newcommand{\letitle}{}
+\newcommand{\leauthor}{}
+
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xcolor}
+%\usepackage{lstlisting}%
+\usepackage[margin=3cm]{geometry}
+%\usepackage{stmaryrd}%
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usepackage{hyperref}
+\setlength{\parskip}{0.15cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,      
+    urlcolor=blue,
+}
+
+\urlstyle{same}
+
+\everymath{\displaystyle}
+\title{\letitle}
+\author{\leauthor}
+\date{}
+\begin{document}
+    \section{TIPE Sur la vérification de preuve et la preuve automatique}
 L'ensemble des propositions démontrables de mathématiques est le langage d'une grammaire contextuelle, et c'est 
 sur ce principe que nous allons construire un vérificateur de preuve, 
 puis un prouveur automatique.
 
-# Introduction
+\section{Introduction}
 
-## Les grammaires non contextuelles
+\subsection{Les grammaires non contextuelles}
 
 Une grammaire non contextuelle est un quadruplet $G = (T,N_t,S,D)$ où :
 
----i
-#### $T$ est l'alphabet des terminaux
-#### $N_t$ est l'alphabet des non terminaux
-#### $S \in N_t$ est l'axiome
-#### $D$, un ensemble d'éléments de $(N_t \cup T)^\star \times (N_t \cup T)^\star$, est l'ensemble des règles de dérivation.
----i
+\begin{itemize}
+\item $T$ est l'alphabet des terminaux
+\item $N_t$ est l'alphabet des non terminaux
+\item $S \in N_t$ est l'axiome
+\item $D$, un ensemble d'éléments de $(N_t \cup T)^\star \times (N_t \cup T)^\star$, est l'ensemble des règles de dérivation.
+\end{itemize}
 
 Soit $\rightarrow$ la relation binaire définie sur $(N_t \cup T)^\star$ par
-!equ!
+\begin{equation}
 \forall m,m' \in (N_t \cup T)^\star, m \rightarrow m' \iff \exists (a,b) \in D, u,v \in (N_t \cup T)^\star / m = uav \text{ et } m' = ubv
-!equ!
+\end{equation}
 On note $\overset{*}{\rightarrow}$ la cloture transitive et réflexive de $\rightarrow$.\\
 Pour $x \in (N_t \cup T)^\star$, notons
 
@@ -29,9 +61,9 @@ et
 $\eta(x) := \delta(x) \cap T^\star$.
 
 Alors le langage de la grammaire G est le suivant :
-!equu!\mathcal{L} (G) := \eta(S)!equu!
+\begin{equation*}\mathcal{L} (G) := \eta(S)\end{equation*}
 
-## Idée : les propriétés vraies comme dérivation d'une grammaire non contextuelle.
+\subsection{Idée : les propriétés vraies comme dérivation d'une grammaire non contextuelle.}
 Comme grammaire non contextuelle, on peut compter celle d'une logique formelle mais ce qui 
 nous intéresse vraiment, c'est la sémantique de notre logique.
 Alors on peut proposer une grammaire non contextuelle prenant comme axiome un symbole S,
@@ -41,7 +73,7 @@ Nous ajouterons aussi les règles d'inférence aux règles de dérivation.
 Alors n'importe quel mot du langage de la grammaire est une déduction d'axiomes par les règles d'inférence.
 Ce sont donc les propositions démontrables.
 
-## Définitions utiles
+\subsection{Définitions utiles}
 
 Une forêt est une liste d'arbres
 
@@ -58,17 +90,17 @@ Un exemple sera donnée dans le cas d'une grammaire non contextuelle.
 
 Pour $a \in \mathcal{F}(x)$, on note $\mathcal{I}(a)$ le parcours infixe des feuilles de $a$. 
 
-## Premier cas : limitons nous à une logique sans règle de remplacement (grammaire non contextuelle).
+\subsection{Premier cas : limitons nous à une logique sans règle de remplacement (grammaire non contextuelle).}
 
-!b Définition :! Une grammaire non contextuelle est une grammaire $G = \(N_t \cup T\)^\star$ telle que :
-!equu! \forall (a,b) \in D, a \in N_t  !equu!
+\textbf{  Définition : } Une grammaire non contextuelle est une grammaire $G = \left(N_t \cup T\right)^\star$ telle que :
+\begin{equation*} \forall (a,b) \in D, a \in N_t  \end{equation*}
 
-!bExemple :! la grammaire des expressions arithmétiques suffixes.
----ml
+\textbf{ Exemple : } la grammaire des expressions arithmétiques suffixes.
+\begin{align*}
 D = &\{(S,SS+)_1,(S,SS*)_2,(S,"N")_3\}\\
 \cup&\{(N,C)_4 | (N,NC)_5\}\\
 \cup&\{(C,0)_6 | (C,1)_7\}
----ml
+\end{align*}
 (les indices dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (N,NC)$)
 
 Une preuve que "10""11"+"0"* $\in \mathcal{L}(G)$ :\\
@@ -78,25 +110,25 @@ Lemme 1 : "10" $\in \eta(S)$
 
 
 L'abre de dérivation fait aussi office de preuve, bien plus concise :
-|tikz|   !ftree1.tikz!
+   \input{figures/tree1.tikz }
 
 Lemme 2 : "11" $\in \eta(S)$
 Preuve avec l'arbre suivant
-|tikz| !ftree2.tikz!
+ \input{figures/tree2.tikz }
 
 On peut alors, en combinant les deux arbres précédants, prouver que "10""11"+ $\in \eta(S)$ :
-|tikz| !ftree3.tikz!
+ \input{figures/tree3.tikz }
 
 Avec l'arbre suivant, on prouve enfin que "10""11"+"0"* $\in \eta(S) \cap T^\star = \mathcal{L}(G)$ :
-|tikz| !ftree4.tikz!
+ \input{figures/tree4.tikz }
 
 On remarque bien qu'un parcours infixe des feuilles de l'arbre donne "10""11"+"0"*
 
-# Vérification de preuve
+\section{Vérification de preuve}
 On peut faire un programme qui vérifie la validité de notre arbre de dérivation.\\
 Dans la suite nous allons supposer que $N_t$ est dénombrable et $T$ fini.
 
----code
+\begin{verbatim}
 type 'e caractere = T of 'e | Nt of int
 
 type 'a regle = ('a ) * ('a list);;
@@ -111,17 +143,17 @@ type 'e grammairemoche = {
     axiome : 'e caractere ;
     regles : ('e caractere) regle array 
 };;
----code
+\end{verbatim}
 
 (en pratique, 'e sera string).
 
 Par induction on peut montrer $m \in \eta(x) \iff $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$. 
 
----ml
+\begin{align*}
 m \in \eta(x)\\
 &\iff \exists n \in \mathbb{N}, m_1,m_2,\dots,m_n \in (N_t \cup T)^\star / x \rightarrow m_1 \rightarrow m_2 \rightarrow \dots \rightarrow m_n\text{ et }m_n \in T^\star\\
 \mathcal{P}(n) := &\implies \exists A \in \mathcal{F}(x) / \mathcal{I}(x) = m\\
----ml
+\end{align*}
 $\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{|x|})]$ convient.\\
 $\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies \exists A \in \mathcal{F}(m_1)/ \mathcal{I}(m_1) = m)$
 
@@ -134,17 +166,17 @@ $\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies 
  Donc $A|_{[1,p]}@A'@A|_{[p+r+1,p+r+q]}\in \mathcal{F}(x)$ où $A' = N (b,A|_{[p+1,p+r]})$
 
  Soit $\mathcal{P}(n)$.\\
-!todo Faire la reciproque!
+{\color{red} TODO :\\\\  Faire la reciproque }\\
 \fbox{Alors $a \in \mathcal{F}(S)$ est une preuve que $\mathcal{I}(a) \in \mathcal{L}(G)$.}
 
 Pour vérifier qu'une preuve $P(x,l,r)$ est valide, il n'y a que quelques étapes : 
----i
-#### Vérifier que chaque arbre de la forêt $l$ est une preuve valide
-#### Vérifier que le nonterminal du membre de gauche de la règle de dérivation est bien $x$
-#### Vérifier que la dérivation appartient bien à la grammaire
----i
+\begin{itemize}
+\item Vérifier que chaque arbre de la forêt $l$ est une preuve valide
+\item Vérifier que le nonterminal du membre de gauche de la règle de dérivation est bien $x$
+\item Vérifier que la dérivation appartient bien à la grammaire
+\end{itemize}
 D'où la fonction suivante :
----code
+\begin{verbatim}
 let rec verif_preuve g p = 
     match p with
     |B c -> true
@@ -158,11 +190,11 @@ let rec verif_preuve g p =
             (fst r = x)
             &&
             (Array.mem r g.regles)
----code
+\end{verbatim}
 
-# Preuve automatique
+\section{Preuve automatique}
 
-## Toujours dans une grammaire non contextuelle
+\subsection{Toujours dans une grammaire non contextuelle}
 
 Avec une grammaire dont l'axiome est S,
 pour générer automatiquement une preuve, l'idée est qu'à chaque étape,
@@ -174,7 +206,7 @@ Deux approches coexistent alors,
 
 La première est dite top-down où l'on part de l'axiome $S$ de la grammaire pour construire des mots de $\delta(S)$ en remplaçant un nonterminal $x$ d'un mot par un $b$ d'une règle de dérivation $(x,b)$.
 
-L'autre est dite bottom-up où l'on part des $\\{ [B(b_1);\dots;B(b_n)] | (a,b)\in D \text{ et } b \in T^\star , n = |b|\\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
+L'autre est dite bottom-up où l'on part des $\left\{ [B(b_1);\dots;B(b_n)] | (a,b)\in D \text{ et } b \in T^\star , n = |b|\right\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
 
 Alors par la méthode top-down, on générerait dans l'ordre :\\
 à l'étape 0 : $\{S\}$, \\
@@ -183,13 +215,16 @@ et à l'étape 2 : $\{S,SS+,SS*,"N",SS*S+,SSS*+,SSS+*,SS+S*,$ \\
 $"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
 
 Par la méthode bottom-up, on générerait dans l'ordre :\\
-à l'étape 0 : $\\{0,1\\}$\\
-à l'étape 1 : $\\{0,1\\}$\\
-à l'étape 2 : $\\{0,1\\}$\\
-à l'étape 3 : $\\{"0","1",10,01\\}$\\
+à l'étape 0 : $\left\{0,1\right\}$\\
+à l'étape 1 : $\left\{0,1\right\}$\\
+à l'étape 2 : $\left\{0,1\right\}$\\
+à l'étape 3 : $\left\{"0","1",10,01\right\}$\\
 
-!todo 
+{\color{red} TODO :\\\\  
     dessiner les arbres expliquant mieux la methode bottom-up\\
     faire la preuve que tout arbre de derivation de S est generable en temps fini avec la methode bottom-up\\
     faire la preuve que tout arbre de derivation de S est generable en temps fini avec la methode top-down\\
-!
+ }\\
+
+\end{document}
+    
