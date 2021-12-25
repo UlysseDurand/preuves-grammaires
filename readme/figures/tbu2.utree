@@ -1,0 +1,29 @@
+\draw (0,0) node {N}
+# {
+    ndCnd
+    # {
+        nd0nd
+    }
+};
+
+\draw (1,0) node {N}
+# {
+    ndCnd
+    # {
+        nd1nd
+    }
+};
+
+\draw (2,0) node {C}
+# {
+    nd0nd
+};
+
+\draw (3,0) node {C}
+# {
+    nd1nd
+};
+
+\draw (4,0) node {0};
+
+\draw (5,0) node {1};

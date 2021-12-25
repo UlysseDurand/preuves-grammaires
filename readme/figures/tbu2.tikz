@@ -1,0 +1,34 @@
+
+\begin{tikzpicture}[level distance=20pt]
+    \draw (0,0) node {N}
+child {
+    node {C}
+    child {
+        node {0}
+    }
+};
+
+\draw (1,0) node {N}
+child {
+    node {C}
+    child {
+        node {1}
+    }
+};
+
+\draw (2,0) node {C}
+child {
+    node {0}
+};
+
+\draw (3,0) node {C}
+child {
+    node {1}
+};
+
+\draw (4,0) node {0};
+
+\draw (5,0) node {1};
+    ;
+\end{tikzpicture}
+    

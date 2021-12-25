@@ -1,0 +1,132 @@
+\tikzstyle{level 1}=[sibling distance=5mm]
+\draw (0,0) node {N}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd0nd
+        }
+    }
+}
+# {
+    ndCnd
+    # {
+        nd0nd
+    }
+};
+
+\draw (1,0) node {N}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd0nd
+        }
+    }
+}
+# {
+    ndCnd
+    # {
+        nd1nd
+    }
+};
+
+\draw (2,0) node {N}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd1nd
+        }
+    }
+}
+# {
+    ndCnd
+    # {
+        nd0nd
+    }
+};
+
+\draw (3,0) node {N}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd1nd
+        }
+    }
+}
+# {
+    ndCnd
+    # {
+        nd1nd
+    }
+};
+
+\draw (4.5,0) node {S}
+# {
+    nd"nd
+}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd0nd
+        }
+    }
+}
+# {
+    nd"nd
+};
+
+\draw (6,0) node {S}
+# {
+    nd"nd
+}
+# {
+    ndNnd
+    # {
+        ndCnd
+        # {
+            nd1nd
+        }
+    }
+}
+# {
+    nd"nd
+};
+
+\draw (7.5,0) node {N}
+# {
+    ndCnd
+    # {
+        nd0nd
+    }
+};
+
+\draw (8.5,0) node {N}
+# {
+    ndCnd
+    # {
+        nd1nd
+    }
+};
+
+\draw (9.5,0) node {C}
+# {
+    nd0nd
+};
+
+\draw (10.5,0) node {C}
+# {
+    nd1nd
+};
+
+\draw (11.5,0) node {0};
+
+\draw (12.5,0) node {1};

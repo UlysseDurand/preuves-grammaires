@@ -1,0 +1,137 @@
+
+\begin{tikzpicture}[level distance=20pt]
+    \tikzstyle{level 1}=[sibling distance=5mm]
+\draw (0,0) node {N}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {0}
+        }
+    }
+}
+child {
+    node {C}
+    child {
+        node {0}
+    }
+};
+
+\draw (1,0) node {N}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {0}
+        }
+    }
+}
+child {
+    node {C}
+    child {
+        node {1}
+    }
+};
+
+\draw (2,0) node {N}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {1}
+        }
+    }
+}
+child {
+    node {C}
+    child {
+        node {0}
+    }
+};
+
+\draw (3,0) node {N}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {1}
+        }
+    }
+}
+child {
+    node {C}
+    child {
+        node {1}
+    }
+};
+
+\draw (4.5,0) node {S}
+child {
+    node {"}
+}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {0}
+        }
+    }
+}
+child {
+    node {"}
+};
+
+\draw (6,0) node {S}
+child {
+    node {"}
+}
+child {
+    node {N}
+    child {
+        node {C}
+        child {
+            node {1}
+        }
+    }
+}
+child {
+    node {"}
+};
+
+\draw (7.5,0) node {N}
+child {
+    node {C}
+    child {
+        node {0}
+    }
+};
+
+\draw (8.5,0) node {N}
+child {
+    node {C}
+    child {
+        node {1}
+    }
+};
+
+\draw (9.5,0) node {C}
+child {
+    node {0}
+};
+
+\draw (10.5,0) node {C}
+child {
+    node {1}
+};
+
+\draw (11.5,0) node {0};
+
+\draw (12.5,0) node {1};
+    ;
+\end{tikzpicture}
+    
