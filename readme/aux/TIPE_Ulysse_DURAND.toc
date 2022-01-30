@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Définitions}{1}{section.1}%
+\contentsline {subsection}{Les grammaires formelles}{1}{section*.2}%
+\contentsline {subsection}{Les grammaires non contextuelle}{2}{section*.3}%
+\contentsline {subsection}{Fôret de dérivation}{2}{section*.4}%
+\contentsline {subsection}{Exemple de preuve}{3}{section*.5}%
+\contentsline {section}{\numberline {2}Vérification de preuve pour une grammaire non contextuelle}{4}{section.2}%
+\contentsline {section}{\numberline {3}Preuve automatique en grammaire non contextuelle}{5}{section.3}%
+\contentsline {subsection}{La méthode bottom-up}{5}{section*.6}%
+\contentsline {subsection}{La méthode top-down}{6}{section*.7}%
+\contentsline {section}{\numberline {4}Pour une grammaire formelle}{6}{section.4}%
+\contentsline {subsection}{Une nouvelle structure de données pour les preuves}{7}{section*.8}%
+\contentsline {subsection}{Vérifier une preuve dans une telle structure de données}{7}{section*.9}%
+\contentsline {subsection}{Générer automatiquement les preuves}{7}{section*.10}%
+\contentsline {section}{\numberline {5}Une première simplification : Les grammaire croissantes}{8}{section.5}%
+\contentsline {section}{\numberline {6}Une idée générale de simplification, le coeur de ce TIPE}{8}{section.6}%
+\contentsline {subsection}{Les états $q$ sous la forme $\forall l \in N_t \cup T, q(l) \in \{\{0\},\mathbb {N}^*\}$}{9}{section*.11}%

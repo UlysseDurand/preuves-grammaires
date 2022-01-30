@@ -1,18 +1,21 @@
-\newcommand{\letitle}{}
-\newcommand{\leauthor}{}
+\newcommand{\letitle}{TIPE Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
+\newcommand{\leauthor}{Ulysse DURAND}
+\newcommand{\letaillepolice}{10pt}
 
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,10pt
+]{article}
+\usepackage{tikzit}
+
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{xcolor}
 \usepackage{enumitem}
-%\usepackage{lstlisting}%
 \usepackage[margin=3cm]{geometry}
-%\usepackage{stmaryrd}%
 \usepackage{bbold}
 \usepackage[xcolor,leftbars]{changebar}
 
+\setcounter{secnumdepth}{1}
 \newenvironment{myindentpar}
  {\begin{list}{}
          {\setlength{\leftmargin}{1em}}
@@ -20,32 +23,28 @@
  }
  { \end{list}}
 
+\newcommand{\norm}[1]{\lvert #1 \rvert}
 \newsavebox{\mybox}
 \newlength{\mydepth}
 \newlength{\myheight}
-\newenvironment{answer}%
-{\par\begin{lrbox}{\mybox}\quad\begin{minipage}{\linewidth}\color{black}\setlength{\parskip}{10pt plus 1pt minus 1pt}\vspace*{-.7\baselineskip}}%
-{\end{minipage}\end{lrbox}%
-\settodepth{\mydepth}{\usebox{\mybox}}%
-\settoheight{\myheight}{\usebox{\mybox}}%
-\addtolength{\myheight}{\mydepth}%
-\noindent\makebox[0pt]{%
-  \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}%
-  \usebox{\mybox}%
+\newenvironment{answer}
+{\par\begin{lrbox}{\mybox}\quad\begin{minipage}{\linewidth}\color{black}\setlength{\parskip}{10pt plus 1pt minus 1pt}\vspace*{-.7\baselineskip}}
+{\end{minipage}\end{lrbox}
+\settodepth{\mydepth}{\usebox{\mybox}}
+\settoheight{\myheight}{\usebox{\mybox}}
+\addtolength{\myheight}{\mydepth}
+\noindent\makebox[0pt]{
+  \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}
+  \usebox{\mybox}
   }
 
-\usepackage{tikz}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.15}
-\usepackage{mathrsfs}
-\usetikzlibrary{arrows}
 \usepackage{hyperref}
 \setlength{\parskip}{0.15cm}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=blue,      
-    urlcolor=blue,
+    colorlinks=truem,
+    linkcolor=black,
+    filecolor=red,
+    urlcolor=blue
 }
 
 \urlstyle{same}
@@ -55,13 +54,15 @@
 \author{\leauthor}
 \date{}
 \begin{document}
-    \section{TIPE Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
+    
+\maketitle
+\tableofcontents
 
 \section{Définitions}
 
-\subsection{Les grammaires non contextuelles}
+\subsection{Les grammaires formelles}
 
-Une grammaire non contextuelle est un quadruplet $G = (T,N_t,S,D)$ où :
+Une grammaire formelle est un quadruplet $G = (T,N_t,S,D)$ où :
 
 \begin{itemize}
 \item $T$ est l'alphabet des terminaux
@@ -82,7 +83,7 @@ et
 
 $\eta(x) := \delta(x) \cap T^\star$.
 
-Alors le langage de la grammaire G est le suivant :
+Alors le langage de la grammaire formelle  G est le suivant :
 \begin{equation*}\mathcal{L} (G) := \eta(S)\end{equation*}
 
 Nous allons supposer que $N_t$ est dénombrable et $T$ est fini.
@@ -91,33 +92,33 @@ En OCaml :
 \begin{verbatim}
 type 'e caractere = T of 'e | Nt of int
 
-type 'a reglec = ('a list) * ('a list);;
+type 'a reglec = ('a list) * ('a list)
 
-type 'e csg = {
+type 'e fg = {
     terminaux : 'e array ;
     nonterminaux : 'e array ;
     axiome : 'e caractere ;
-    reglesc : ('e caractere) reglec array 
-};;
+    reglesf : ('e caractere) reglef array 
+}
 \end{verbatim}
-\subsection{Les grammaires contextuelles}
+\subsection{Les grammaires non contextuelle}
 
 \textbf{  Définition : } Une grammaire non contextuelle est une grammaire $G = (T,N_t,S,D)$ telle que :
 \begin{equation*} \forall (a,b) \in D, a \in N_t  \end{equation*}
 
 
 \begin{verbatim}
-type 'a reglenc = ('a list) * ('a list);;
+type 'a reglenc = ('a list) * ('a list)
 
 type 'e cfg = {
     terminaux : 'e array ;
     nonterminaux : 'e array ;
     axiome : 'e caractere ;
     reglesnc : ('e caractere) reglenc array 
-};;
+}
 \end{verbatim}
 
-\textbf{ Exemple : } la grammaire des expressions arithmétiques suffixes.
+\textbf{ Exemple : } la grammaire non contextuelle des expressions arithmétiques suffixes.
 \begin{align*}
 D = &\{(S,SS+)_1,(S,SS*)_2,(S,"N")_3\}\\
 \cup&\{(N,C)_4 | (N,NC)_5\}\\
@@ -141,7 +142,7 @@ Une preuve qu'un mot appartient à $\eta(m)$ peut être donnée par une forêt d
 \begin{answer} 
 Si $m$ est le mot vide, il s'agit de la forêt vide.
 
-Sinon, soit $n = |m|$,\\
+Sinon, soit $n = \norm{m}$,\\
 \begin{answer} 
     Si $n=1$, il s'agit d'un seul arbre où la racine est $m$ et chaque sous arbres est la forêt de dérivation d'un $b$ tel que $(m,b) \in D$.
 
@@ -183,17 +184,17 @@ Lemme 1 : "10" $\in \eta(S)$
 
 
 L'abre de dérivation fait aussi office de preuve, bien plus concise :
-   \input{figures/tree1.tikz }
+   \input{figures/tree1.tikz}
 
 Lemme 2 : "11" $\in \eta(S)$
 Preuve avec l'arbre suivant
- \input{figures/tree2.tikz }
+ \input{figures/tree2.tikz}
 
 On peut alors, en combinant les deux arbres précédants, prouver que "10""11"+ $\in \eta(S)$ :
- \input{figures/tree3.tikz }
+ \input{figures/tree3.tikz}
 
 Avec l'arbre suivant, on prouve enfin que "10""11"+"0"* $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
- \input{figures/tree4.tikz }
+ \input{figures/tree4.tikz}
 
 On remarque bien qu'un parcours infixe des feuilles de l'arbre donne "10""11"+"0"*
 
@@ -203,7 +204,9 @@ La forêt de dérivation nous donne une bonne manière de vérifier une preuve, 
 
 (en pratique, 'e sera string).
 
-Par induction on peut montrer $m \in \eta(x) \iff $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$. 
+Par induction on peut montrer $m \in \eta(x) \iff $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$.
+
+{\color{gray} NB : $A_{[p,q]}$ correspond à la forêt $A$ restreinte à ses arbres d'indice $i / p\leq i \leq q$ et $A@B$ correspond à la concaténation des forêts $A$ et $B$. }\\
 
 \begin{answer} 
 $
@@ -211,12 +214,12 @@ m \in \eta(x)\\
 \iff \exists n \in \mathbb{N} / \exists m_1,m_2,\dots,m_n \in (N_t \cup T)^\star / x \rightarrow m_1 \rightarrow m_2 \rightarrow \dots \rightarrow m_n\text{ et }m_n \in T^\star$    $ (2_n)\\
 \mathcal{P}(n) := ((2_n) \implies \exists A \in \mathcal{F}(x) / \mathcal{I}(x) = m)$\\
 \begin{answer} 
-$\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{|x|})]$ convient.\\
+$\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{\norm{x}})]$ convient.\\
 $\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies \exists A \in \mathcal{F}(m_1)/ \mathcal{I}(A) = m)$
 
  et comme $x\rightarrow m_1,\exists (a,b) \in D, u,v\in (N_t\cup T)^\star /x = uav$ et $m_1 = ubv$
 
- Soit $p := |u|, q := |v|, r := |b|$
+ Soit $p := \norm{u}, q := \norm{v}, r := \norm{b}$
  
  alors $A|_{[1,p]} \in \mathcal{F}(u), A|_{[p+1,p+r]} \in \mathcal{F}(b), A|_{[p+r+1,p+r+q]} \in \mathcal{F}(v)$
 
@@ -234,7 +237,7 @@ $f$ est une copie de $f_0$.
 Tant que $f$ n'est pas constituée que de feuilles :
 
 \begin{answer} 
-    On prend $a$ un arbre qui n'est pas une feuille dans $f_0$
+    On prend $a$ un arbre qui n'est pas une feuille dans $f$
 
     Remplacer $a$, dans $f$, par ses fils.
 
@@ -260,27 +263,27 @@ Deux approches coexistent alors, soit on fait toutes les dérivations possibles 
 
 \subsection{La méthode bottom-up}
 
-On part des $\left\{ [B(b_1);\dots;B(b_n)] | (a,b)\in D \text{ et } b \in T^\star , n = |b|\right\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
+On part des $\left\{ [(b_1,[]);\dots;(b_n,[])] \mid (a,b)\in D \text{ et } b \in T^\star , n = \norm{b}\right\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
 
 Par la méthode bottom-up, on générerait dans l'ordre :\\
 à l'étape 0 :
- \input{figures/tbu0.tikz }
+ \input{figures/tbu0.tikz}
 à l'étape 1 : 
- \input{figures/tbu1.tikz }
+ \input{figures/tbu1.tikz}
 à l'étape 2 : 
- \input{figures/tbu2.tikz }
+ \input{figures/tbu2.tikz}
 à l'étape 3 : 
- \input{figures/tbu3.tikz }
+ \input{figures/tbu3.tikz}
 
 On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbres de dérivations possibles de profondeur $k$.
 
 \subsection{La méthode top-down}
 
-On part de l'axiome $S$ de la grammaire pour construire des mots de $\delta(S)$ en remplaçant un nonterminal $x$ d'un mot par un $b$ d'une règle de dérivation $(x,b)$.
+On part de l'axiome $S$ de la grammaire non contextuelle pour construire des mots de $\delta(S)$ en remplaçant un nonterminal $x$ d'un mot par un $b$ d'une règle de dérivation $(x,b)$.
 
-Cette méthode suit d'assez près la définition des mots de la grammaire\\
+Cette méthode suit d'assez près la définition des mots de la grammaire non contextuelle\\
 (on peut écrire la clôture transitive et réflexive $\overset{*}{\rightarrow}$ comme :
-$\overset{*}{\rightarrow} = \bigcup_{n \in \mathbb{N}} \rightarrow ^n$ où $\rightarrow^k$ est $\rightarrow$ composée $k$ fois).\\
+$\overset{*}{\rightarrow} = \bigcup_{n \in \mathbb{N}} \rightarrow ^n$, avec le produit usuel de deux relation binaires $\forall \mathcal{R}, \mathcal{R}' \in X^2, \mathcal{R} \mathcal{R'} := \{(x,z) \in X^2 \mid \exists y \in X / (x,y) \in \mathcal{R} \text{ et } (y,z) \in \mathcal{R}'\} $).\\
 On génère en effet, avec cette méthode, à la $n$-ième étape, $A_n = \left\{m \in (N \cup T)^\star \mid  S \left(\bigcup_{k \in [1,n]} \rightarrow^k\right) m\right\}$.
 Il est alors simple de vérifier que tout mot du langage de la grammaire sera généré en temps fini par cette méthode.
 
@@ -290,17 +293,147 @@ On génère alors dans l'ordre :\\
 et à l'étape 2 : $\{S,SS+,SS*,"N",SS*S+,SSS*+,SSS+*,SS+S*,$ \\
 $"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
 
-Cette méthode est bien plus proche de la définition et est directement applicable aux grammaire contextuelles.
+Cette méthode est bien plus proche de la définition et est directement applicable aux grammaire formelles.
 
-\subsection{En grammaire contextuelle}
+\section{Pour une grammaire formelle}
 
 Chercher automatiquement une preuve d'appartenance d'un mot à une grammaire non contextuelle se fait déjà très bien avec les automates à pile.
-Nous allons ici nous intéresser plus spécifiquement aux grammaires contextuelles, et réutiliser notre méthode top-down.
+Nous allons ici nous intéresser plus spécifiquement aux grammaires formelles, et réutiliser notre méthode top-down.
 La méthode s'applique alors directement de la même manière.
 Nous avons donc un algorithme qui permet théoriquement de prouver que n'importe quel mot de la grammaire appartient bien à cette dernière.
 Le problème étant la complexité de ce dernier, qui fonctionne comme une machine non déterministe où on ne coupe pas les instances arrivant à un état puit.
 La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
 Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
+
+\subsection{Une nouvelle structure de données pour les preuves}
+
+Nous ne disposons plus des forêts de dérivation. Alors nous pouvons nous restreindre à la définition d'un mot qui dérive d'un autre.
+On va alors fournir, comme preuve, une liste de mots $m_1, \dots, m_n$ tels que $\forall i\in [1,n-1], m_i \rightarrow m_{i+1}$. 
+Pour ceci nous allons renseigner de quelle manière le mot $m_{i+1}$ dérive du mot $m_i$ par la règle de dérivation $(a,b)$, par exemple en fournissant les indices délimitant $a$ dans $m_i$, et $b$ le remplaçant.
+Nous aboutissons alors à :
+\begin{verbatim}
+type 'e preuveformelle = (int*int*('e caractere list)) list
+\end{verbatim}
+
+Nous prendrons comme exemple la grammaire formelle $G = (T,N_t,S,D)$ où :\\
+$
+T = \{a,b,c\}\\
+N_t = \{S,B\}\\
+D = \{(S,aBSc)_1,(S,abc)_2,(Ba,aB)_3,(Bb,bb)_4\}
+$,\\
+alors $aabbcc$ est dans $\mathcal{L}(G)$ car $S \rightarrow_1 aBSc \rightarrow_2 aBabcc \rightarrow_3 aaBbcc \rightarrow_4 aabbcc$.\\
+En Ocaml :
+\begin{verbatim}
+let unepreuve = [(0,1,mot "aBSc"),(2,3,mot "abc"),(1,3,mot "aB"),(2,4,mot "bb")]
+\end{verbatim}
+
+\subsection{Vérifier une preuve dans une telle structure de données}
+
+\begin{verbatim}
+let verif_deriv p grf mot = 
+    let i,j,m = p in
+    let achanger = soustrait i j mot in
+    List.mem (aechanger,m) grf.reglesf
+
+let verif_preuve p grf = 
+    let rec aux p mot = 
+        match p with
+            |[] -> true
+            |t::q -> 
+                let i,j,m = t in
+                (verif_deriv t grf) && (aux q (remplace i j mot))
+    in 
+    aux p [grf.axiome]
+
+\end{verbatim}
+
+\subsection{Générer automatiquement les preuves}
+
+Pour ce faire, pour dériver un mot $m$ en mot $m'$, on calcule $S(x) := \{x \in (N\cup T)^\star \mid m \rightarrow x\}$,
+puis, pour chaque $ y \in S(x)$, on cherche une dérivation de $y$ en $m'$.
+
+Pour calculer $S(x)$, il suffit de faire une recherche de facteur.
+
+D'où une implémentation en OCaml : 
+\begin{verbatim}
+
+let succ x grf = 
+    List.flatten
+    (
+        List.map 
+        (fun (a,b) ->
+            let (i,j,u,v) = recherchefacteur x a in
+            (i,j,u@b@v)
+        )
+        grf.reglesf
+    )
+
+let rec cherchederivation x m grf =
+    if x = m then (___) else
+    let success = succ x grf in 
+    parcoursmagique cherchederivation success
+\end{verbatim}
+
+{\color{red} TODO :\\\\  FINIR CE CODE }\\
+$S(x):= \{ubv \in (N_t \cup T)^\star \mid \exists (a,b) \in D / \exists (u,v)\in (N_t \cup T)^\star / x = uav\}$
+
+\section{Une première simplification : Les grammaire croissantes}
+
+Une grammaire croissante est une grammaire telle que :
+\begin{equation}\forall (a,b) \in D, \norm{a} \leq \norm{b} \end{equation}
+On a alors une première propriété très simple, $\forall m, m' \in \delta (S), m \overset{*}{\rightarrow} m' \implies \norm{m} \leq \norm{m'}$.
+
+Alors, dans la recherche de dérivations de S vers m, on peut supprimer les "branches de recherches" qui partent d'un mot de longueur $> \norm{m}$.
+
+\section{Une idée générale de simplification, le coeur de ce TIPE}
+Rappelons, le problème : étant donné un mot $m$ d'une grammaire, comment le dériver en un mot $m'$ ?
+Pour tout $l \in N\cup N_t$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$.
+
+Ainsi, $m \overset{*}{\rightarrow} m' \implies \norm{m'}_l \in q(l)$, la contraposée nous sera utile : 
+\begin{equation*}
+\norm{m'}_l \notin q(l) \implies  \neg (m \overset{*}{\rightarrow} m')
+\end{equation*}
+Ce qui pourra nous permettre de réduire notre champ de recherche.
+En effet, 
+
+\fbox{si pour un mot $x \in \delta(m)$, $\forall l \in (T\cup N_t), \norm{\delta(x)}_l \cap q(l) = \emptyset$,
+ alors $m' \notin \delta(x)$}.
+
+Pour calculer $\norm{\delta(x)}_l \cap q(l)$, nous allons utiliser un graphe semblable à un automate.
+
+Les sommets sont des états de $Q \subset ({\mathcal{P}(\mathbb{N})})^{T\cup N_t}$ tels que :
+\begin{align*}
+    &\forall q,q' \in Q, \exists l \in (T \cup N_t) / q(l) \cap q'(l) = \emptyset\\
+    \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in (T \cup N_t), \norm{m}_l \in q(l)
+\end{align*}
+
+Ainsi à tout mot $x \in \delta(S)$, on peut associer un unique état $q$ tel que $\forall l \in (N_t \cup T), \norm{x}_l \in q(l)$
+
+Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q$ à une autre $q'$.
+\begin{equation*}
+    \forall (q,q') \in Q^2, (q,q') \in A \iff \exists x,x' \in (N_t \cup T )^\star / x \rightarrow x' \text{ et } \forall l \in N_t \cup T, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)
+\end{equation*}
+
+Ainsi, si $m$ correspond à un état $q$, et $m'$ à un état $q'$, alors $m \overset{*}{\rightarrow} m' \implies$ $q'$ est accessible depuis $q$.
+
+\subsection{Les états $q$ sous la forme $\forall l \in N_t \cup T, q(l) \in \{\{0\},\mathbb{N}^*\}$}
+Exemple avec la grammaire suivante :
+D = $\{(S,abc)_0,(abc,ab)_1,(b,k)_2,(c,ak)_3,(kak,aa)_4,(a,aaa)_5\}$
+
+Le graphe est le suivant :
+
+ \tikzfig{grosgraphe}
+
+Et voici ce à quoi correspondent les différents états (sommets) du graphe : 
+
+ \input{figures/belletable}
+
+Le graphe réduit suivant sera utile : 
+
+ \tikzfig{ptitgraphe}
+
+Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver aaabakab en akkcckaaakck (en effet, $\psi$ n'est pas accessible depuis $\delta$)
+
 
 \end{document}
     
