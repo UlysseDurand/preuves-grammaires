@@ -1,9 +1,7 @@
 \newcommand{\letitle}{TIPE Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
 \newcommand{\leauthor}{Ulysse DURAND}
-\newcommand{\letaillepolice}{10pt}
 
-\documentclass[a4paper,10pt
-]{article}
+\documentclass[a4paper,12pt]{article}
 \usepackage{tikzit}
 
 \usepackage[utf8]{inputenc}
@@ -92,14 +90,14 @@ En OCaml :
 \begin{verbatim}
 type 'e caractere = T of 'e | Nt of int
 
-type 'a reglec = ('a list) * ('a list)
+type 'a regle = ('a array) * ('a array)
 
 type 'e fg = {
-    terminaux : 'e array ;
-    nonterminaux : 'e array ;
-    axiome : 'e caractere ;
-    reglesf : ('e caractere) reglef array 
-}
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglesf : ('e caractere) regle array
+} 
 \end{verbatim}
 \subsection{Les grammaires non contextuelle}
 
@@ -108,13 +106,13 @@ type 'e fg = {
 
 
 \begin{verbatim}
-type 'a reglenc = ('a list) * ('a list)
+type 'a reglecf = int * ('a array)
 
 type 'e cfg = {
-    terminaux : 'e array ;
-    nonterminaux : 'e array ;
-    axiome : 'e caractere ;
-    reglesnc : ('e caractere) reglenc array 
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglescf : ('e caractere) reglecf array
 }
 \end{verbatim}
 
@@ -156,7 +154,7 @@ let test_foret_deriv f m gram = match m with
     |[x] -> 
         List.exists 
         (fun (a,b) -> x = a && test_foret_deriv f b gram) 
-        gram.reglesnc
+        gram.reglesf
     |t1::q1 -> 
         match f with
             |[] -> false

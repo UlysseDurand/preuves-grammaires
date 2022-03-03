@@ -36,14 +36,14 @@ En OCaml :
 ---code
 type 'e caractere = T of 'e | Nt of int
 
-type 'a reglec = ('a list) * ('a list)
+type 'a regle = ('a array) * ('a array)
 
 type 'e fg = {
-    terminaux : 'e array ;
-    nonterminaux : 'e array ;
-    axiome : 'e caractere ;
-    reglesf : ('e caractere) reglef array 
-}
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglesf : ('e caractere) regle array
+} 
 ---code
 ## Les grammaires non contextuelle
 
@@ -52,13 +52,13 @@ type 'e fg = {
 
 
 ---code
-type 'a reglenc = ('a list) * ('a list)
+type 'a reglecf = int * ('a array)
 
 type 'e cfg = {
-    terminaux : 'e array ;
-    nonterminaux : 'e array ;
-    axiome : 'e caractere ;
-    reglesnc : ('e caractere) reglenc array 
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglescf : ('e caractere) reglecf array
 }
 ---code
 
@@ -68,7 +68,7 @@ D = &\{(S,SS+)_1,(S,SS*)_2,(S,"N")_3\}\\
 \cup&\{(N,C)_4 | (N,NC)_5\}\\
 \cup&\{(C,0)_6 | (C,1)_7\}
 ---ml
-(les indices dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (N,NC)$)
+(les indices ci-dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (N,NC)$)
 
 ## Fôret de dérivation
 
@@ -100,7 +100,7 @@ let test_foret_deriv f m gram = match m with
     |[x] -> 
         List.exists 
         (fun (a,b) -> x = a && test_foret_deriv f b gram) 
-        gram.reglesnc
+        gram.reglesf
     |t1::q1 -> 
         match f with
             |[] -> false
