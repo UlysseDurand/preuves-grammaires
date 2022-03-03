@@ -1,4 +1,4 @@
-\newcommand{\letitle}{TIPE Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
+\newcommand{\letitle}{Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
 \newcommand{\leauthor}{Ulysse DURAND}
 
 \documentclass[a4paper,12pt]{article}
@@ -118,11 +118,11 @@ type 'e cfg = {
 
 \textbf{ Exemple : } la grammaire non contextuelle des expressions arithmétiques suffixes.
 \begin{align*}
-D = &\{(S,SS+)_1,(S,SS*)_2,(S,"N")_3\}\\
-\cup&\{(N,C)_4 | (N,NC)_5\}\\
-\cup&\{(C,0)_6 | (C,1)_7\}
+D = &\{(\underline{ S },\underline{ SS+ })_1,(\underline{ S },\underline{ SS* })_2,(\underline{ S },\underline{ "N" })_3\}\\
+\cup&\{(\underline{ N },\underline{ C })_4 | (\underline{ N },\underline{ NC })_5\}\\
+\cup&\{(\underline{ C },\underline{ 0 })_6 | (\underline{ C },\underline{  1 })_7\}
 \end{align*}
-(les indices dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (N,NC)$)
+(les indices ci-dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (\underline{ N },\underline{ NC })$)
 
 \subsection{Fôret de dérivation}
 
@@ -175,32 +175,32 @@ Pour $a \in \mathcal{F}(x)$, on note $\mathcal{I}(a)$ le parcours infixe des feu
 
 \subsection{Exemple de preuve}
 
-Une preuve que "10""11"+"0"* $\in \mathcal{L}(G)$ :\\
-Lemme 1 : "10" $\in \eta(S)$
+Une preuve que \underline{ "10""11"+"0"* } $\in \mathcal{L}(G)$ :\\
+Lemme 1 : \underline{ "10" } $\in \eta(S)$
 
-    En effet, $S\rightarrow_3 "N" \rightarrow_5 "NC" \rightarrow_6 "N0" \rightarrow_4 "C0" \rightarrow_7 "10"$
+    En effet, $\underline{ S }\rightarrow_3 \underline{ "N" } \rightarrow_5 \underline{ "NC" } \rightarrow_6 \underline{ "N0" } \rightarrow_4 \underline{ "C0" } \rightarrow_7 \underline{ "10" }$
 
 
 L'abre de dérivation fait aussi office de preuve, bien plus concise :
    \input{figures/tree1.tikz}
 
-Lemme 2 : "11" $\in \eta(S)$
+Lemme 2 : \underline{ "11" } $\in \eta(S)$
 Preuve avec l'arbre suivant
  \input{figures/tree2.tikz}
 
-On peut alors, en combinant les deux arbres précédants, prouver que "10""11"+ $\in \eta(S)$ :
+On peut alors, en combinant les deux arbres précédants, prouver que \underline{ "10""11"+ } $\in \eta(S)$ :
  \input{figures/tree3.tikz}
 
-Avec l'arbre suivant, on prouve enfin que "10""11"+"0"* $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
+Avec l'arbre suivant, on prouve enfin que \underline{ "10""11"+"0"* } $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
  \input{figures/tree4.tikz}
 
-On remarque bien qu'un parcours infixe des feuilles de l'arbre donne "10""11"+"0"*
+On remarque bien qu'un parcours infixe des feuilles de l'arbre donne \underline{ "10""11"+"0"* }
 
-\section{Vérification de preuve pour une grammaire non contextuelle}
+\section{Vérification de preuve - grammaire non contextuelle}
 
 La forêt de dérivation nous donne une bonne manière de vérifier une preuve, car une preuve est caractérisé par une forêt de dérivation.\\
 
-(en pratique, 'e sera string).
+(en pratique, \texttt{ 'e } sera \texttt{ string }).
 
 Par induction on peut montrer $m \in \eta(x) \iff $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$.
 
@@ -248,7 +248,7 @@ En remplaçant $a$ dans $f$ par ses fils, on dérive notre mot une fois.\\\\
 
 Alors, vérifier une preuve donnée par une forêt consiste juste à vérifier que la forêt est bien une forêt de dérivation.
 
-\section{Preuve automatique en grammaire non contextuelle}
+\section{Preuve automatique - grammaire non contextuelle}
 
 Toujours dans une grammaire non contextuelle
 
@@ -273,7 +273,7 @@ Par la méthode bottom-up, on générerait dans l'ordre :\\
 à l'étape 3 : 
  \input{figures/tbu3.tikz}
 
-On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbres de dérivations possibles de profondeur $k$.
+On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbres de dérivations possibles de profondeur $\leq k$.
 
 \subsection{La méthode top-down}
 
@@ -282,7 +282,9 @@ On part de l'axiome $S$ de la grammaire non contextuelle pour construire des mot
 Cette méthode suit d'assez près la définition des mots de la grammaire non contextuelle\\
 (on peut écrire la clôture transitive et réflexive $\overset{*}{\rightarrow}$ comme :
 $\overset{*}{\rightarrow} = \bigcup_{n \in \mathbb{N}} \rightarrow ^n$, avec le produit usuel de deux relation binaires $\forall \mathcal{R}, \mathcal{R}' \in X^2, \mathcal{R} \mathcal{R'} := \{(x,z) \in X^2 \mid \exists y \in X / (x,y) \in \mathcal{R} \text{ et } (y,z) \in \mathcal{R}'\} $).\\
-On génère en effet, avec cette méthode, à la $n$-ième étape, $A_n = \left\{m \in (N \cup T)^\star \mid  S \left(\bigcup_{k \in [1,n]} \rightarrow^k\right) m\right\}$.
+On génère en effet, avec cette méthode, à la $n$-ième étape, 
+
+$A_n = \left\{m \in (N \cup T)^\star \mid  S \left(\bigcup_{k \in [1,n]} \rightarrow^k\right) m\right\}$.
 Il est alors simple de vérifier que tout mot du langage de la grammaire sera généré en temps fini par cette méthode.
 
 On génère alors dans l'ordre :\\
@@ -293,15 +295,7 @@ $"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
 
 Cette méthode est bien plus proche de la définition et est directement applicable aux grammaire formelles.
 
-\section{Pour une grammaire formelle}
-
-Chercher automatiquement une preuve d'appartenance d'un mot à une grammaire non contextuelle se fait déjà très bien avec les automates à pile.
-Nous allons ici nous intéresser plus spécifiquement aux grammaires formelles, et réutiliser notre méthode top-down.
-La méthode s'applique alors directement de la même manière.
-Nous avons donc un algorithme qui permet théoriquement de prouver que n'importe quel mot de la grammaire appartient bien à cette dernière.
-Le problème étant la complexité de ce dernier, qui fonctionne comme une machine non déterministe où on ne coupe pas les instances arrivant à un état puit.
-La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
-Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
+\section{Vérification de preuve - grammaire formelle}
 
 \subsection{Une nouvelle structure de données pour les preuves}
 
@@ -315,11 +309,11 @@ type 'e preuveformelle = (int*int*('e caractere list)) list
 
 Nous prendrons comme exemple la grammaire formelle $G = (T,N_t,S,D)$ où :\\
 $
-T = \{a,b,c\}\\
-N_t = \{S,B\}\\
-D = \{(S,aBSc)_1,(S,abc)_2,(Ba,aB)_3,(Bb,bb)_4\}
+T = \{\underline{ a },\underline{ b },\underline{ c }\}\\
+N_t = \{\underline{ S },\underline{ B }\}\\
+D = \{(\underline{ S },\underline{ aBSc })_1,(\underline{ S },\underline{ abc })_2,(\underline{ Ba },\underline{ aB })_3,(\underline{ Bb },\underline{ bb })_4\}
 $,\\
-alors $aabbcc$ est dans $\mathcal{L}(G)$ car $S \rightarrow_1 aBSc \rightarrow_2 aBabcc \rightarrow_3 aaBbcc \rightarrow_4 aabbcc$.\\
+alors \underline{ aabbcc } est dans $\mathcal{L}(G)$ car $\underline{ S } \rightarrow_1 \underline{ aBSc } \rightarrow_2 \underline{ aBabcc } \rightarrow_3 \underline{ aaBbcc } \rightarrow_4 \underline{ aabbcc }$.\\
 En Ocaml :
 \begin{verbatim}
 let unepreuve = [(0,1,mot "aBSc"),(2,3,mot "abc"),(1,3,mot "aB"),(2,4,mot "bb")]
@@ -345,45 +339,133 @@ let verif_preuve p grf =
 
 \end{verbatim}
 
-\subsection{Générer automatiquement les preuves}
+\section{Preuve automatique - grammaire formelle}
 
-Pour ce faire, pour dériver un mot $m$ en mot $m'$, on calcule $S(x) := \{x \in (N\cup T)^\star \mid m \rightarrow x\}$,
+Chercher automatiquement une preuve d'appartenance d'un mot à une grammaire non contextuelle se fait déjà très bien avec les automates à pile.
+Nous allons ici nous intéresser plus spécifiquement aux grammaires formelles, et réutiliser notre méthode top-down.
+La méthode s'applique alors directement de la même manière.
+Nous avons donc un algorithme qui permet théoriquement de prouver que n'importe quel mot de la grammaire appartient bien à cette dernière.
+Le problème étant la complexité de ce dernier, qui fonctionne comme une machine non déterministe où on ne coupe pas les instances arrivant à un état puit.
+La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
+Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
+
+Pour ce faire, pour dériver un mot $m$ en mot $m'$, on calcule $S(x) := \{x \in (N\cup T)^\star \mid m \rightarrow x\} 
+=\{ubv \in (N_t \cup T)^\star \mid \exists (a,b) \in D / \exists (u,v)\in (N_t \cup T)^\star / x = uav\}$,
 puis, pour chaque $ y \in S(x)$, on cherche une dérivation de $y$ en $m'$.
 
 Pour calculer $S(x)$, il suffit de faire une recherche de facteur.
 
 D'où une implémentation en OCaml : 
+
+{\color{gray} NB :  \texttt{ remplace x i l b } donnera le mot \texttt{ x } où $x_{[i,i+l[}$ est remplacé par \texttt{ b }.
+
+\texttt{ ppregles } est l'ensemble des règles de dérivation de la grammaire qui 
+sont prétraitées pour l'algorithme kmp.\texttt{ ppregles } est donné par \texttt{ preprocessgf grf }}\\
 \begin{verbatim}
+let preprocessgf grf =
+  Array.map 
+  (fun (a,b) ->
+    (a,b,kmppreprocess a) 
+  )
+  grf.reglesf 
 
-let succ x grf = 
-    List.flatten
-    (
+let succ ppregles x = 
+  let res =
+  List.flatten
+  (
+    Array.to_list (
+      Array.map
+      (fun (a,b,pp) ->
         List.map 
-        (fun (a,b) ->
-            let (i,j,u,v) = recherchefacteur x a in
-            (i,j,u@b@v)
+        (fun i ->
+          remplace x i (Array.length a) b
         )
-        grf.reglesf
+        (kmp x a pp)
+      )
+      ppregles
     )
-
-let rec cherchederivation x m grf =
-    if x = m then (___) else
-    let success = succ x grf in 
-    parcoursmagique cherchederivation success
+  )
+  in
+  ajouteplein res []
 \end{verbatim}
 
-{\color{red} TODO :\\\\  FINIR CE CODE }\\
-$S(x):= \{ubv \in (N_t \cup T)^\star \mid \exists (a,b) \in D / \exists (u,v)\in (N_t \cup T)^\star / x = uav\}$
+\texttt{ succ ppregles x } calcule $S(x)$.
 
-\section{Une première simplification : Les grammaire croissantes}
+\subsection{Un parcours en largeur particulier}
+Nous allons utiliser un parcours qui nous permettra de trouver dans un graphe un chemin plus court entre un sommet donné et un sommet 'valide'.
+Ce parcours pourra aussi éviter les chemins passant par un sommet 'invalide'.
+
+Alors on fournira à ce parcours une fonction \texttt{ elimine } et une fonction \texttt{ termine } toutes deux de type \texttt{ sommet -> bool }.
+
+Ce parcours est donc un parcours en largeur depuis un sommet $x_0$ qui garde en mémoire le chemin parcouru et qui s'arrête dès qu'un 
+sommet $s$, tel que \texttt{ termine s }, est parcouru. Il renvoit alors un chemin de $x_0$ à $s$. Lorsque le parcours passe par un sommet $s$ tel que \texttt{ elimine s }, 
+il ne parcourt pas ensuite ses voisins.
+
+En voici une implémentation OCaml :
+
+\begin{verbatim}
+let rec parcoursmagique delta elimine termine dejavu avoir =
+  let navoir = ref [] in
+  let ndejavu = ref dejavu in
+  if avoir = [] then None else (
+  let res = 
+    List.find_opt
+    (function
+      |[] -> failwith "mauvais chemin"
+      |s::q ->
+        ndejavu := ajoute s (!ndejavu);
+        if (termine s) then true else
+        if (elimine s || List.mem s dejavu) then false else
+        (
+        navoir := 
+          ajouteplein
+          (
+            List.map
+            (fun v -> v::s::q)
+            (delta s)
+          )
+          (!navoir);
+        false)
+    )
+    avoir
+    in
+  match res with
+    |None -> parcoursmagique delta elimine termine (!ndejavu) (!navoir)
+    |Some x -> Some x
+  )
+\end{verbatim}
+
+\subsection{Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle}
+
+Il ne nous reste plus qu'à appliquer notre parcours sur un graphe où les sommets sont les mots de $(N_T \cup T)^\star$, et les
+arêtes sont $\{(a,b) \in  (N_T \cup T)^\star \mid a \rightarrow b\} = \{(a,b) \in  (N_T \cup T)^\star \mid b \in S(a)\}$.
+
+En OCaml : 
+\begin{verbatim}
+let chercherderivationnaif x m ppregles = 
+  parcoursmagique
+  (succ ppregles)
+  (fun x -> false)
+  (fun x -> x = m)
+  []
+  [[x]]
+\end{verbatim}
+
+Par la suite, nous allons apporter des améliorations, en fournissant des fonctions \texttt{ elimine }.
+
+\section{Amélioration pour les grammaires croissantes}
 
 Une grammaire croissante est une grammaire telle que :
 \begin{equation}\forall (a,b) \in D, \norm{a} \leq \norm{b} \end{equation}
 On a alors une première propriété très simple, $\forall m, m' \in \delta (S), m \overset{*}{\rightarrow} m' \implies \norm{m} \leq \norm{m'}$.
 
-Alors, dans la recherche de dérivations de S vers m, on peut supprimer les "branches de recherches" qui partent d'un mot de longueur $> \norm{m}$.
+Alors, dans la recherche de dérivations de S vers m, on peut supprimer les "branches de recherche" qui partent d'un mot de longueur $> \norm{m}$.
+Il ne reste qu'à faire le même parcours que précédement avec la fonction suivante comme fonction \texttt{ elimine }.
+\begin{verbatim}
+let eliminecroiss x = Array.length x > Array.length m
+\end{verbatim}
 
-\section{Une idée générale de simplification, le coeur de ce TIPE}
+\section{Améliération dans le cas général : déduction sur le nombre d'occurence de chaque lettre}
 Rappelons, le problème : étant donné un mot $m$ d'une grammaire, comment le dériver en un mot $m'$ ?
 Pour tout $l \in N\cup N_t$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$.
 
@@ -414,9 +496,9 @@ Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q$ 
 
 Ainsi, si $m$ correspond à un état $q$, et $m'$ à un état $q'$, alors $m \overset{*}{\rightarrow} m' \implies$ $q'$ est accessible depuis $q$.
 
-\subsection{Les états $q$ sous la forme $\forall l \in N_t \cup T, q(l) \in \{\{0\},\mathbb{N}^*\}$}
+\subsection{Les états $q$ sous la forme $q \in \{\{0\},\mathbb{N}^*\}^{(N_t \cup T)}$}
 Exemple avec la grammaire suivante :
-D = $\{(S,abc)_0,(abc,ab)_1,(b,k)_2,(c,ak)_3,(kak,aa)_4,(a,aaa)_5\}$
+D = $\{(S,\underline{ abc })_0,(\underline{ abc },!ab!)_1,(\underline{ b },\underline{ k })_2,(\underline{ c },\underline{ ak })_3,(\underline{ kak },\underline{ aa })_4,(\underline{ a },\underline{ aaa })_5\}$
 
 Le graphe est le suivant :
 
@@ -430,7 +512,7 @@ Le graphe réduit suivant sera utile :
 
  \tikzfig{ptitgraphe}
 
-Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver aaabakab en akkcckaaakck (en effet, $\psi$ n'est pas accessible depuis $\delta$)
+Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver \underline{ aaabakab } en \underline{ akkcckaaakck } (en effet, $\psi$ n'est pas accessible depuis $\delta$)
 
 
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  3 MAR 2022 14:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  3 MAR 2022 16:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -806,9 +806,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 57.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (./TIPE_Ulysse_DURAND.toc
-LaTeX Font Info:    Trying to load font information for U+bbold on input line 1
-6.
+Overfull \hbox (18.38193pt too wide) in paragraph at lines 17--17
+ [] [][]\OT1/cmr/bx/n/12 Am^^Seli^^Seration dans le cas g^^Sen^^Seral : d^^Sedu
+ction sur le nom-bre d'occurence 
+ []
 
+LaTeX Font Info:    Trying to load font information for U+bbold on input line 1
+8.
 (/usr/share/texlive/texmf-dist/tex/latex/bbold/Ubbold.fd))
 \tf@toc=\write7
 \openout7 = `TIPE_Ulysse_DURAND.toc'.
@@ -866,10 +870,10 @@ _foret_deriv q2 q1)[]
  []
 
 [3] (./figures/tree1.tikz) (./figures/tree2.tikz) (./figures/tree3.tikz)
-(./figures/tree4.tikz) [4]
-Overfull \hbox (12.06659pt too wide) in paragraph at lines 197--198
+(./figures/tree4.tikz [4])
+Overfull \hbox (19.89984pt too wide) in paragraph at lines 197--198
 []\OT1/cmr/m/n/12 On re-mar-que bien qu'un par-cours in-fixe des feuilles de l'
-arbre donne "10""11"+"0"* 
+arbre donne $[]$ 
  []
 
 
@@ -912,7 +916,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 243--244
 
  []
 
-
+[5]
 Overfull \hbox (14.36096pt too wide) in paragraph at lines 244--246
 [] []
  []
@@ -927,9 +931,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 244--246
 
  []
 
-[5]
-Overfull \hbox (33.8884pt too wide) in paragraph at lines 251--251
-[]\OT1/cmr/bx/n/17.28 Preuve au-toma-tique en gram-maire non con-textuelle 
+
+Overfull \hbox (20.69841pt too wide) in paragraph at lines 251--251
+[]\OT1/cmr/bx/n/17.28 Preuve au-toma-tique - gram-maire non con-textuelle 
  []
 
 
@@ -946,26 +950,25 @@ Missing character: There is no ; in font nullfont!
 )
 (./figures/tbu3.tikz
 Missing character: There is no ; in font nullfont!
-) [6]
-Overfull \hbox (89.03728pt too wide) in paragraph at lines 282--287
-\OT1/cmr/m/n/12 On g^^Sen^^Rere en ef-fet, avec cette m^^Sethode, ^^Ra la $\OML
-/cmm/m/it/12 n$\OT1/cmr/m/n/12 -i^^Reme ^^Setape, $\OML/cmm/m/it/12 A[] \OT1/cm
-r/m/n/12 = []$.
- []
-
-[7]
-Overfull \hbox (67.2089pt too wide) in paragraph at lines 326--326
+ [6]) [7]
+Overfull \hbox (67.2089pt too wide) in paragraph at lines 320--320
 []\OT1/cmtt/m/n/12 let unepreuve = [(0,1,mot "aBSc"),(2,3,mot "abc"),(1,3,mot "
 aB"),(2,4,mot "bb")][] 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 375--377
+Underfull \hbox (badness 10000) in paragraph at lines 362--364
 
  []
 
 [9]
-Overfull \hbox (53.1218pt too wide) detected at line 413
+Overfull \hbox (11.63387pt too wide) in paragraph at lines 436--436
+[]    \OT1/cmtt/m/n/12 |None -> parcoursmagique delta elimine termine (!ndejavu
+) (!navoir)[] 
+ []
+
+[10]
+Overfull \hbox (53.1218pt too wide) detected at line 495
 \OMS/cmsy/m/n/12 8\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 q; q[]\OT1/cmr/m/n/12 ) \OM
 S/cmsy/m/n/12 2 \OML/cmm/m/it/12 Q[]; \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 q; q[]\
 OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 2 \OML/cmm/m/it/12 A  \OMS/cmsy/m/n/12 ([])  
@@ -979,76 +982,71 @@ OMS/cmsy/m/n/12 j\OML/cmm/m/it/12 x\OMS/cmsy/m/n/12 j[] 2 \OML/cmm/m/it/12 q\OT
 it/12 l\OT1/cmr/m/n/12 )
  []
 
+[11]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 417.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 417.
+(hyperref)                removing `math shift' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 417.
+(hyperref)                removing `math shift' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\forall' on input line 417.
+(hyperref)                removing `math shift' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\in' on input line 417.
+(hyperref)                removing `\in' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 417.
+(hyperref)                removing `superscript' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\cup' on input line 417.
+(hyperref)                removing `superscript' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\in' on input line 417.
+(hyperref)                removing `subscript' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `superscript' on input line 417.
+(hyperref)                removing `\cup' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 417.
+(hyperref)                removing `math shift' on input line 499.
 
 
-Overfull \hbox (78.89989pt too wide) in paragraph at lines 418--420
+Overfull \hbox (85.4276pt too wide) in paragraph at lines 500--502
 \OT1/cmr/m/n/12 Exemple avec la gram-maire suiv-ante : D = $\OMS/cmsy/m/n/12 f\
-OT1/cmr/m/n/12 (\OML/cmm/m/it/12 S; abc\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \O
-T1/cmr/m/n/12 (\OML/cmm/m/it/12 abc; ab\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \O
-T1/cmr/m/n/12 (\OML/cmm/m/it/12 b; k\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \OT1/
-cmr/m/n/12 (\OML/cmm/m/it/12 c; ak\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \OT1/cm
-r/m/n/12 (\OML/cmm/m/it/12 kak; aa\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \OT1/cm
-r/m/n/12 (\OML/cmm/m/it/12 a; aaa\OT1/cmr/m/n/12 )[]\OMS/cmsy/m/n/12 g$ 
+OT1/cmr/m/n/12 (\OML/cmm/m/it/12 S; []\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 ; \OT
+1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 !\OML/cmm/m/it/12 ab\OT1/cmr
+/m/n/12 !)[]\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; []\OT1/cmr
+/m/n/12 )[]\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; []\OT1/cmr/
+m/n/12 )[]\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; []\OT1/cmr/m
+/n/12 )[]\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; []\OT1/cmr/m/
+n/12 )[]\OMS/cmsy/m/n/12 g$ 
  []
 
-(./figures/grosgraphe.tikz) (./figures/belletable.tex
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (./figures/ptitgraphe.tikz) [10]
-Overfull \hbox (0.50838pt too wide) in paragraph at lines 433--434
+(./figures/grosgraphe.tikz) (./figures/belletable.tex)
+(./figures/ptitgraphe.tikz) [12]
+Overfull \hbox (8.34163pt too wide) in paragraph at lines 515--516
 []\OT1/cmr/m/n/12 Ainsi, nous pou-vons tout de suite af-firmer qu'il est im-pos
--si-ble de d^^Seriver aaabakab
+-si-ble de d^^Seriver $[]$
  []
 
-[11] (./TIPE_Ulysse_DURAND.aux)
+[13] (./TIPE_Ulysse_DURAND.aux)
 Package rerunfilecheck Info: File `TIPE_Ulysse_DURAND.out' has not changed.
-(rerunfilecheck)             Checksum: 48B2B1BE91C773F479C152011217A30D;1303.
+(rerunfilecheck)             Checksum: 753B79B57F15B898099CDC427C82085B;1532.
  ) 
 Here is how much of TeX's memory you used:
- 21271 strings out of 479304
- 426801 string characters out of 5869778
- 763639 words of memory out of 5000000
- 37989 multiletter control sequences out of 15000+600000
+ 21277 strings out of 479304
+ 426859 string characters out of 5869778
+ 763299 words of memory out of 5000000
+ 37991 multiletter control sequences out of 15000+600000
  413812 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,18n,130p,434b,1796s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1060,18 +1058,20 @@ ts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfrm1200.pfb>
-Output written on TIPE_Ulysse_DURAND.pdf (11 pages, 191638 bytes).
+cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm
+1200.pfb>
+Output written on TIPE_Ulysse_DURAND.pdf (13 pages, 211556 bytes).
 PDF statistics:
- 214 PDF objects out of 1000 (max. 8388607)
- 183 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
- 141 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 244 PDF objects out of 1000 (max. 8388607)
+ 208 compressed objects within 3 object streams
+ 35 named destinations out of 1000 (max. 500000)
+ 157 words of extra memory for PDF output out of 10000 (max. 10000000)
 

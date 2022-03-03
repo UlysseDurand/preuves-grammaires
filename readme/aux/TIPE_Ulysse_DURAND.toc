@@ -1,16 +1,18 @@
-\contentsline {section}{\numberline {1}Définitions}{1}{section.1}%
-\contentsline {subsection}{Les grammaires formelles}{1}{section*.2}%
+\contentsline {section}{\numberline {1}Définitions}{2}{section.1}%
+\contentsline {subsection}{Les grammaires formelles}{2}{section*.2}%
 \contentsline {subsection}{Les grammaires non contextuelle}{2}{section*.3}%
 \contentsline {subsection}{Fôret de dérivation}{3}{section*.4}%
 \contentsline {subsection}{Exemple de preuve}{4}{section*.5}%
-\contentsline {section}{\numberline {2}Vérification de preuve pour une grammaire non contextuelle}{5}{section.2}%
-\contentsline {section}{\numberline {3}Preuve automatique en grammaire non contextuelle}{6}{section.3}%
+\contentsline {section}{\numberline {2}Vérification de preuve - grammaire non contextuelle}{5}{section.2}%
+\contentsline {section}{\numberline {3}Preuve automatique - grammaire non contextuelle}{6}{section.3}%
 \contentsline {subsection}{La méthode bottom-up}{6}{section*.6}%
 \contentsline {subsection}{La méthode top-down}{7}{section*.7}%
-\contentsline {section}{\numberline {4}Pour une grammaire formelle}{7}{section.4}%
-\contentsline {subsection}{Une nouvelle structure de données pour les preuves}{8}{section*.8}%
+\contentsline {section}{\numberline {4}Vérification de preuve - grammaire formelle}{7}{section.4}%
+\contentsline {subsection}{Une nouvelle structure de données pour les preuves}{7}{section*.8}%
 \contentsline {subsection}{Vérifier une preuve dans une telle structure de données}{8}{section*.9}%
-\contentsline {subsection}{Générer automatiquement les preuves}{8}{section*.10}%
-\contentsline {section}{\numberline {5}Une première simplification : Les grammaire croissantes}{9}{section.5}%
-\contentsline {section}{\numberline {6}Une idée générale de simplification, le coeur de ce TIPE}{9}{section.6}%
-\contentsline {subsection}{Les états $q$ sous la forme $\forall l \in N_t \cup T, q(l) \in \{\{0\},\mathbb {N}^*\}$}{10}{section*.11}%
+\contentsline {section}{\numberline {5}Preuve automatique - grammaire formelle}{8}{section.5}%
+\contentsline {subsection}{Un parcours en largeur particulier}{9}{section*.10}%
+\contentsline {subsection}{Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle}{10}{section*.11}%
+\contentsline {section}{\numberline {6}Amélioration pour les grammaires croissantes}{11}{section.6}%
+\contentsline {section}{\numberline {7}Améliération dans le cas général : déduction sur le nombre d'occurence de chaque lettre}{11}{section.7}%
+\contentsline {subsection}{Les états $q$ sous la forme $q \in \{\{0\},\mathbb {N}^*\}^{(N_t \cup T)}$}{12}{section*.12}%

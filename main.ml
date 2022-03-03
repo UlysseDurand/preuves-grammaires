@@ -1,186 +1,225 @@
-let indicedansarray e a = 
-	let res = ref (-1) in
-	for i = 0 to (Array.length a) - 1 do
-		if a.(i)=e then res:=i;
-	done;
-	!res
-;;
+(* ##### UTILE ##### *)
 
-(*le type e doit contenir les terminaux ET les non terminaux*)
+(* Implémentation de kmp *)
+let kmppreprocess w =
+	let n = Array.length w in
+	let pos = ref 1 in
+	let cnd = ref 0 in
+	let t = Array.make (n+1) (-1) in
+	while (!pos) < n do
+		if w.(!pos) = w.(!cnd) then
+			(t.(!pos) <- t.(!cnd);)
+		else
+		(
+			t.(!pos) <- !cnd;
+			while (!cnd >= 0 && w.(!pos) <> w.(!cnd) ) do
+				cnd:=t.(!cnd);
+			done;
+		);
+		pos:=(!pos)+1;
+		cnd:=(!cnd)+1;
+	done;
+	t.(!pos) <- (!cnd);
+	t;;
+
+let kmp s w t =
+	let ns = Array.length s in
+	let nw = Array.length w in
+	let j = ref 0 in
+	let k = ref 0 in
+	let res = ref [] in
+	while (!j) < ns do
+		if w.(!k) = s.(!j) then
+		(
+			j:=(!j)+1;
+			k:=(!k)+1;
+			if (!k)=nw then
+			(
+				res:=((!j)-(!k))::(!res);
+				k:=t.(!k);
+			);
+		)
+		else
+		(
+			k:=t.(!k);
+			if (!k) < 0 then
+			(
+				j:=(!j)+1;
+				k:=(!k)+1;
+			);
+		);
+	done;
+	!res;;
+
+
+let remplace x i l b =
+  let n = Array.length x in
+  let m = Array.length b in
+  if i >= n || n < i+l then failwith "OOH" else
+  let res = Array.make (n-l+m) x.(0) in
+  for j = 0 to (n-l+m-1) do
+    if (j < i) then
+    (
+      res.(j) <- x.(j)
+    ) else
+    if (j >= i+m) then
+    (
+      res.(j) <- x.(j-m+l)
+    )
+    else
+    (
+      res.(j) <- b.(j-i)
+    );
+  done;
+  res
+
+
+let ajoute e l = if List.mem e l then l else e::l
+
+
+let rec ajouteplein l1 l2 = 
+	match l1 with
+		|[] -> l2
+		|t::q -> (ajouteplein q (ajoute t l2))
+
+
+(* 
+let soustrait m i j = 
+  let rec aux unmmot acc parcouru = 
+    match unmmot with
+      |[] ->List.rev parcouru
+      |t::q -> 
+        if acc > j then List.rev parcouru
+        else aux q (acc+1) (if i >= i then t::parcouru else parcouru)
+  in
+  aux m 0 [] *)
+
+
+
+
+
+(* ##### TYPES ##### *)
 
 type 'e caractere = T of 'e | Nt of int
 
-type 'a regle_contexte = ('a list) * ('a list);;
+type 'a regle = ('a array) * ('a array)
 
-type 'a regle = ('a ) * ('a list);;
+type 'e fg = {
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglesf : ('e caractere) regle array
+} 
 
-type 'e grammairemoche = {terminaux : 'e array ; nonterminaux : 'e array ; axiome : 'e caractere ; regles : ('e caractere) regle array };;
+type 'a reglecf = int * ('a array)
 
-type 'e grammairebelle = {terminaux : 'e array ; nonterminaux : 'e array ; axiome : 'e ; joliregles : 'e regle array };;
+type 'e cfg = {
+  terminaux : ('e caractere) array ;
+  nonterminaux : ('e caractere) array ;
+  axiome : 'e caractere ;
+  reglescf : ('e caractere) reglecf array
+}
 
-type 'e preuve = A of ('e caractere) | P of ('e caractere) * ('e preuve list) * ('e caractere) regle;;
-
-let rendmoche gr = 
-	{
-		terminaux = gr.terminaux ; 
-		nonterminaux = gr.nonterminaux ; 
-		axiome = (Nt (indicedansarray gr.axiome gr.nonterminaux)) ; 
-		regles = 
-			Array.map 
-			(fun (i,x) ->
-				let j = indicedansarray i gr.nonterminaux in
-				(Nt j,
-					List.map
-					(fun y ->
-						let id = (indicedansarray y gr.nonterminaux) in 
-						if id=(-1) 
-							then (T y)
-							else (Nt id)
-					)
-					x
-				)
-			)
-			gr.joliregles;
-	}
-;;
-(*Exemples*)
-
-let g_op_suffixe = 
-	{
-		terminaux = [|"+";"-";"*";"0";"1";"2";"3";"4";"5";"6";"7";"8";"9"|];
-		nonterminaux = [|"X"|];
-		axiome="X";
-    joliregles=[|
-        ("X",["X";"X";"+"]);
-        ("X",["X";"X";"*"]);
-        ("X",["X";"X";"-"]);
-        ("X",["0"]);
-        ("X",["1"]);
-        ("X",["2"]);
-        ("X",["3"]);
-        ("X",["4"]);
-        ("X",["5"]);
-        ("X",["6"]);
-        ("X",["7"]);
-        ("X",["8"]);
-        ("X",["9"])
-    |]
-		}
-;;
-
-let g_op_suffixe_moche = rendmoche g_op_suffixe;;
+type 'a arbre = AVide | F of ('a * 'a foret) and
+  'a foret = 'a arbre list
 
 
 
-(*Prouvons que n est dans L*)
-let preuven n = P ( Nt 0, [A (Nt 0)], (Nt 0, [T (string_of_int n)]) );;
+(* ##### LE PROGRAMME ##### *)
 
-(*Prouvons que 36* est dans L*)
-let preuve2 = P ( (Nt 0), [preuven 3;preuven 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
-(*Prouvons que 236*+ est dans L*)
-let preuve3 = P ( (Nt 0), [preuven 2;preuve2], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
-
-(*Prouvons que 16* est dans L*)
-let preuve4 = P ( (Nt 0), [preuven 1;preuven 6], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
-(*Prouvons que 16*7+ est dans L*)
-let preuve5 = P ( (Nt 0), [preuve4;preuven 7], ((Nt 0),[(Nt 0);(Nt 0);T "+"]));;
-
-(*Prouvons que 236*+16*7+* est dans L*)
-let preuvefinale = P ( (Nt 0), [preuve3;preuve5], ((Nt 0),[(Nt 0);(Nt 0);T "*"]));;
-
-let rec verif_preuve g p = 
-	match p with
-    |A x -> true
-    |P (x,l,r) -> 
-			(
-				List.for_all
-				(verif_preuve g)
-				l
-			)
-			&&
-			(fst r = x)
-			&&
-			(Array.mem r g.regles)
-;;
-
-verif_preuve g_op_suffixe_moche preuvefinale;;
-
-let rec resultat_preuve g p = 
-	match p with
-		|A x -> ""
-		|P (x,l,r) ->
-			let r1,r2 = r in 
-			let nl = ref l in
-			List.fold_right
-			(
-				fun x y -> x^y
-			)
-			(
-				List.map
-				(
-				fun x -> 
-					match x with
-						|Nt xnt ->  
-							if (r1 = x) 
-							then
-							(
-								let t,q = (List.hd (!nl),List.tl (!nl)) in
-								nl:=q;
-								resultat_preuve g t
-							) 
-							else
-								failwith "eh oh elle va pas ta grammaire la"
-						|T xt -> xt
-				)
-				r2
-			)
-			""
-;;
-
-resultat_preuve g_op_suffixe preuvefinale;;
-
-let rec distance_levenshtein m1 m2 =
-	match m1,m2 with
-		|_,[] -> List.length m1
-		|[],_ -> List.length m2
-		|t1::q1,t2::q2 when t1=t2 -> distance_levenshtein q1 q2
-		|t1::q1,t2::q2 -> 1 + min ( min (distance_levenshtein q1 m2) (distance_levenshtein m1 q2) ) (distance_levenshtein q1 q2)
-;;
-
-distance_levenshtein ["a";"a";"a";"a"] ["b";"b";"b";"b"];;
- 
-let rec n_cartesian_product = function
-  | [] -> [[]]
-  | x :: xs ->
-    let rest = n_cartesian_product xs in
-    List.concat (List.map (fun i -> List.map (fun rs -> i :: rs) rest) x)
-  ;;
-
-n_cartesian_product [[4;7] ; [1;0] ; [3;8]];;
-
-let rec puissance l n =
-	n_cartesian_product (Array.to_list (Array.init n (fun x -> l) ) )
-;;
-
-puissance [1;2;3] 4;;
+(* Effectue un pretraitement (kmp) des membres de gauche des règles de dérivation *)
+let preprocessgf grf =
+  Array.map 
+  (fun (a,b) ->
+    (a,b,kmppreprocess a) 
+  )
+  grf.reglesf 
 
 (*
-r une regle, gr la grammaire et els des elements a combiner.
-els sous la forme d'une liste de couples (nonterminal,liste des elements dérivés de ce non terminal.) 
+Un parcours en largeur qui 
+  -elimine des chemins passant par un sommet invalide 
+  -s'arrete des qu'il parcourt un sommet valide
+PS : 
+  -dans avoir il y a des chemins 
+  -retourne un chemin.
 *)
-let construit gr r els = 
-	let nonterminaux = gr.nonterminaux in
-	let besoins = (List.filter (fun x -> match x with |T _ -> false |Nt _ -> true ) (snd r)) in
-	let nboccur = Array.init (Array.length nonterminaux) (fun i -> List.length (List.filter (fun y -> y=Nt i) besoins) ) in
-	let combinaison_de_preuves = n_cartesian_product (List.map (fun x -> match x with |T _ -> failwith "erreur" |Nt i -> els.(i)) besoins) in
-	List.map (fun combi -> P (fst r,combi,r)) combinaison_de_preuves
-;;
 
-construit g_op_suffixe ((Nt 0),[(Nt 0);(Nt 0);T "+"]) [|[preuven 2;preuven 3]|];;
+let rec parcoursmagique delta elimine termine dejavu avoir =
+  let navoir = ref [] in
+  let ndejavu = ref dejavu in
+  if avoir = [] then None else (
+  let res = 
+    List.find_opt
+    (function
+      |[] -> failwith "mauvais chemin"
+      |s::q ->
+        ndejavu := ajoute s (!ndejavu);
+        if (termine s) then true else
+        if (elimine s || List.mem s dejavu) then false else
+        (
+        navoir := 
+          ajouteplein
+          (
+            List.map
+            (fun v -> v::s::q)
+            (delta s)
+          )
+          (!navoir);
+        false)
+    )
+    avoir
+    in
+  match res with
+    |None -> parcoursmagique delta elimine termine (!ndejavu) (!navoir)
+    |Some x -> Some x
+  )
 
-let construit_prueves gr els =
-	let nouveauxmots = Array.to_list (Array.map gr.regles (fun r -> construit gr r els)) in
-	Array.flatten nouveauxmots
-;;
+(* Un exemple de grammaire formelle *)
+let exfg = {
+  terminaux = [| T 'a' ; T 'b' ; T 'c' ; T 'k' |];
+  nonterminaux = [|Nt 0|];
+  axiome = Nt 0;
+  reglesf = [| 
+    [|Nt 0|],[|T 'a' ; T 'b' ; T 'c'|] ;
+    [|T 'a' ; T 'b' ; T 'c'|],[|T 'a' ; T 'b'|] ;
+    [|T 'b'|],[|T 'k'|] ;
+    [|T 'c'|],[|T 'a' ; T 'k'|] ;
+    [|T 'k' ; T 'a' ; T 'k'|],[|T 'a' ; T 'a'|] ;
+    [|T 'a'|],[|T 'a' ; T 'a' ; T 'a'|]
+  |]
+}
 
- 
+(* Retourne les mots vers lesquels x peut dériver une fois *)
+let succ ppregles x = 
+  let res =
+  List.flatten
+  (
+    Array.to_list (
+      Array.map
+      (fun (a,b,pp) ->
+        List.map 
+        (fun i ->
+          remplace x i (Array.length a) b
+        )
+        (kmp x a pp)
+      )
+      ppregles
+    )
+  )
+  in
+  ajouteplein res []
+
+let cetruc = remplace [|0;1;2;3;4;5;6;7;8|] 2 6 [|-1;-2;-3|]
+
+let unmachin = succ (preprocessgf exfg) [|T 'a' ; T 'b' ; T 'c' |]
+
+(* Cherche une dérivation de x vers m *)
+let chercherderivationnaif x m ppregles = 
+  parcoursmagique
+  (succ ppregles)
+  (fun x -> false)
+  (fun x -> x = m)
+  []
+  [[x]]
+
+let resultat = chercherderivation [|Nt 0|] [|T 'a' ; T 'a' ; T 'a' ; T 'k'|] (preprocessgf exfg)
