@@ -1,6 +1,5 @@
-VERIFIER et surement REFAIRE la def de la forêt de dérivation (surtout la fonction test_foret_deriv)
 CODER la méthode bottom-up
-ADAPTER fonction succ pour stocker les dérivations succéssives et adapter la sortie avec une preuve vérifiable (du type preuveformelle)
+ADAPTER fonction succ pour stocker les dérivations successives et adapter la sortie avec une preuve vérifiable (du type preuveformelle)
 VERIFIER la partie Vérifier une preuve dans une telle structure de données
 MODULARISER le code OCAML en plusieurs fichier pour + de lisibilité
 CODER la partie Les états q sous la forme ...

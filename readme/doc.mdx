@@ -76,8 +76,8 @@ Ici, $G = (T,N_t,S,D)$ est une grammaire non contextuelle.
 
 Une forêt est une liste d'arbres
 ---code
-type 'a arbre = 'a * 'a foret and
-type 'a foret = 'a arbre list
+type 'a arbre = 'a * 'a foret 
+and 'a foret = F of 'a arbre list
 ---code
 
 
@@ -88,31 +88,41 @@ Si $m$ est le mot vide, il s'agit de la forêt vide.
 
 Sinon, soit $n = \norm{m}$,\\
 ---t
-    Si $n=1$, il s'agit d'un seul arbre où la racine est $m$ et chaque sous arbres est la forêt de dérivation d'un $b$ tel que $(m,b) \in D$.
+    Si $n=1$ et $m_0 \in T$,il s'agit d'un seul arbre où la racine est $m$ et la sous forêt est la forêt de dérivation d'un $b$ tel que $(m,b) \in D$.
+
+    Si $n=1$ et $m_0 \in N_t$, il s'agit de l'arbre de racine m et de sous forêt vide.
 
     Si $n>1$, il s'agit de la liste des arbres $[f_1, \dots, f_n]$ où $\forall i \in [1,n], f_i$ est un arbre de dérivation de la lettre $m_i$.
 ---tf
 ---tf
 
+D'où la fonction OCaml suivante :
 ---code
-let test_foret_deriv f m gram = match m with
-    |[] -> f = []
-    |[x] -> 
-        List.exists 
-        (fun (a,b) -> x = a && test_foret_deriv f b gram) 
-        gram.reglesf
-    |t1::q1 -> 
-        match f with
-            |[] -> false
-            |t2::q2 -> (test_foret_deriv [t2] [t1]) && (test_foret_deriv q2 q1)
+
+let rec test_foret_deriv foret mot regles =
+  let n = List.length mot in
+  if n = 0 then foret = F [] else
+  match foret with
+      |(F sousarbres) ->
+          if (List.length sousarbres) <> n then false else
+          List.for_all2
+          (fun arb lettre ->
+              test_arbre_deriv arb regles
+          )
+          sousarbres
+          mot
+and test_arbre_deriv arb regles =
+  let (lettre,sousforet) = arb in
+  match lettre with
+      |T x -> arb = (T x,F [])
+      |Nt i ->
+          let nouveaumot = lisracines sousforet in
+          (List.mem (i,nouveaumot) regles)&&
+          (test_foret_deriv sousforet nouveaumot regles)
 ---code
 
 
 L'ensemble des forêts de dérivation de $m$ est noté $\mathcal{F}(m)$.
-
----code
-type 'e caractere = T of 'e | Nt of int
----code
 
 Le parcours infixe des feuilles d'une forêt de dérivation de $x$ donne un mot de $\eta(x)$.
 Un exemple sera donnée dans le cas d'une grammaire non contextuelle.
@@ -411,7 +421,7 @@ Il ne reste qu'à faire le même parcours que précédement avec la fonction sui
 let eliminecroiss x = Array.length x > Array.length m
 ---code
 
-# Améliération dans le cas général : déduction sur le nombre d'occurence de chaque lettre
+# Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre
 Rappelons, le problème : étant donné un mot $m$ d'une grammaire, comment le dériver en un mot $m'$ ?
 Pour tout $l \in N\cup N_t$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$.
 

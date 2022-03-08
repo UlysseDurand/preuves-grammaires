@@ -1,4 +1,4 @@
 toplevel:
-	echo "#use \"main2.ml\";;" > tmp.ml
+	echo "#use \"main.ml\";;" > tmp.ml
 	ocaml < tmp.ml
 	rm tmp.ml

@@ -83,22 +83,10 @@ let rec ajouteplein l1 l2 =
 		|t::q -> (ajouteplein q (ajoute t l2))
 
 
-(* 
-let soustrait m i j = 
-  let rec aux unmmot acc parcouru = 
-    match unmmot with
-      |[] ->List.rev parcouru
-      |t::q -> 
-        if acc > j then List.rev parcouru
-        else aux q (acc+1) (if i >= i then t::parcouru else parcouru)
-  in
-  aux m 0 [] *)
 
 
 
-
-
-(* ##### TYPES ##### *)
+(* ##### TYPES ET PRIMITIVES ##### *)
 
 type 'e caractere = T of 'e | Nt of int
 
@@ -111,7 +99,7 @@ type 'e fg = {
   reglesf : ('e caractere) regle array
 } 
 
-type 'a reglecf = int * ('a array)
+type 'a reglecf = int * ('a list)
 
 type 'e cfg = {
   terminaux : ('e caractere) array ;
@@ -120,12 +108,10 @@ type 'e cfg = {
   reglescf : ('e caractere) reglecf array
 }
 
-type 'a arbre = AVide | F of ('a * 'a foret) and
-  'a foret = 'a arbre list
+type 'a arbre = 'a * 'a foret and 'a foret = F of 'a arbre list
 
-
-
-(* ##### LE PROGRAMME ##### *)
+let lisracines foret = match foret with
+    |F l -> List.map fst l
 
 (* Effectue un pretraitement (kmp) des membres de gauche des règles de dérivation *)
 let preprocessgf grf =
@@ -135,6 +121,34 @@ let preprocessgf grf =
   )
   grf.reglesf 
 
+
+
+
+
+(* ##### LE PROGRAMME ##### *)
+
+(*Un vérificateur de preuve d'appartenance d'un mot à une grammaire algébrique*)
+let rec test_foret_deriv foret mot regles =
+  let n = List.length mot in
+  if n = 0 then foret = F [] else
+  match foret with
+      |(F sousarbres) ->
+          if (List.length sousarbres) <> n then false else
+          List.for_all2
+          (fun arb lettre ->
+              test_arbre_deriv arb regles
+          )
+          sousarbres
+          mot
+and test_arbre_deriv arb regles =
+  let (lettre,sousforet) = arb in
+  match lettre with
+      |T x -> arb = (T x,F [])
+      |Nt i ->
+          let nouveaumot = lisracines sousforet in
+          (List.mem (i,nouveaumot) regles)&&
+          (test_foret_deriv sousforet nouveaumot regles)
+
 (*
 Un parcours en largeur qui 
   -elimine des chemins passant par un sommet invalide 
@@ -143,7 +157,6 @@ PS :
   -dans avoir il y a des chemins 
   -retourne un chemin.
 *)
-
 let rec parcoursmagique delta elimine termine dejavu avoir =
   let navoir = ref [] in
   let ndejavu = ref dejavu in
@@ -222,4 +235,4 @@ let chercherderivationnaif x m ppregles =
   []
   [[x]]
 
-let resultat = chercherderivation [|Nt 0|] [|T 'a' ; T 'a' ; T 'a' ; T 'k'|] (preprocessgf exfg)
+let resultat = chercherderivationnaif [|Nt 0|] [|T 'a' ; T 'a' ; T 'a' ; T 'k'|] (preprocessgf exfg)
