@@ -1,8 +1,10 @@
-# Implementation des grammaires, verification de preuve d'appartenance d'un mot au langage d'une grammaire et prouveur d'appartenance d'un mot au langage d'une grammaire.
+# Vérification et preuve automatique d’appartenance d’un mot à une grammaire
 
+PDF détaillé du projet [ici](https://raw.githubusercontent.com/UlysseDurand/water-proof/master/readme/TIPE_Ulysse_DURAND.pdf)
 
-## Idée pour le prouveur :
-pour une grammaire G, et son language L,
-On peut essayer de définir une distance entre deux mots de L.
-Ainsi, en appliquant un algorithme du type A* ou Dijkstra, il serait peut être possible de construire la suite de dérivations permettant de passer d'un mot à l'autre.
-
+- (En cours) Vérification de preuve d'appartenance d'un mot à une grammaire algébrique
+- (En cours) Preuve automatique d'appartenance d'un mot à une grammaire algébrique par méthode bottom-up
+- Preuve automatique d'appartenance d'un mot à une grammaire algébrique par méthode top-down
+- Preuve automatique d'appartenance d'un mot à une grammaire formelle
+- (En cours) Amélioration pour les grammaires croissantes
+- (En cours) Amélioration pour les grammaires formelles en raisonnant sur le nombre d'occurences d' une lettre donnée dans un mot.
