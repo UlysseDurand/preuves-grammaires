@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Définitions}{2}{section.1}%
+\contentsline {subsection}{Les grammaires formelles}{2}{section*.2}%
+\contentsline {subsection}{Les grammaires non contextuelle}{2}{section*.3}%
+\contentsline {subsection}{Fôret de dérivation}{2}{section*.4}%
+\contentsline {section}{\numberline {2}Vérification de preuve - grammaire non contextuelle}{3}{section.2}%
+\contentsline {section}{\numberline {3}Preuve automatique - grammaire non contextuelle}{3}{section.3}%
+\contentsline {subsection}{La méthode bottom-up}{4}{section*.5}%
+\contentsline {subsection}{La méthode top-down}{4}{section*.6}%
+\contentsline {section}{\numberline {4}Vérification de preuve - grammaire formelle}{4}{section.4}%
+\contentsline {subsection}{Une nouvelle structure de données pour les preuves}{4}{section*.7}%
+\contentsline {section}{\numberline {5}Preuve automatique - grammaire formelle}{4}{section.5}%
+\contentsline {subsection}{Un parcours en largeur particulier}{5}{section*.8}%
+\contentsline {subsection}{Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle}{5}{section*.9}%
+\contentsline {section}{\numberline {6}Amélioration pour les grammaires croissantes}{5}{section.6}%
+\contentsline {section}{\numberline {7}Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre}{6}{section.7}%
+\contentsline {subsection}{Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb {N}^*\}^{\Sigma }$}{6}{section*.10}%

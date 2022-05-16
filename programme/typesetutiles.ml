@@ -6,21 +6,13 @@ type 'a regle = ('a array) * ('a array)
 
 type 'e fg = {
   terminaux : ('e caractere) array ;
-  nonterminaux : ('e caractere) array ;
+  nbnonterminaux : int ;
   axiome : 'e caractere ;
   reglesf : ('e caractere) regle array
 } 
 
-type 'a reglecf = int * ('a list)
+type 'e preuveformelle = ('e caractere array) list
 
-type 'e cfg = {
-  terminaux : ('e caractere) array ;
-  nonterminaux : ('e caractere) array ;
-  axiome : 'e caractere ;
-  reglescf : ('e caractere) reglecf array
-}
-
-type 'a arbre = 'a * 'a foret and 'a foret = F of 'a arbre list
 
 
 
@@ -108,8 +100,6 @@ let rec ajouteplein l1 l2 =
 		|[] -> l2
 		|t::q -> (ajouteplein q (ajoute t l2))
 
-let lisracines foret = match foret with
-    |F l -> List.map fst l
 
 (* Effectue un pretraitement (kmp) des membres de gauche des règles de dérivation *)
 let preprocessgf grf =
@@ -118,3 +108,15 @@ let preprocessgf grf =
     (a,b,kmppreprocess a) 
   )
   grf.reglesf 
+
+let nboccur m l = List.length ((List.filter (fun x -> x = l) ) (Array.to_list m))
+
+(* Donne le nombre d'occurences des lettres de la grammaire dans le mot *)
+let analysemot mot gram = 
+	let n = gram.nbnonterminaux in
+	let m = Array.length gram.terminaux in
+	let res = Array.make (n+m) 0 in
+	Array.mapi (fun i l -> if i < n then nboccur mot (Nt i) else nboccur mot (gram.terminaux.(i-n)) ) res
+
+let categorisemot gram fctcat m = Array.map fctcat (analysemot m gram)
+

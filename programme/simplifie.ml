@@ -1,0 +1,59 @@
+(* Fonction catégorisante binaire *)
+let fct_cat_bin n = if n > 0 then 1 else 0
+
+(* Vérifie si il existe un mot de catégorie q dérivable via la dérivation d dans la grammaire gram *)
+let estpossible q d gram =
+  let (a,b) = d in
+  let cata = categorisemot gram fct_cat_bin a in 
+  q = cata
+
+(* Donne l'ensemble des indices des dérivations faisables depuis l'état q *)
+let lesucc gram q =
+  List.map 
+  fst
+  (
+    List.filter
+    (
+      fun (i,d) -> estpossible q d gram
+    )
+    (
+      Array.to_list
+      (
+        Array.mapi (fun i d -> (i,d)) gram.reglesf
+      )
+    )
+  ) 
+
+(* Donne, pour la dérivation i, l'état-couple vers lequel on arrive *)
+let etatsdederiv gram i = 
+  let (a,b) = gram.reglesf.(i) in
+  (i,categorisemot gram fct_cat_bin b)
+
+(* Donne, les couple de catégories des dérivations d'une grammaire*)
+let pretraitegram gram = 
+  Array.map
+  (fun (a,b) -> (categorisemot gram fct_cat_bin a,categorisemot gram fct_cat_bin b)) 
+  gram.reglesf
+
+(*  *)
+
+
+(* Donne une table d'association des etats accessibles *)
+let pretraitebisgram gram = 
+  let avoir = ref [categorisemot gram fct_cat_bin [|Nt 0|]] in
+  let dejavu = ref [] in
+  while (!avoir != []) do
+    let t::q = !avoir in 
+    if not (List.mem t (!dejavu)) then ( 
+      let suivants = lesucc gram t in
+      let vraisuivants = (
+        List.map 
+        (fun i -> categorisemot gram fct_cat_bin (snd gram.reglesf.(i)))
+        suivants 
+      ) in
+      avoir := ajouteplein vraisuivants q;
+      dejavu := t::(!dejavu);
+    );
+  done;
+  Array.of_list (List.rev (!dejavu))
+

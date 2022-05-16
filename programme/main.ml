@@ -1,11 +1,9 @@
-open Typesetutiles
-open Preuveautomatique
-open Verifalge
+
 
 (* Un exemple de grammaire formelle *)
 let exfg = {
   terminaux = [| T 'a' ; T 'b' ; T 'c' ; T 'k' |];
-  nonterminaux = [|Nt 0|];
+  nbnonterminaux = 1;
   axiome = Nt 0;
   reglesf = [| 
     [|Nt 0|],[|T 'a' ; T 'b' ; T 'c'|] ;
@@ -18,4 +16,14 @@ let exfg = {
 }
 let unmachin = succ (preprocessgf exfg) [|T 'a' ; T 'b' ; T 'c' |]
 
-let resultat = chercherderivationnaif [|Nt 0|] [|T 'a' ; T 'a' ; T 'a' ; T 'k'|] (preprocessgf exfg)
+let resultat = lememeavecderivations [|Nt 0|] [|T 'a' ; T 'a' ; T 'a' ; T 'k'|] (preprocessgf exfg)
+
+let printcarac c = match c with
+  |T c -> print_char c
+  |Nt i -> print_int i
+
+let printmot = List.iter printcarac
+
+let pretraited = pretraitebisgram exfg 
+
+let test = estpossible [|0;1;1;1;0|] exfg.reglesf.(3) exfg

@@ -1,5 +1,3 @@
-open Typesetutiles
-
 (*
 Un parcours en largeur qui 
   -elimine des chemins passant par un sommet invalide 
@@ -58,6 +56,26 @@ let succ ppregles x =
   in
   ajouteplein res []
 
+(* Retourne les mots vers lesquels x peut dériver une fois *)
+let succbis ppregles (x,_,_) =
+  let res =
+  List.flatten
+  (
+    Array.to_list (
+      Array.mapi
+      (fun numregle (a,b,pp) ->
+        List.map 
+        (fun i ->
+          (remplace x i (Array.length a) b,numregle,i)
+        )
+        (kmp x a pp)
+      )
+      ppregles
+    )
+  )
+  in
+  ajouteplein res []
+
 (* Cherche une dérivation de x vers m *)
 let chercherderivationnaif x m ppregles = 
   parcoursmagique
@@ -66,3 +84,11 @@ let chercherderivationnaif x m ppregles =
   (fun x -> x = m)
   []
   [[x]]
+
+let lememeavecderivations x m ppregles =
+  parcoursmagique
+  (succbis ppregles)
+  (fun (y,a,b) -> false)
+  (fun (y,a,b) -> y = m)
+  []
+  [[x,0,0]]

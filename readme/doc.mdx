@@ -12,20 +12,19 @@ Une grammaire formelle est un quadruplet $G = (T,N_t,S,D)$ où :
 #### $T$ est l'alphabet des terminaux
 #### $N_t$ est l'alphabet des non terminaux
 #### $S \in N_t$ est l'axiome
-#### $D$, un ensemble d'éléments de $(N_t \cup T)^\star \times (N_t \cup T)^\star$, est l'ensemble des règles de dérivation.
+
+Notons $\Sigma := N_t \cup T0$
+#### $D \subset (\Sigma ^ \star )^2$, est l'ensemble des règles de dérivation.
 ---i
-
-Soit $\->$ la relation binaire définie sur $(N_t \cup T)^\star$ par
-!equ!
-\forall m,m' \in (N_t \cup T)^\star, m \-> m' \iff \exists (a,b) \in D, u,v \in (N_t \cup T)^\star / m = uav \text{ et } m' = ubv
-!equ!
-On note $\overset{*}{\->}$ la cloture transitive et réflexive de $\->$.\\
-Pour $x \in (N_t \cup T)^\star$, notons
-
-$\delta(x) := \{y \in (N_t \cup T)^\star / x \overset{*}{\->} y\}$
-et 
-
-$\eta(x) := \delta(x) \cap T^\star$.
+Pour $(a,b) \in D$, soit $\overset{(a,b)}{\->}$ la relation binaire définie sur $\Sigma^\star$ par
+!equu!
+\forall m,m' \in \Sigma^\star, m \overset{(a,b)}{\->} m' \iff \exists u,v \in \Sigma^\star / m = uav \text{ et } m' = ubv
+!equu!
+On note $\-> := \bigcup_{d \in D} \overset{d}{\->}$ et on note $\overset{*}{\->}$ la cloture transitive et réflexive de $\->$.\\
+Pour $x \in (\Sigma)^\star$, notons\\
+$\delta(x) := \{y \in (\Sigma)^\star / x \overset{*}{\->} y\}$\\
+$\eta(x) := \delta(x) \cap T^\star$\\
+$\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occurences de la lettre $l$ dans x.
 
 Alors le langage de la grammaire formelle  G est le suivant :
 !equu!\mathcal{L} (G) := \eta(S)!equu!
@@ -49,7 +48,7 @@ Nous allons supposer que $N_t$ est dénombrable et $T$ est fini.
 
 !b Définition :! Une grammaire non contextuelle est une grammaire $G = (T,N_t,S,D)$ telle que :
 !equu! \forall (a,b) \in D, a \in N_t  !equu!
-
+(Nous identifions les mots de longueur 1 et les lettres)
 
 |code|---code
 |code|type 'a reglecf = int * ('a array)
@@ -62,13 +61,13 @@ Nous allons supposer que $N_t$ est dénombrable et $T$ est fini.
 |code|}
 |code|---code
 
-!bExemple :! la grammaire non contextuelle des expressions arithmétiques suffixes.
----ml
-D = &\{(!sS!,!sSS+!)_1,(!sS!,!sSS*!)_2,(!sS!,!s"N"!)_3\}\\
-\cup&\{(!sN!,!sC!)_4 | (!sN!,!sNC!)_5\}\\
-\cup&\{(!sC!,!s0!)_6 | (!sC!,!s 1!)_7\}
----ml
-(les indices ci-dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (!sN!,!sNC!)$)
+|code|!bExemple :! la grammaire non contextuelle des expressions arithmétiques suffixes.
+|code|---ml
+|code|D = &\{(!sS!,!sSS+!)_1,(!sS!,!sSS*!)_2,(!sS!,!s"N"!)_3\}\\
+|code|\cup&\{(!sN!,!sC!)_4 | (!sN!,!sNC!)_5\}\\
+|code|\cup&\{(!sC!,!s0!)_6 | (!sC!,!s 1!)_7\}
+|code|---ml
+|code|(les indices ci-dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (!sN!,!sNC!)$)
 
 ## Fôret de dérivation
 
@@ -81,7 +80,7 @@ Une forêt est une liste d'arbres
 |code|---code
 
 
-Une preuve qu'un mot appartient à $\eta(m)$ peut être donnée par une forêt de dérivation :
+Une preuve qu'un mot appartient à $\eta(m)$ peut être donnée par une forêt de dérivation de $m$:
 
 ---t
 Si $m$ est le mot vide, il s'agit de la forêt vide.
@@ -95,10 +94,10 @@ Sinon, soit $n = \norm{m}$,\\
     Si $n>1$, il s'agit de la liste des arbres $[f_1, \dots, f_n]$ où $\forall i \in [1,n], f_i$ est un arbre de dérivation de la lettre $m_i$.
 ---tf
 ---tf
-
+|code|
 |code|D'où la fonction OCaml suivante :
+|code|
 |code|---code
-
 |code|let rec test_foret_deriv foret mot regles =
 |code|  let n = List.length mot in
 |code|  if n = 0 then foret = F [] else
@@ -121,88 +120,83 @@ Sinon, soit $n = \norm{m}$,\\
 |code|          (test_foret_deriv sousforet nouveaumot regles)
 |code|---code
 
-
-L'ensemble des forêts de dérivation de $m$ est noté $\mathcal{F}(m)$.
-
+L'ensemble des forêts de dérivation de $m$ est noté $\mathcal{F}(m)$.\\
 Le parcours infixe des feuilles d'une forêt de dérivation de $x$ donne un mot de $\eta(x)$.
-Un exemple sera donnée dans le cas d'une grammaire non contextuelle.
-
+|code|Un exemple sera donnée dans le cas d'une grammaire non contextuelle.\\
 Pour $a \in \mathcal{F}(x)$, on note $\mathcal{I}(a)$ le parcours infixe des feuilles de $a$. 
 
-## Exemple de preuve
+|code|## Exemple de preuve
 
-Une preuve que !s"10""11"+"0"*! $\in \mathcal{L}(G)$ :\\
-Lemme 1 : !s"10"! $\in \eta(S)$
+|code|Une preuve que !s"10""11"+"0"*! $\in \mathcal{L}(G)$ :\\
+|code|Lemme 1 : !s"10"! $\in \eta(S)$
 
-    En effet, $!sS!\->_3 !s"N"! \->_5 !s"NC"! \->_6 !s"N0"! \->_4 !s"C0"! \->_7 !s"10"!$
+|code|    En effet, $!sS!\->_3 !s"N"! \->_5 !s"NC"! \->_6 !s"N0"! \->_4 !s"C0"! \->_7 !s"10"!$
 
 
-L'abre de dérivation fait aussi office de preuve, bien plus concise :
-|tikz|   !ftree1.tikz!
+|code|L'abre de dérivation fait aussi office de preuve, bien plus concise :
+|code||tikz|   !ftree1.tikz!
 
-Lemme 2 : !s"11"! $\in \eta(S)$
-Preuve avec l'arbre suivant
-|tikz| !ftree2.tikz!
+|code|Lemme 2 : !s"11"! $\in \eta(S)$
+|code|Preuve avec l'arbre suivant
+|code||tikz| !ftree2.tikz!
 
-On peut alors, en combinant les deux arbres précédants, prouver que !s"10""11"+! $\in \eta(S)$ :
-|tikz| !ftree3.tikz!
+|code|On peut alors, en combinant les deux arbres précédants, prouver que !s"10""11"+! $\in \eta(S)$ :
+|code||tikz| !ftree3.tikz!
 
-Avec l'arbre suivant, on prouve enfin que !s"10""11"+"0"*! $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
-|tikz| !ftree4.tikz!
+|code|Avec l'arbre suivant, on prouve enfin que !s"10""11"+"0"*! $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
+|code||tikz| !ftree4.tikz!
 
-On remarque bien qu'un parcours infixe des feuilles de l'arbre donne !s"10""11"+"0"*!
+|code|On remarque bien qu'un parcours infixe des feuilles de l'arbre donne !s"10""11"+"0"*!
 
 # Vérification de preuve - grammaire non contextuelle
 
 La forêt de dérivation nous donne une bonne manière de vérifier une preuve, car une preuve est caractérisé par une forêt de dérivation.\\
 
-(en pratique, !c'e! sera !cstring!).
+Par induction on peut montrer $m \in \eta(x) \implies $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$.
 
-Par induction on peut montrer $m \in \eta(x) \iff $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$.
+|code|!nb$A_{[p,q]}$ correspond à la forêt $A$ restreinte à ses arbres d'indice $i / p\leq i \leq q$ et $A@B$ correspond à la concaténation des forêts $A$ et $B$. !
 
-!nb$A_{[p,q]}$ correspond à la forêt $A$ restreinte à ses arbres d'indice $i / p\leq i \leq q$ et $A@B$ correspond à la concaténation des forêts $A$ et $B$. !
+|code|---t
+|code|$
+|code|m \in \eta(x)\\
+|code|\iff \exists n \in \mathbb{N} / \exists m_1,m_2,\dots,m_n \in \Sigma^\star / x \-> m_1 \-> m_2 \-> \dots \-> m_n\text{ et }m_n \in T^\star$    $ (2_n)\\
+|code|\mathcal{P}(n) := ((2_n) \implies \exists A \in \mathcal{F}(x) / \mathcal{I}(x) = m)$\\
+|code|---t
+|code|$\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{\norm{x}})]$ convient.\\
+|code|$\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies \exists A \in \mathcal{F}(m_1)/ \mathcal{I}(A) = m)$
 
----t
-$
-m \in \eta(x)\\
-\iff \exists n \in \mathbb{N} / \exists m_1,m_2,\dots,m_n \in (N_t \cup T)^\star / x \-> m_1 \-> m_2 \-> \dots \-> m_n\text{ et }m_n \in T^\star$    $ (2_n)\\
-\mathcal{P}(n) := ((2_n) \implies \exists A \in \mathcal{F}(x) / \mathcal{I}(x) = m)$\\
----t
-$\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{\norm{x}})]$ convient.\\
-$\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies \exists A \in \mathcal{F}(m_1)/ \mathcal{I}(A) = m)$
+|code| et comme $x\-> m_1,\exists (a,b) \in D, u,v\in \Sigma^\star /x = uav$ et $m_1 = ubv$
 
- et comme $x\-> m_1,\exists (a,b) \in D, u,v\in (N_t\cup T)^\star /x = uav$ et $m_1 = ubv$
-
- Soit $p := \norm{u}, q := \norm{v}, r := \norm{b}$
+|code| Soit $p := \norm{u}, q := \norm{v}, r := \norm{b}$
  
- alors $A|_{[1,p]} \in \mathcal{F}(u), A|_{[p+1,p+r]} \in \mathcal{F}(b), A|_{[p+r+1,p+r+q]} \in \mathcal{F}(v)$
+|code| alors $A|_{[1,p]} \in \mathcal{F}(u), A|_{[p+1,p+r]} \in \mathcal{F}(b), A|_{[p+r+1,p+r+q]} \in \mathcal{F}(v)$
 
- Donc $A|_{[1,p]}@A'@A|_{[p+r+1,p+r+q]}\in \mathcal{F}(x)$ où $A' = N (b,A|_{[p+1,p+r]})$
+|code| Donc $A|_{[1,p]}@A'@A|_{[p+r+1,p+r+q]}\in \mathcal{F}(x)$ où $A' = N (b,A|_{[p+1,p+r]})$
 
- Soit $\mathcal{P}(n)$.
----tf
----tf
-La réciproque se montre avec un algorithme qui à un arbre de dérivation associe une séquence $m_1,m_2,\dots,m_n \in (N_t \cup T)^\star$ telle que $x \-> m_1 \-> m_2 \-> \dots \-> m_n$
+|code| Soit $\mathcal{P}(n)$.
+|code|---tf
+|code|---tf
+La réciproque se montre avec un algorithme qui à un arbre de dérivation associe une séquence $m_1,m_2,\dots,m_n \in \Sigma^\star$ telle que $x \-> m_1 \-> m_2 \-> \dots \-> m_n$
 
-En entrée, nous avons $f_0$, une forêt de dérivation.
----t
-$f$ est une copie de $f_0$. 
+|code|En entrée, nous avons $f_0$, une forêt de dérivation.
+|code|---t
+|code|$f$ est une copie de $f_0$. 
 
-Tant que $f$ n'est pas constituée que de feuilles :
+|code|Tant que $f$ n'est pas constituée que de feuilles :
 
----t
-    On prend $a$ un arbre qui n'est pas une feuille dans $f$
+|code|---t
+|code|    On prend $a$ un arbre qui n'est pas une feuille dans $f$
 
-    Remplacer $a$, dans $f$, par ses fils.
+|code|    Remplacer $a$, dans $f$, par ses fils.
 
-    Lire les racines de la forêt de gauche à droite.
----tf
----tf
-En remplaçant $a$ dans $f$ par ses fils, on dérive notre mot une fois.\\\\
+|code|    Lire les racines de la forêt de gauche à droite.
+|code|---tf
+|code|---tf
+|code|En remplaçant $a$ dans $f$ par ses fils, on dérive notre mot une fois.\\\\
 
 \fbox{Alors $a \in \mathcal{F}(S)$ est une preuve que $\mathcal{I}(a) \in \mathcal{L}(G)$.}
 
-Alors, vérifier une preuve donnée par une forêt consiste juste à vérifier que la forêt est bien une forêt de dérivation.
+Alors, vérifier une preuve donnée par une forêt consiste simplement à vérifier que la forêt est bien une forêt de dérivation.
 
 # Preuve automatique - grammaire non contextuelle
 
@@ -211,7 +205,7 @@ Toujours dans une grammaire non contextuelle
 Avec une grammaire dont l'axiome est S,
 pour générer automatiquement une preuve, l'idée est qu'à chaque étape,
 on dispose d'une liste de mots prouvés,
-et à chaque étape, on fait toutes les dérivations possibles de notre liste de mots prouvés pour obtenir une liste de mots prouvés plus grande.
+et on fait toutes les dérivations possibles de notre liste de mots prouvés pour obtenir une liste de mots prouvés plus grande.
 
 Deux approches coexistent alors, soit on fait toutes les dérivations possibles dans le sens direct, soit dans le sens indirect.
 
@@ -219,15 +213,15 @@ Deux approches coexistent alors, soit on fait toutes les dérivations possibles 
 
 On part des $\\{ [(b_1,[]);\dots;(b_n,[])] \mid (a,b)\in D \text{ et } b \in T^\star , n = \norm{b}\\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
 
-Par la méthode bottom-up, on générerait dans l'ordre :\\
-à l'étape 0 :
-|tikz| !ftbu0.tikz!
-à l'étape 1 : 
-|tikz| !ftbu1.tikz!
-à l'étape 2 : 
-|tikz| !ftbu2.tikz!
-à l'étape 3 : 
-|tikz| !ftbu3.tikz!
+|code|Par la méthode bottom-up, on générerait dans l'ordre :\\
+|code|à l'étape 0 :
+|code||tikz| !ftbu0.tikz!
+|code|à l'étape 1 : 
+|code||tikz| !ftbu1.tikz!
+|code|à l'étape 2 : 
+|code||tikz| !ftbu2.tikz!
+|code|à l'étape 3 : 
+|code||tikz| !ftbu3.tikz!
 
 On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbres de dérivations possibles de profondeur $\leq k$.
 
@@ -236,18 +230,16 @@ On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbre
 On part de l'axiome $S$ de la grammaire non contextuelle pour construire des mots de $\delta(S)$ en remplaçant un nonterminal $x$ d'un mot par un $b$ d'une règle de dérivation $(x,b)$.
 
 Cette méthode suit d'assez près la définition des mots de la grammaire non contextuelle\\
-(on peut écrire la clôture transitive et réflexive $\overset{*}{\->}$ comme :
-$\overset{*}{\->} = \bigcup_{n \in \mathbb{N}} \-> ^n$, avec le produit usuel de deux relation binaires $\forall \mathcal{R}, \mathcal{R}' \in X^2, \mathcal{R} \mathcal{R'} := \{(x,z) \in X^2 \mid \exists y \in X / (x,y) \in \mathcal{R} \text{ et } (y,z) \in \mathcal{R}'\} $).\\
 On génère en effet, avec cette méthode, à la $n$-ième étape, 
 
-$A_n = \\{m \in (N \cup T)^\star \mid  S \(\bigcup_{k \in [1,n]} \->^k\) m\\}$.
+$A_n = \\{m \in \Sigma^\star \mid  S \(\bigcup_{k \in [1,n]} \->^k\) m\\}$\\
 Il est alors simple de vérifier que tout mot du langage de la grammaire sera généré en temps fini par cette méthode.
 
-On génère alors dans l'ordre :\\
-à l'étape 0 : $\{S\}$, \\
-à l'étape 1 : $\{S,SS+,SS*,"N"\}$,\\
-et à l'étape 2 : $\{S,SS+,SS*,"N",SS*S+,SSS*+,SSS+*,SS+S*,$ \\
-$"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
+|code|On génère alors dans l'ordre :\\
+|code|à l'étape 0 : $\{S\}$, \\
+|code|à l'étape 1 : $\{S,SS+,SS*,"N"\}$,\\
+|code|et à l'étape 2 : $\{S,SS+,SS*,"N",SS*S+,SSS*+,SSS+*,SS+S*,$ \\
+|code|$"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
 
 Cette méthode est bien plus proche de la définition et est directement applicable aux grammaire formelles.
 
@@ -263,20 +255,20 @@ Nous aboutissons alors à :
 type 'e preuveformelle = (int*int*('e caractere list)) list
 ---code
 
-Nous prendrons comme exemple la grammaire formelle $G = (T,N_t,S,D)$ où :\\
-$
-T = \{!sa!,!sb!,!sc!\}\\
-N_t = \{!sS!,!sB!\}\\
-D = \{(!sS!,!saBSc!)_1,(!sS!,!sabc!)_2,(!sBa!,!saB!)_3,(!sBb!,!sbb!)_4\}
-$,\\
-alors !saabbcc! est dans $\mathcal{L}(G)$ car $!sS! \->_1 !saBSc! \->_2 !saBabcc! \->_3 !saaBbcc! \->_4 !saabbcc!$.\\
+|code|Nous prendrons comme exemple la grammaire formelle $G = (T,N_t,S,D)$ où :\\
+|code|$
+|code|T = \{!sa!,!sb!,!sc!\}\\
+|code|N_t = \{!sS!,!sB!\}\\
+|code|D = \{(!sS!,!saBSc!)_1,(!sS!,!sabc!)_2,(!sBa!,!saB!)_3,(!sBb!,!sbb!)_4\}
+|code|$,\\
+|code|alors !saabbcc! est dans $\mathcal{L}(G)$ car $!sS! \->_1 !saBSc! \->_2 !saBabcc! \->_3 !saaBbcc! \->_4 !saabbcc!$.\\
 |code|En Ocaml :
 |code|---code
 |code|let unepreuve = [(0,1,mot "aBSc");(2,3,mot "abc");(1,3,mot "aB");(2,4,mot "bb")]
 |code|---code
 
-## Vérifier une preuve dans une telle structure de données
-
+|code|## Vérifier une preuve dans une telle structure de données
+|code|
 |code|---code
 |code|let verif_deriv p grf mot = 
 |code|    let i,j,m = p in
@@ -305,8 +297,8 @@ Le problème étant la complexité de ce dernier, qui fonctionne comme une machi
 La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
 Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
 
-Pour ce faire, pour dériver un mot $m$ en mot $m'$, on calcule $S(x) := \{x \in (N\cup T)^\star \mid m \-> x\} 
-=\{ubv \in (N_t \cup T)^\star \mid \exists (a,b) \in D / \exists (u,v)\in (N_t \cup T)^\star / x = uav\}$,
+Pour ce faire, pour dériver un mot $m$ en mot $m'$, on calcule $S(x) := \{x \in \Sigma^\star \mid m \-> x\} 
+=\{ubv \in \Sigma^\star \mid \exists (a,b) \in D / \exists (u,v)\in \Sigma^\star / x = uav\}$,
 puis, pour chaque $ y \in S(x)$, on cherche une dérivation de $y$ en $m'$.
 
 Pour calculer $S(x)$, il suffit de faire une recherche de facteur.
@@ -357,7 +349,7 @@ Ce parcours est donc un parcours en largeur depuis un sommet $x_0$ qui garde en 
 sommet $s$, tel que !ctermine s!, est parcouru. Il renvoit alors un chemin de $x_0$ à $s$. Lorsque le parcours passe par un sommet $s$ tel que !celimine s!, 
 il ne parcourt pas ensuite ses voisins.
 
-En voici une implémentation OCaml :
+|code|En voici une implémentation OCaml :
 
 |code|---code
 |code|let rec parcoursmagique delta elimine termine dejavu avoir =
@@ -393,8 +385,8 @@ En voici une implémentation OCaml :
 
 ## Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle
 
-Il ne nous reste plus qu'à appliquer notre parcours sur un graphe où les sommets sont les mots de $(N_T \cup T)^\star$, et les
-arêtes sont $\{(a,b) \in  (N_T \cup T)^\star \mid a \rightarrow b\} = \{(a,b) \in  (N_T \cup T)^\star \mid b \in S(a)\}$.
+Il ne nous reste plus qu'à appliquer notre parcours sur un graphe où les sommets sont les mots de $\Sigma^\star$, et les
+arêtes sont $\{(a,b) \in  \Sigma^\star \mid a \rightarrow b\} = \{(a,b) \in \Sigma^\star \mid b \in S(a)\}$.
 
 |code|En OCaml : 
 |code|---code
@@ -423,7 +415,7 @@ Il ne reste qu'à faire le même parcours que précédement avec la fonction sui
 
 # Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre
 Rappelons, le problème : étant donné un mot $m$ d'une grammaire, comment le dériver en un mot $m'$ ?
-Pour tout $l \in N\cup N_t$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$.
+Pour tout $l \in \Sigma$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$ ($=\{\norm{x}_l \mid x \in \delta(m)\}$).
 
 Ainsi, $m \overset{*}{\->} m' \implies \norm{m'}_l \in q(l)$, la contraposée nous sera utile : 
 !equu!
@@ -432,40 +424,89 @@ Ainsi, $m \overset{*}{\->} m' \implies \norm{m'}_l \in q(l)$, la contraposée no
 Ce qui pourra nous permettre de réduire notre champ de recherche.
 En effet, 
 
-\fbox{si pour un mot $x \in \delta(m)$, $\forall l \in (T\cup N_t), \norm{\delta(x)}_l \cap q(l) = \emptyset$,
+\fbox{si pour un mot $x \in \delta(m)$, $\forall l \in \Sigma, \norm{\delta(x)}_l \cap q(l) = \emptyset$,
  alors $m' \notin \delta(x)$}.
 
 Pour calculer $\norm{\delta(x)}_l \cap q(l)$, nous allons utiliser un graphe semblable à un automate.
 
-Les sommets sont des états de $Q \subset ({\mathcal{P}(\mathbb{N})})^{T\cup N_t}$ tels que :
+Les sommets sont des états de $Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
 ---ml
-    &\forall q,q' \in Q, \exists l \in (T \cup N_t) / q(l) \cap q'(l) = \emptyset\\
-    \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in (T \cup N_t), \norm{m}_l \in q(l)
+    &\forall q,q' \in Q, \exists l \in \Sigma / q(l) \cap q'(l) = \emptyset\\
+    \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in \Sigma, \norm{m}_l \in q(l)
 ---ml
 
-Ainsi à tout mot $x \in \delta(S)$, on peut associer un unique état $q$ tel que $\forall l \in (N_t \cup T), \norm{x}_l \in q(l)$
+Ainsi à tout mot $x \in \delta(S)$, on peut associer un unique état $q$ tel que $\forall l \in \Sigma, \norm{x}_l \in q(l)$, notons cet état $cat(x)$
 
 Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q$ à une autre $q'$.
 !equu!
-    \forall (q,q') \in Q^2, (q,q') \in A \iff \exists x,x' \in (N_t \cup T )^\star / x \-> x' \text{ et } \forall l \in N_t \cup T, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)
+    \forall (q,q') \in Q^2, (q,q') \in A \iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)
 !equu!
 
 Ainsi, si $m$ correspond à un état $q$, et $m'$ à un état $q'$, alors $m \overset{*}{\->} m' \implies$ $q'$ est accessible depuis $q$.
 
-## Les états $q$ sous la forme $q \in \{\{0\},\mathbb{N}^*\}^{(N_t \cup T)}$
-Exemple avec la grammaire suivante :
-D = $\{(S,!sabc!)_0,(!sabc!,!ab!)_1,(!sb!,!sk!)_2,(!sc!,!sak!)_3,(!skak!,!saa!)_4,(!sa!,!saaa!)_5\}$
+## Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb{N}^*\}^{\Sigma}$
+|code|Exemple avec la grammaire suivante :
+|code|$D := \{(S,!sabc!)_0,(!sabc!,!sab!)_1,(!sb!,!sk!)_2,(!sc!,!sak!)_3,(!skak!,!saa!)_4,(!sa!,!saaa!)_5\}$
 
-Le graphe est le suivant :
+|code|Le graphe est le suivant :
 
-|tikz| !ftikzgrosgraphe!
+|code||tikz| !ftikzgrosgraphe!
 
-Et voici ce à quoi correspondent les différents états (sommets) du graphe : 
+|code|Et voici ce à quoi correspondent les différents états (sommets) du graphe : 
 
-|tikz| !fbelletable!
+|code||tikz| !fbelletable!
 
-Le graphe réduit suivant sera utile : 
+|code|Le graphe réduit suivant sera utile : 
 
-|tikz| !ftikzptitgraphe!
+|code||tikz| !ftikzptitgraphe!
 
-Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver !saaabakab! en !sakkcckaaakck! (en effet, $\psi$ n'est pas accessible depuis $\delta$)
+|code|Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver !saaabakab! en !sakkcckaaakck! (en effet, $\psi$ n'est pas accessible depuis $\delta$)
+
+Intéressons nous au calcul des arrêtes $A$ du graphe.
+
+Considérons d'abord les arêtes partant d'un état $q$ donné, puis celles correspondant à une dérivation $d$ donnée.
+
+$A_q(\Sigma) := \{(a,b) \in A \mid a = q\}$
+
+$A_{q,d}(\Sigma) := \{(a,b) \in A_q \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+
+Soit $l \in \Sigma$,
+
+---t
+$\Sigma ' := \Sigma \backslash \{l\}$
+
+On a alors $A_q(\Sigma) = \bigcup_{d \in D} A_{q,d}(\Sigma)$ et $A = \bigcup_{q \in Q} A_q(\Sigma)$.
+
+Et les $A_{q,d}(\Sigma)$ sont calculables de la manière suivante : 
+
+
+Si $cat(b)(l) = \mathbb{N}^\star$, alors
+---t
+!equu!A_{q,d}(\Sigma) = \{(a,b) \in Q^2 \mid (a_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \mathbb{N}^\star\}!equu!
+En effet, si $d$ produit la lettre $l$, elle est forcément dans le mot produit.
+---tf
+
+
+Si $cat(b)(l) = \{0\}$ et $q(l) = \{0\}$, alors 
+---t
+!equu!A_{q,d}(\Sigma) = \{(a,b) \in Q^2 \mid (a_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\}!equu!
+En effet, si $x$ ne contient pas la lettre $l$, et que $d$ ne produit pas la lettre $l$, le mot produit $x'$ n'aura pas de $l$.
+---tf
+
+
+Si $cat(b)(l) = \{0\}$ et $q(l) = \Sigma^\star$, alors
+---t
+---ml
+A_{q,d}(\Sigma) = &\{(a,b) \in Q^2 \mid (a_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\} \\
+\cup &\{(a,b) \in Q^2 \mid (a_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \Sigma^\star\}
+---ml
+On ne peut rien dire, alors les deux prolongements possibles (sur la valeur de $b(l)$) seront explorés.
+---tf
+---tf
+
+On peut alors calculer les arêtes du graphe.
+
+Maintenant, une fois le graphe associé à notre grammaire calculé, on peut faire notre fonction !celimine!,
+ !celimine x! renvoit vrai si et seulement si $x$ n'est pas accessible depuis S dans le graphe.
+ (On peut précalculer le graphe réduit où les sommets sont les composantes fortement connexes et sa matrice
+ d'accessibilité avec l'algorithme Floyd Washall par exemple, pour réduire les temps de calcul).

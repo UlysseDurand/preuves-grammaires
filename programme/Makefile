@@ -1,14 +1,22 @@
 toplevel:
-	@echo "#use \"main.ml\";;" > tmp.ml
+	@make -s tout
+	@echo "#use \"tout.ml\";;" > tmp.ml
 	@ocaml < tmp.ml
 	@rm tmp.ml
 
+tout:
+	@cat typesetutiles.ml > tout.ml
+	@cat preuveautomatique.ml >> tout.ml
+	@cat simplifie.ml >> tout.ml
+	@cat main.ml >> tout.ml
+
 all:
+	@make -s tout
 	@make -s compile
 	@make -s execute
 
 compile:
-	@ocamlopt typesetutiles.ml verifalge.ml preuveautomatique.ml main.ml -o main
+	@ocamlopt tout.ml -o main
 	@make -s clean
 
 execute:
