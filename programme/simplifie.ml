@@ -24,6 +24,9 @@ let lesucc gram q =
     )
   ) 
 
+let vrailesucc gram q =
+  
+
 (* Donne, pour la dérivation i, l'état-couple vers lequel on arrive *)
 let etatsdederiv gram i = 
   let (a,b) = gram.reglesf.(i) in

@@ -1,0 +1,195 @@
+
+## Les grammaires non contextuelle
+
+!b Définition :! Une grammaire non contextuelle est une grammaire $G = (T,N_t,S,D)$ telle que :
+!equu! \forall (a,b) \in D, a \in N_t  !equu!
+(Nous identifions les mots de longueur 1 et les lettres)
+
+% code typesetutiles fin types
+
+% annexe exemple 1
+
+## Fôret de dérivation
+
+Ici, $G = (T,N_t,S,D)$ est une grammaire non contextuelle.
+
+Une forêt est une liste d'arbres
+|code|---code
+|code|type 'a arbre = 'a * 'a foret 
+|code|and 'a foret = F of 'a arbre list
+|code|---code
+
+
+Une preuve qu'un mot appartient à $\eta(m)$ peut être donnée par une forêt de dérivation de $m$:
+
+---t
+Si $m$ est le mot vide, il s'agit de la forêt vide.
+
+Sinon, soit $n = \norm{m}$,\\
+---t
+    Si $n=1$ et $m_0 \in T$,il s'agit d'un seul arbre où la racine est $m$ et la sous forêt est la forêt de dérivation d'un $b$ tel que $(m,b) \in D$.
+
+    Si $n=1$ et $m_0 \in N_t$, il s'agit de l'arbre de racine m et de sous forêt vide.
+
+    Si $n>1$, il s'agit de la liste des arbres $[f_1, \dots, f_n]$ où $\forall i \in [1,n], f_i$ est un arbre de dérivation de la lettre $m_i$.
+---tf
+---tf
+|code|
+|code|D'où la fonction OCaml suivante :
+|code|
+|code|---code
+|code|let rec test_foret_deriv foret mot regles =
+|code|  let n = List.length mot in
+|code|  if n = 0 then foret = F [] else
+|code|  match foret with
+|code|      |(F sousarbres) ->
+|code|          if (List.length sousarbres) <> n then false else
+|code|          List.for_all2
+|code|          (fun arb lettre ->
+|code|              test_arbre_deriv arb regles
+|code|          )
+|code|          sousarbres
+|code|          mot
+|code|and test_arbre_deriv arb regles =
+|code|  let (lettre,sousforet) = arb in
+|code|  match lettre with
+|code|      |T x -> arb = (T x,F [])
+|code|      |Nt i ->
+|code|          let nouveaumot = lisracines sousforet in
+|code|          (List.mem (i,nouveaumot) regles)&&
+|code|          (test_foret_deriv sousforet nouveaumot regles)
+|code|---code
+
+L'ensemble des forêts de dérivation de $m$ est noté $\mathcal{F}(m)$.\\
+Le parcours infixe des feuilles d'une forêt de dérivation de $x$ donne un mot de $\eta(x)$.
+|code|Un exemple sera donnée dans le cas d'une grammaire non contextuelle.\\
+Pour $a \in \mathcal{F}(x)$, on note $\mathcal{I}(a)$ le parcours infixe des feuilles de $a$. 
+
+|code|## Exemple de preuve
+
+|code|Une preuve que !s"10""11"+"0"*! $\in \mathcal{L}(G)$ :\\
+|code|Lemme 1 : !s"10"! $\in \eta(S)$
+
+|code|    En effet, $!sS!\->_3 !s"N"! \->_5 !s"NC"! \->_6 !s"N0"! \->_4 !s"C0"! \->_7 !s"10"!$
+
+
+|code|L'abre de dérivation fait aussi office de preuve, bien plus concise :
+|code||tikz|   !ftree1.tikz!
+
+|code|Lemme 2 : !s"11"! $\in \eta(S)$
+|code|Preuve avec l'arbre suivant
+|code||tikz| !ftree2.tikz!
+
+|code|On peut alors, en combinant les deux arbres précédants, prouver que !s"10""11"+! $\in \eta(S)$ :
+|code||tikz| !ftree3.tikz!
+
+|code|Avec l'arbre suivant, on prouve enfin que !s"10""11"+"0"*! $\in \delta(S) \cap T^\star = \mathcal{L}(G)$ :
+|code||tikz| !ftree4.tikz!
+
+|code|On remarque bien qu'un parcours infixe des feuilles de l'arbre donne !s"10""11"+"0"*!
+
+# Vérification de preuve - grammaire non contextuelle
+
+La forêt de dérivation nous donne une bonne manière de vérifier une preuve, car une preuve est caractérisé par une forêt de dérivation.\\
+
+Par induction on peut montrer $m \in \eta(x) \implies $ il existe $p$ une forêt de dérivation dont le parcours infixe des feuilles est $m$ et les racines sont les lettres de $x$.
+
+|code|!nb$A_{[p,q]}$ correspond à la forêt $A$ restreinte à ses arbres d'indice $i / p\leq i \leq q$ et $A@B$ correspond à la concaténation des forêts $A$ et $B$. !
+
+|code|---t
+|code|$
+|code|m \in \eta(x)\\
+|code|\iff \exists n \in \mathbb{N} / \exists m_1,m_2,\dots,m_n \in \Sigma^\star / x \-> m_1 \-> m_2 \-> \dots \-> m_n\text{ et }m_n \in T^\star$    $ (2_n)\\
+|code|\mathcal{P}(n) := ((2_n) \implies \exists A \in \mathcal{F}(x) / \mathcal{I}(x) = m)$\\
+|code|---t
+|code|$\mathcal{P}(0) : x \in \eta(x) \implies x \in T^\star$ donc $[B (x_1);\dots;B (x_{\norm{x}})]$ convient.\\
+|code|$\forall n \in \mathbb{N}^*,\mathcal{P}(n-1) \implies (m \in \eta(m_1) \implies \exists A \in \mathcal{F}(m_1)/ \mathcal{I}(A) = m)$
+
+|code| et comme $x\-> m_1,\exists (a,b) \in D, u,v\in \Sigma^\star /x = uav$ et $m_1 = ubv$
+
+|code| Soit $p := \norm{u}, q := \norm{v}, r := \norm{b}$
+ 
+|code| alors $A|_{[1,p]} \in \mathcal{F}(u), A|_{[p+1,p+r]} \in \mathcal{F}(b), A|_{[p+r+1,p+r+q]} \in \mathcal{F}(v)$
+
+|code| Donc $A|_{[1,p]}@A'@A|_{[p+r+1,p+r+q]}\in \mathcal{F}(x)$ où $A' = N (b,A|_{[p+1,p+r]})$
+
+|code| Soit $\mathcal{P}(n)$.
+|code|---tf
+|code|---tf
+La réciproque se montre avec un algorithme qui à un arbre de dérivation associe une séquence $m_1,m_2,\dots,m_n \in \Sigma^\star$ telle que $x \-> m_1 \-> m_2 \-> \dots \-> m_n$
+
+|code|En entrée, nous avons $f_0$, une forêt de dérivation.
+|code|---t
+|code|$f$ est une copie de $f_0$. 
+
+|code|Tant que $f$ n'est pas constituée que de feuilles :
+
+|code|---t
+|code|    On prend $a$ un arbre qui n'est pas une feuille dans $f$
+
+|code|    Remplacer $a$, dans $f$, par ses fils.
+
+|code|    Lire les racines de la forêt de gauche à droite.
+|code|---tf
+|code|---tf
+|code|En remplaçant $a$ dans $f$ par ses fils, on dérive notre mot une fois.\\\\
+
+\fbox{Alors $a \in \mathcal{F}(S)$ est une preuve que $\mathcal{I}(a) \in \mathcal{L}(G)$.}
+
+Alors, vérifier une preuve donnée par une forêt consiste simplement à vérifier que la forêt est bien une forêt de dérivation.
+
+# Preuve automatique - grammaire non contextuelle
+
+Toujours dans une grammaire non contextuelle
+
+Avec une grammaire dont l'axiome est S,
+pour générer automatiquement une preuve, l'idée est qu'à chaque étape,
+on dispose d'une liste de mots prouvés,
+et on fait toutes les dérivations possibles de notre liste de mots prouvés pour obtenir une liste de mots prouvés plus grande.
+
+Deux approches coexistent alors, soit on fait toutes les dérivations possibles dans le sens direct, soit dans le sens indirect.
+
+## La méthode bottom-up
+
+On part des $\\{ [(b_1,[]);\dots;(b_n,[])] \mid (a,b)\in D \text{ et } b \in T^\star , n = \norm{b}\\}$ et on construit d'autres arbres de dérivation à partir des règles de dérivation.
+
+|code|Par la méthode bottom-up, on générerait dans l'ordre :\\
+|code|à l'étape 0 :
+|code||tikz| !ftbu0.tikz!
+|code|à l'étape 1 : 
+|code||tikz| !ftbu1.tikz!
+|code|à l'étape 2 : 
+|code||tikz| !ftbu2.tikz!
+|code|à l'étape 3 : 
+|code||tikz| !ftbu3.tikz!
+
+On prouve par induction simple qu'à l'étape $k$, on a généré tous les arbres de dérivations possibles de profondeur $\leq k$.
+
+## La méthode top-down
+
+On part de l'axiome $S$ de la grammaire non contextuelle pour construire des mots de $\delta(S)$ en remplaçant un nonterminal $x$ d'un mot par un $b$ d'une règle de dérivation $(x,b)$.
+
+Cette méthode suit d'assez près la définition des mots de la grammaire non contextuelle\\
+On génère en effet, avec cette méthode, à la $n$-ième étape, 
+
+$A_n = \\{m \in \Sigma^\star \mid  S \(\bigcup_{k \in [1,n]} \->^k\) m\\}$\\
+Il est alors simple de vérifier que tout mot du langage de la grammaire sera généré en temps fini par cette méthode.
+
+|code|On génère alors dans l'ordre :\\
+|code|à l'étape 0 : $\{S\}$, \\
+|code|à l'étape 1 : $\{S,SS+,SS*,"N"\}$,\\
+|code|et à l'étape 2 : $\{S,SS+,SS*,"N",SS*S+,SSS*+,SSS+*,SS+S*,$ \\
+|code|$"N"S+,S"N"+,"N"S*,S"N"*,"C","NC"\}$.
+
+Cette méthode est bien plus proche de la définition et est directement applicable aux grammaire formelles.
+
+
+
+% annexe exemple 1
+|code|!bExemple :! la grammaire non contextuelle des expressions arithmétiques suffixes.
+|code|---ml
+|code|D = &\{(!sS!,!sSS+!)_1,(!sS!,!sSS*!)_2,(!sS!,!s"N"!)_3\}\\
+|code|\cup&\{(!sN!,!sC!)_4 | (!sN!,!sNC!)_5\}\\
+|code|\cup&\{(!sC!,!s0!)_6 | (!sC!,!s 1!)_7\}
+|code|---ml
+|code|(les indices ci-dessus correspondent à une énumération des règles de dérivation, par exemple, $D_5 = (!sN!,!sNC!)$)

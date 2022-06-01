@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 ez:
-	uldr_compil uldr_maths ../doc.mdx latex -o TIPE_Ulysse_DURAND_simple.tex tikz -pdf
+	uldr_compil uldr_maths ../doc.mdx latex -o TIPE_Ulysse_DURAND_simple.tex -pdf
 figures:
 	uldr_compil uldr_tikztree figures/tree1.utree -o figures/tree1.tikz
 	uldr_compil uldr_tikztree figures/tree2.utree -o figures/tree2.tikz
@@ -12,7 +12,7 @@ figures:
 	uldr_compil uldr_tikztree figures/tbu3.utree -o figures/tbu3.tikz
 
 complet:
-	uldr_compil uldr_maths ../doc.mdx latex -o TIPE_Ulysse_DURAND.tex tikz code -pdf
+	uldr_compil uldr_maths ../doc.mdx latex -o TIPE_Ulysse_DURAND.tex code tikz -pdf
 all:
 	@make figures
 	@make ez
