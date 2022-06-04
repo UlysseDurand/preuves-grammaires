@@ -1,0 +1,86 @@
+\newcommand{\letitle}{Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
+\newcommand{\leauthor}{Ulysse Durand}
+
+\documentclass[12pt]{beamer}
+\usepackage{tikzit}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{bbold}
+\usepackage[xcolor,leftbars]{changebar}
+
+\setcounter{secnumdepth}{1}
+\newenvironment{myindentpar}
+ {\begin{list}{}
+         {\setlength{\leftmargin}{1em}}
+         \item[]
+ }
+ { \end{list}}
+
+\definecolor{DarkBlue}{RGB}{0,16,80}
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+\newsavebox{\mybox}
+\newlength{\mydepth}
+\newlength{\myheight}
+\newenvironment{answer}
+{\par\begin{lrbox}{\mybox}\quad\begin{minipage}{\linewidth}\color{black}\setlength{\parskip}{10pt plus 1pt minus 1pt}\vspace*{-.7\baselineskip}}
+{\end{minipage}\end{lrbox}
+\settodepth{\mydepth}{\usebox{\mybox}}
+\settoheight{\myheight}{\usebox{\mybox}}
+\addtolength{\myheight}{\mydepth}
+\noindent\makebox[0pt]{
+  \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}
+  \usebox{\mybox}
+  }
+
+\usepackage{hyperref}
+\setlength{\parskip}{0.15cm}
+\hypersetup{
+    colorlinks=truem,
+    linkcolor=black,
+    filecolor=red,
+    urlcolor=blue
+}
+
+\urlstyle{same}
+
+\everymath{\displaystyle}
+\title{\letitle}
+\author{\leauthor}
+\date{}
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+    \begin{frame}\frametitle{Les grammaires formelles}
+
+$G = (T,N_t,S,D)$ où :
+
+\begin{itemize}
+\item $T$ est l'alphabet des terminaux
+\item $N_t$ est l'alphabet des non terminaux
+\item $S \in N_t$ est l'axiome
+
+Notons $\Sigma := N_t \cup T$
+\item $D \subset \mathcal{P}((\Sigma ^ \star )^2)$, est l'ensemble des règles de dérivation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Definitions}
+$\forall x,x' \in \Sigma^\star, x \overset{(a,b)}{\rightarrow} x' \iff \exists u,v \in \Sigma^\star / x = uav \text{ et } x' = ubv$
+
+$\rightarrow := \bigcup_{d \in D} \overset{d}{\rightarrow}$ et on note $\overset{*}{\rightarrow}$ la cloture transitive et réflexive de $\rightarrow$
+
+$\delta(x) := \{y \in \Sigma^\star / x \overset{*}{\rightarrow} y\}$
+
+$\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occurences de la lettre $l$ dans x.
+
+Alors le langage de la grammaire formelle  G est le suivant :
+\begin{equation*}\mathcal{L} (G) := \delta(S) \cap T^\star\end{equation*}
+\end{frame}
+
+\end{document}
+    

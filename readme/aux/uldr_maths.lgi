@@ -1,0 +1,128 @@
+<lgi>
+    <header>
+        <commoncode>
+import json, os, glob
+infoexists = os.path.isfile("../infos.json")
+data = {}
+if infoexists:
+    data = json.loads(open("../infos.json").read())
+        </commoncode>
+    </header>
+<block lang="latex" fileout="maths-doc.tex">
+    <aliases>
+2'\\->' -> '\rightarrow'
+2'\\\(' -> '\left('
+2'\\\\{' -> '\left\{'
+2'\\{' -> '\{'
+2'\\\[' -> '\left['
+2'\\\)' -> '\right)'\
+2'\\\\}' -> '\right\}'
+2'\\}' -> '\}'
+2'\\\]' -> '\right]'
+3'^# (.*?)~n~' -> '\section{%1}~n~'
+3'^## (.*?)~n~' -> '\subsection{%1}~n~'
+3'^### (.*?)~n~' -> '\subsubsection{%1}~n~
+3'^#\* (.*?)~n~' -> '\section*{%1}~n~'
+3'^##\* (.*?)~n~' -> '\subsection*{%1}~n~'
+3'^###\* (.*?)~n~' -> '\subsubsection*{%1}~n~
+1'(^-----$)' -> '\newpage' 
+3'^---n~n~(.*?)~n~---n' -> '\begin{enumerate}~n~%1~n~\end{enumerate}'
+3'^---i~n~(.*?)~n~---i' -> '\begin{itemize}~n~%1~n~\end{itemize}'
+3'^---t\*~n~' -> '\begin{myindentpar} ~n~'
+3'^---t~n~' -> '\begin{answer} ~n~'
+3'^---tf\*~n~' -> '\end{myindentpar}~n~'
+3'^---tf~n~' -> '\end{answer}~n~'
+3'^---s~n~(.*?)~n~---s' -> '\begin{split}~n~%1~n~\end{split}'
+3'^---ml~n~(.*?)~n~---ml' -> '\begin{align*}~n~%1~n~\end{align*}'
+3'^---code~n~(.*?)~n~---code' -> '{\color{DarkBlue}\begin{verbatim}~n~%1~n~\end{verbatim}}'
+3'^#### (.*?)~n~' -> '\item %1~n~'
+2'!b(.*?)!' -> '\textbf{ %1 }'
+2'!c(.*?)!' -> '\texttt{ %1 }'
+2'!i(.*?)!' -> '{\it %1}'
+2'!ftikz(.*?)!' -> '\tikzfig{%1}'
+2'!f(.*?)!' -> '\input{figures/%1}'
+2'!s(.*?)!' -> '\underline{ %1 }'
+2'!nb(.*?)!' -> '{\color{gray} NB : %1}\\'
+2'!todo(.*?)!' -> '{\color{red} TODO :\\\\ %1 }\\'
+2'!l(.*?)!(.*?)!' -> '\href{%1}{%2}'
+2'!u(.*?)!' -> '\url{%1}'
+2'!equ!(.*?)!equ!' -> '\begin{equation}%1\end{equation}'
+2'!equu!(.*?)!equu!' -> '\begin{equation*}%1\end{equation*}'
+    </aliases>
+    <code>
+def loadpackages():
+    for e in glob.glob("./*.sty"):
+        print("\\usepackage{"+e[2:-4]+"}")
+
+if infoexists:
+    for key,value in data.items():
+        print("\\newcommand{\\le"+key+"}{"+value+"}")
+else:
+    print("\\newcommand{\\letitle}{}")
+    print("\\newcommand{\\leauthor}{}")
+    </code>
+    <beforemdx>
+\documentclass[a4paper,%
+if "taillepolice" in data:
+    print(data["taillepolice"])
+else:
+    print("12pt",end='')
+%]{article}
+%
+loadpackages()
+%
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{bbold}
+\usepackage[xcolor,leftbars]{changebar}
+
+\setcounter{secnumdepth}{1}
+\newenvironment{myindentpar}
+ {\begin{list}{}
+         {\setlength{\leftmargin}{1em}}
+         \item[]
+ }
+ { \end{list}}
+
+\definecolor{DarkBlue}{RGB}{0,16,80}
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+\newsavebox{\mybox}
+\newlength{\mydepth}
+\newlength{\myheight}
+\newenvironment{answer}
+{\par\begin{lrbox}{\mybox}\quad\begin{minipage}{\linewidth}\color{black}\setlength{\parskip}{10pt plus 1pt minus 1pt}\vspace*{-.7\baselineskip}}
+{\end{minipage}\end{lrbox}
+\settodepth{\mydepth}{\usebox{\mybox}}
+\settoheight{\myheight}{\usebox{\mybox}}
+\addtolength{\myheight}{\mydepth}
+\noindent\makebox[0pt]{
+  \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}
+  \usebox{\mybox}
+  }
+
+\usepackage{hyperref}
+\setlength{\parskip}{0.15cm}
+\hypersetup{
+    colorlinks=truem,
+    linkcolor=black,
+    filecolor=red,
+    urlcolor=blue
+}
+
+\urlstyle{same}
+
+\everymath{\displaystyle}
+\title{\letitle}
+\author{\leauthor}
+\date{}
+\begin{document}
+    </beforemdx>
+    <aftermdx>
+
+\end{document}
+    </aftermdx>
+</block>
+</lgi>

@@ -1,0 +1,29 @@
+|garde|\maketitle
+|garde|\tableofcontents
+|garde|-----
+---f-Les grammaires formelles-
+
+$G = (T,N_t,S,D)$ où :
+
+---i
+#### $T$ est l'alphabet des terminaux
+#### $N_t$ est l'alphabet des non terminaux
+#### $S \in N_t$ est l'axiome
+
+Notons $\Sigma := N_t \cup T$
+#### $D \subset \mathcal{P}((\Sigma ^ \star )^2)$, est l'ensemble des règles de dérivation.
+---i
+---f
+
+---f-Definitions-
+$\forall x,x' \in \Sigma^\star, x \overset{(a,b)}{\->} x' \iff \exists u,v \in \Sigma^\star / x = uav \text{ et } x' = ubv$
+
+$\-> := \bigcup_{d \in D} \overset{d}{\->}$ et on note $\overset{*}{\->}$ la cloture transitive et réflexive de $\->$
+
+$\delta(x) := \{y \in \Sigma^\star / x \overset{*}{\->} y\}$
+
+$\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occurences de la lettre $l$ dans x.
+
+Alors le langage de la grammaire formelle  G est le suivant :
+!equu!\mathcal{L} (G) := \delta(S) \cap T^\star!equu!
+---f
