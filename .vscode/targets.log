@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jun  6 10:35:56 2022
+# Make data base, printed on Mon Jun  6 20:24:28 2022
 
 # Variables
 
@@ -25,7 +23,7 @@ SNAP_INSTANCE_KEY =
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b7a48111-a288-425b-a00a-3f6811a48667.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-73247c59-7d24-4f75-809a-b1872193a81e.sock
 # environment
 LC_NAME = fr_FR.UTF-8
 # environment
@@ -105,7 +103,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 3817
+VSCODE_PID = 478821
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -219,7 +217,7 @@ MANAGERPID = 1108
 # environment
 LC_MEASUREMENT = fr_FR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3772
+GIO_LAUNCHED_DESKTOP_FILE_PID = 478773
 # environment
 _ = /snap/code/97/usr/share/code/code
 # environment
@@ -285,6 +283,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # . (device 2053, inode 5771703): 8 files, no impossibilities.
 
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 # 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
@@ -292,7 +293,6 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # No implicit rules.
 
 # Files
- 
 
 # Not a target:
 Makefile:
@@ -342,6 +342,6 @@ GNUmakefile:
 # strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=0/19=0%
-# Finished Make data base on Mon Jun  6 10:35:56 2022
+# Finished Make data base on Mon Jun  6 20:24:28 2022
 
  
