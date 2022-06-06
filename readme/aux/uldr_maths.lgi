@@ -37,12 +37,12 @@ if infoexists:
 3'^---code~n~(.*?)~n~---code' -> '{\color{DarkBlue}\begin{verbatim}~n~%1~n~\end{verbatim}}'
 3'^#### (.*?)~n~' -> '\item %1~n~'
 2'!b(.*?)!' -> '\textbf{ %1 }'
-2'!c(.*?)!' -> '\texttt{ %1 }'
 2'!i(.*?)!' -> '{\it %1}'
 2'!ftikz(.*?)!' -> '\tikzfig{%1}'
 2'!f(.*?)!' -> '\input{figures/%1}'
 2'!s(.*?)!' -> '\underline{ %1 }'
-2'!nb(.*?)!' -> '{\color{gray} NB : %1}\\'
+2'!cf(.*?)!' -> '{\color{gray} cf %1}\\'
+2'!c(.*?)!' -> '\texttt{ %1 }'
 2'!todo(.*?)!' -> '{\color{red} TODO :\\\\ %1 }\\'
 2'!l(.*?)!(.*?)!' -> '\href{%1}{%2}'
 2'!u(.*?)!' -> '\url{%1}'
@@ -102,6 +102,19 @@ loadpackages()
   \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}
   \usebox{\mybox}
   }
+
+\usepackage{listings}
+\lstset
+{
+    language=Caml,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+}
 
 \usepackage{hyperref}
 \setlength{\parskip}{0.15cm}

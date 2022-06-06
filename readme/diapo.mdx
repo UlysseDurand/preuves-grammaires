@@ -4,26 +4,205 @@
 ---f-Les grammaires formelles-
 
 $G = (T,N_t,S,D)$ où :
-
 ---i
 #### $T$ est l'alphabet des terminaux
 #### $N_t$ est l'alphabet des non terminaux
 #### $S \in N_t$ est l'axiome
 
 Notons $\Sigma := N_t \cup T$
-#### $D \subset \mathcal{P}((\Sigma ^ \star )^2)$, est l'ensemble des règles de dérivation.
+#### $D \subset (\Sigma ^ \star )^2$, est l'ensemble des règles de dérivation.
 ---i
 ---f
 
 ---f-Definitions-
-$\forall x,x' \in \Sigma^\star, x \overset{(a,b)}{\->} x' \iff \exists u,v \in \Sigma^\star / x = uav \text{ et } x' = ubv$
+---i
+#### $\forall x,x' \in \Sigma^\star, x \overset{(a,b)}{\->} x' \iff \exists u,v \in \Sigma^\star / x = uav \text{ et } x' = ubv$
 
-$\-> := \bigcup_{d \in D} \overset{d}{\->}$ et on note $\overset{*}{\->}$ la cloture transitive et réflexive de $\->$
+#### $\-> := \bigcup_{d \in D} \overset{d}{\->}$ et on note $\overset{*}{\->}$ la cloture transitive et réflexive de $\->$
 
-$\delta(x) := \{y \in \Sigma^\star / x \overset{*}{\->} y\}$
+#### $\delta(x) := \{y \in \Sigma^\star / x \overset{*}{\->} y\}$
 
-$\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occurences de la lettre $l$ dans x.
+#### $\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occurences de la lettre $l$ dans x.
 
-Alors le langage de la grammaire formelle  G est le suivant :
+#### Alors le langage de la grammaire formelle  G est le suivant :
 !equu!\mathcal{L} (G) := \delta(S) \cap T^\star!equu!
+---i
+---f
+
+---f-Vérification de preuve-
+$D = \{d_1,\dots,d_n\} = \{(a_1,b_1),\dots,(a_n,b_n)\}$
+
+$S \overset{d_{\color{blue} i_1}}{\->} m_1 \overset{d_{\color{blue} i_2}}{\->} \dots \overset{d_{\color{blue} i_p}}{\->} m_p$
+
+${m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} a } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]} \overset{(a_{{\color{blue} i_k}},b_{{\color{blue} i_k}})}{\->} {m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} b } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]}$
+
+---code
+type 'e preuveformelle = \\
+(int*int*('e caractere list)) list
+---code
+
+---code
+[\dots ,(
+---code
+$\color{blue} i_k$
+---code
+,
+---code
+$\color{blue} j_k$
+---code
+,
+---code
+$m_k$
+---code
+),\dots ]
+---code
+---f
+---f-Vérification de preuve - Exemple-
+$G = (T,N_t,S,D)$ où :
+---i
+#### $T = \{!sa!,!sb!,!sc!\}$
+#### $N_t = \{!sS!,!sB!\}$
+#### $D = \{(!sS!,!saBSc!)_1,(!sS!,!sabc!)_2,(!sBa!,!saB!)_3,(!sBb!,!sbb!)_4\}$
+---i
+
+alors !saabbcc! est dans $\mathcal{L}(G)$ car $!sS! \->_1 !saBSc! \->_2 !saBabcc! \->_3 !saaBbcc! \->_4 !saabbcc!$.
+
+En Ocaml :
+
+---code
+let unepreuve = [(0,1,mot "aBSc");(2,3,mot "abc");(1,3,mot "aB");(2,4,mot "bb")]
+---code
+---f
+
+---f-Preuve automatique d'appartenance d'un mot-
+Cherchons comment dériver !sS! en un mot $m$ donné.
+$G_n := \{x \in \Sigma^\star \mid S (\bigcup_{0 \leq k \leq n} \->^k) x\}$
+
+$G_{n+1} = \bigcup_{x \in G_n} \mathcal{S}(x)$
+où 
+$\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \-> y \} = \bigcup_{d \in D} \{y \in \Sigma^\star \mid x \overset{d}{\->} y \}$
+l'algorithme de Knuth-Morris-Pratt pour le calcul de $\mathcal{S}(x)$
+
+On fait en réalité un parcours en largeur du graphe $(\Sigma^\star,\->)$ depuis !sS! pour trouver un chemin vers $m$.
+---f
+
+---f-Preuve automatique d'appartenance d'un mot - Le parcours en largeur-
+On va éviter certains mots dans le parcours (ceux n'ayant aucune chance de dériver en m), et l'arrêter en arrivant sur $m$.
+
+---code
+valide : ('e caractere list) -> bool\\
+interdit : ('e caractere list) -> bool\\
+---code
+
+On garde en mémoire le chemin parcouru.
+
+---f
+
+---f-Amélioration pour les grammaires croissantes-
+
+!equu!\forall (a,b) \in D, \norm{a} \leq \norm{b} !equu!
+
+!equu!\forall x, x' \in \delta (S), x \overset{*}{\->} x' \implies \norm{x} \leq \norm{x'}!equu!
+
+---code
+let interditcroiss x = \\Array.length x > Array.length m
+---code
+---f
+
+---f-Amélioration dans le cas général : déduction sur le nombre d’occurence de chaque lettre-
+Cherchons une fonction !cinterdit! plus sophistiquée.
+
+Pour tout $l \in \Sigma, x \in \Sigma^\star$, cherchons un ensemble $s_x(l)$ qui majore $\norm{\delta(x)}_l$ ($=\{\norm{y}_l \mid y \in \delta(x)\}$).
+
+Ainsi, $x \overset{*}{\->} m \implies \forall l \in \Sigma, \norm{m}_l \in s_x(l)$
+
+!equu!
+\exists l \in \Sigma / \norm{m}_l \notin s_x(l) \implies \neg (x \overset{*}{\->} m)
+!equu!
+
+\fbox{$\forall x \in \delta(S)$, $\exists l \in \Sigma, \norm{m}_l \notin s_x(l) \implies m \notin \delta(x)$}.
+
+Alors !cinterdit x! devra renvoyer vrai.
+---f
+
+---f-Calcul de $s_x$ - Le graphe $A_0$ (1)-
+Considérons le graphe $A_0$ où les sommets sont dans 
+$Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
+---ml
+    &\forall q,q' \in Q, \exists l \in \Sigma / q(l) \cap q'(l) = \emptyset\\
+    \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in \Sigma, \norm{m}_l \in q(l)
+---ml
+
+Ainsi, $\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm{x}_l \in q(l)$, notons ce sommet $cat(x)$
+---f
+
+---f-Calcul de $s_x$ - Le graphe $A_0$ (2)-
+
+Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
+---ml
+    &(q,q') \in A_0 \\
+    &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)\\
+    &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } cat(x) = q \text{ et } cat(x') = q'
+---ml
+Pour A un graphe majorant $A_0$ : 
+
+On a $\forall l \in \Sigma$, $s_x(l) = \bigcup_{q\text{ accessible depuis } cat(x) \text{ dans A}}q(l)$.
+---f
+---f-Calcul de $s_x$ - Le graphe $A_0$ (3)-
+Ainsi, si $cat(x) = q$, et $cat(x')=q'$, alors $x \overset{*}{\->} x' \implies$ $q'$ est accessible depuis $q$ dans $A$. 
+
+\fbox{\parbox{\linewidth}{
+    Si $m$ n'est pas accessible depuis $x$ dans un graphe $A$ majorant $A_0$, 
+    alors on peut interdire le parcours passant par $x$, !cinterdit x! renverra vrai.
+}}
+---f
+
+---f-Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb{N}^*\}^{\Sigma}$-
+
+$D = \{(S,!sabc!)_0,(!sabc!,!sab!)_1,(!sb!,!sk!)_2,(!sc!,!sak!)_3,(!skak!,!saa!)_4,(!sa!,!saaa!)_5\}$
+
+\begin{figure}
+    \centering
+    \subfloat[\centering Le graphe A]{\scalebox{0.7}[0.7]{!ftikzgrosgraphe!}}
+    \qquad
+    \subfloat[\centering Ses sommets]{\hspace{-2cm}!fbelltablevert.tex!}
+\end{figure}
+
+---f
+
+---f-Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb{N}^*\}^{\Sigma}$-
+
+|tikz|!ftikzptitgraphe!
+
+Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver !saaabakab! en !sakkcckaaakck! (en effet, $\psi$ n'est pas accessible depuis $\delta$)
+
+---f
+
+---f-Calcul des arrêtes $A$ du graphe-
+Pour un sommet de départ fixé et une dérivation fixée.
+$A_{q,d}(\Sigma) := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+
+Soit $l \in \Sigma$, $\Sigma ' := \Sigma \backslash \{l\}$, $A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}(\Sigma)$.
+
+---i
+#### $cat(b)(l) = \mathbb{N}^\star$
+!equu!A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \mathbb{N}^\star\}!equu!
+
+#### $cat(b)(l) = \{0\}$ et $q(l) = \{0\}$
+!equu!A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\}!equu!
+
+#### $cat(b)(l) = \{0\}$ et $q(l) = \Sigma^\star$
+---ml
+A_{q,d}(\Sigma) \subset &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\} \\
+\cup &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \Sigma^\star\}
+---ml
+---i
+---f
+
+---f-Conclusion-
+En précalculant la matrice d'accessibilité de A (avec Floyd-Warshall), on a une fonction !celimine x! s'executant en temps constant.
+
+On arrive alors à réduire le temps de recherche d'une preuve d'appartenance du mot $m$ au langage de notre grammaire.
+
+Extension probablement possible pour $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$
 ---f

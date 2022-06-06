@@ -1,13 +1,13 @@
-(* Fonction catégorisante binaire *)
+(* Fonction categorisante binaire *)
 let fct_cat_bin n = if n > 0 then 1 else 0
 
-(* Vérifie si il existe un mot de catégorie q dérivable via la dérivation d dans la grammaire gram *)
+(* Verifie si il existe un mot de categorie q derivable via la derivation d dans la grammaire gram *)
 let estpossible q d gram =
   let (a,b) = d in
   let cata = categorisemot gram fct_cat_bin a in 
   q = cata
 
-(* Donne l'ensemble des indices des dérivations faisables depuis l'état q *)
+(* Donne l'ensemble des indices des derivations faisables depuis l'etat q *)
 let lesucc gram q =
   List.map 
   fst
@@ -27,12 +27,12 @@ let lesucc gram q =
 let vrailesucc gram q =
   
 
-(* Donne, pour la dérivation i, l'état-couple vers lequel on arrive *)
+(* Donne, pour la derivation i, l'etat-couple vers lequel on arrive *)
 let etatsdederiv gram i = 
   let (a,b) = gram.reglesf.(i) in
   (i,categorisemot gram fct_cat_bin b)
 
-(* Donne, les couple de catégories des dérivations d'une grammaire*)
+(* Donne, les couple de categories des derivations d'une grammaire*)
 let pretraitegram gram = 
   Array.map
   (fun (a,b) -> (categorisemot gram fct_cat_bin a,categorisemot gram fct_cat_bin b)) 

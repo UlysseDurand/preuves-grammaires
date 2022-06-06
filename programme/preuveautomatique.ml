@@ -36,7 +36,7 @@ let rec parcoursmagique delta elimine termine dejavu avoir =
     |Some x -> Some x
   )
 
-(* Retourne les mots vers lesquels x peut dériver une fois *)
+(* Retourne les mots vers lesquels x peut deriver une fois *)
 let succ ppregles x =
   let res =
   List.flatten
@@ -56,7 +56,7 @@ let succ ppregles x =
   in
   ajouteplein res []
 
-(* Retourne les mots vers lesquels x peut dériver une fois *)
+(* Retourne les mots vers lesquels x peut deriver une fois *)
 let succbis ppregles (x,_,_) =
   let res =
   List.flatten
@@ -76,7 +76,7 @@ let succbis ppregles (x,_,_) =
   in
   ajouteplein res []
 
-(* Cherche une dérivation de x vers m *)
+(* Cherche une derivation de x vers m *)
 let chercherderivationnaif x m ppregles = 
   parcoursmagique
   (succ ppregles)

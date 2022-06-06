@@ -14,7 +14,7 @@ Une grammaire formelle est un quadruplet $G = (T,N_t,S,D)$ où :
 #### $S \in N_t$ est l'axiome
 
 Notons $\Sigma := N_t \cup T$
-#### $D \subset \mathcal{P}((\Sigma ^ \star )^2)$, est l'ensemble des règles de dérivation.
+#### $D \subset (\Sigma ^ \star )^2$, est l'ensemble des règles de dérivation.
 ---i
 Pour $(a,b) \in D$, soit $\overset{(a,b)}{\->}$ la relation binaire définie sur $\Sigma^\star$ par
 !equu!
@@ -30,7 +30,7 @@ Alors le langage de la grammaire formelle  G est le suivant :
 
 Nous allons supposer que $N_t$ est dénombrable et $T$ est fini.
 
-!nbcode typesetutiles debut types!
+!cfANNEXE2 typesetutiles debut types l.!
 
 # Vérification de preuve - grammaire formelle
 
@@ -40,6 +40,7 @@ Nous pouvons nous restreindre à la définition d'un mot qui dérive d'un autre.
 On va alors fournir, comme preuve, une liste de mots $m_1, \dots, m_n$ tels que $\forall i\in [1,n-1], m_i \-> m_{i+1}$. 
 Nous allons aussi renseigner de quelle manière le mot $m_{i+1}$ dérive du mot $m_i$ en fournissant l'indice de la règle de dérivation $(a,b)$ et celui du début de $a$ dans $m_i$ qui sera remplacé par $b$.
 Nous aboutissons alors à :
+
 ---code
 type 'e preuveformelle = (int*int*('e caractere list)) list
 ---code
@@ -56,13 +57,12 @@ En Ocaml :
 let unepreuve = [(0,1,mot "aBSc");(2,3,mot "abc");(1,3,mot "aB");(2,4,mot "bb")]
 ---code
 
-!nbcode verifderiv!
-
-!nbcode verifpreuve!
+!cfANNEXE2 verifderiv l.!
+!cfANNEXE2 verifpreuve l.!
 
 # Preuve automatique - grammaire formelle
 
-Nous allons générer successivement les $G_n := \{m \in \Sigma^\star \mid S (\bigcup_{0 \leq k \leq n} \->^k) m\}$ à l'aide de $G_{n+1} = \bigcup_{x \in G_n} \mathcal{S}(x)$ où $\mathcal{S}(x) := \{m \in \Sigma^\star \mid x \-> m \} = \bigcup_{d \in D} \{m \in \Sigma^\star \mid x \overset{d}{\->} m \}$
+Nous allons générer successivement les $G_n := \{x \in \Sigma^\star \mid S (\bigcup_{0 \leq k \leq n} \->^k) x\}$ à l'aide de $G_{n+1} = \bigcup_{x \in G_n} \mathcal{S}(x)$ où $\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \-> y \} = \bigcup_{d \in D} \{y \in \Sigma^\star \mid x \overset{d}{\->} y \}$
 Pour ce faire, on trouve les successeurs d'un mot $x$ par $d = (a,b)$ en recherchant le motif $a$ dans $x$. (L'algorithme de Knuth-Morris-Pratt est adéquat). 
 Nous avons donc un algorithme qui permet théoriquement de prouver que n'importe quel mot de la grammaire appartient bien à cette dernière.
 Cet algorithme termine si et seulement si le mot à prouver est prouvable (si il est dans la grammaire).
@@ -70,7 +70,7 @@ Le problème étant la complexité de ce dernier, qui fonctionne comme une machi
 La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
 Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
 
-!nbcode preprocessgf et succ qui calcule $\mathcal{S}(x)$!
+!cfcode preprocessgf et succ qui calcule $\mathcal{S}(x)$!
 
 ## Un parcours en largeur particulier
 Nous allons utiliser un parcours qui nous permettra de trouver dans un graphe un chemin plus court entre le sommet initial et un sommet 'valide'.
@@ -82,22 +82,22 @@ Ce parcours est donc un parcours en largeur depuis un sommet $x_0$ qui garde en 
 sommet $s$, tel que !cvalide s!, est parcouru. Il renvoit alors un chemin de $x_0$ à $s$. Lorsque le parcours passe par un sommet $s$ tel que !cinterdit s!, 
 il ne parcourt pas ensuite ses voisins.
 
-!nbcode parcoursmagique!
+!cfANNEXE2 parcoursmagique l.!
 
 ## Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle
 
 Il ne nous reste plus qu'à appliquer notre parcours sur un graphe où les sommets sont les mots de $\Sigma^\star$, et les
 arêtes sont $\{(a,b) \in  \Sigma^\star \mid a \rightarrow b\} = \{(a,b) \in \Sigma^\star \mid b \in \mathcal{S}(a)\}$.
 
-!nbcode chercherderivationnaif!
+!cfANNEXE2 chercherderivationnaif l.!
 
 Par la suite, nous allons apporter des améliorations, en fournissant des fonctions !cinterdit!.
 
 # Amélioration pour les grammaires croissantes
 
 Une grammaire croissante est une grammaire telle que :
-!equ!\forall (a,b) \in D, \norm{a} \leq \norm{b} !equ!
-On a alors une première propriété très simple, $\forall m, m' \in \delta (S), m \overset{*}{\->} m' \implies \norm{m} \leq \norm{m'}$.
+!equu!\forall (a,b) \in D, \norm{a} \leq \norm{b} !equu!
+On a alors une première propriété très simple, $\forall x, x' \in \delta (S), x \overset{*}{\->} x' \implies \norm{x} \leq \norm{x'}$.
 
 Alors, dans la recherche de dérivations de S vers m, on peut supprimer les "branches de recherche" qui partent d'un mot de longueur $> \norm{m}$.
 Il ne reste qu'à faire le même parcours que précédement avec la fonction suivante comme fonction !cinterdit!.
@@ -106,22 +106,24 @@ let interditcroiss x = Array.length x > Array.length m
 ---code
 
 # Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre
-Rappelons, le problème : étant donné un mot $m \in \delta(S)$, comment le dériver en un mot $m' \in \delta(m)$ donné ?
-Pour tout $l \in \Sigma$, on va chercher un ensemble $q(l)$ qui majore $\norm{\delta(m)}_l$ ($=\{\norm{x}_l \mid x \in \delta(m)\}$), l'ensemble des nombres d'occurence de $l$ dans les successeurs de $m$.
+Rappelons, le problème : étant donné un mot $x \in \delta(S)$, comment le dériver en un mot $m \in \delta(x)$ donné ?
+Pour tout $l \in \Sigma, x \in \Sigma^\star$, on va chercher un ensemble $s_x(l)$ qui majore $\norm{\delta(x)}_l$ ($=\{\norm{y}_l \mid y \in \delta(x)\}$), l'ensemble des nombres d'occurence de $l$ dans les successeurs de $x$.
 
-Ainsi, $m \overset{*}{\->} m' \implies \norm{m'}_l \in q(l)$, la contraposée nous sera utile : 
+Ainsi, $x \overset{*}{\->} m \implies \forall l \in \Sigma, \norm{m}_l \in s_x(l)$, la contraposée nous sera utile : 
 !equu!
-\norm{m'}_l \notin q(l) \implies  \neg (m \overset{*}{\->} m')
+\exists l \in \Sigma / \norm{m}_l \notin s_x(l) \implies \neg (x \overset{*}{\->} m)
 !equu!
 Ce qui pourra nous permettre de réduire notre champ de recherche.
 En effet, 
 
-\fbox{si pour un mot $x \in \delta(m)$, $\exists l \in \Sigma, \norm{\delta(x)}_l \cap q(l) = \emptyset$,
- alors $m' \notin \delta(x)$}.
+\fbox{si pour un mot $x \in \delta(S)$, $\exists l \in \Sigma, \norm{m}_l \notin s_x(l)$,
+ alors $m \notin \delta(x)$}.
 
-Pour calculer $\norm{\delta(x)}_l \cap q(l)$, nous allons utiliser un graphe semblable à un automate que nous noterons $A_0$.
+ Alors !cinterdit x! devra renvoyer vrai.
 
-Les sommets sont des états de $Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
+Pour calculer $s_x(l)$, nous allons utiliser un graphe que nous noterons $A_0$.
+
+Les sommets sont des éléments de $Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
 ---ml
     &\forall q,q' \in Q, \exists l \in \Sigma / q(l) \cap q'(l) = \emptyset\\
     \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in \Sigma, \norm{m}_l \in q(l)
@@ -129,13 +131,15 @@ Les sommets sont des états de $Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ 
 
 Ainsi à tout mot $x \in \delta(S)$, on peut associer un unique état $q$ tel que $\forall l \in \Sigma, \norm{x}_l \in q(l)$, notons cet état $cat(x)$
 
-Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q$ à une autre $q'$.
+Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
 ---ml
     (q,q') \in A_0 &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)\\
                    &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } cat(x) = q \text{ et } cat(x') = q'
 ---ml
 
 Ainsi, si $x$ correspond à un état $q$, et $x'$ à un état $q'$, alors $x \overset{*}{\->} x' \implies$ $q'$ est accessible depuis $q$ dans tout graphe $A$ majorant $A_0$. 
+
+Donc $\forall l \in \Sigma$, $s_x(l)$ est l'union des $q(l)$ où $q$ est accessible depuis $cat(x)$ dans un graphe $A$ majorant $A_0$.
 
 \fbox{\parbox{\linewidth}{
     Si $m'$ n'est pas accessible depuis $x$ dans un graphe $A$ majorant $A_0$, 
@@ -211,6 +215,8 @@ Maintenant, une fois le graphe majorant associé à notre grammaire calculé, on
  (On peut précalculer le graphe réduit où les sommets sont les composantes fortement connexes et sa matrice
  d'accessibilité avec l'algorithme Floyd Warshall par exemple, pour réduire les temps de calcul).
 
+Il peut être pertinent d'étendre l'étude au cas $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$.
+
 -----
 
 # ANNEXE 1 : Notations et rappel des définitions
@@ -229,7 +235,7 @@ Maintenant, une fois le graphe majorant associé à notre grammaire calculé, on
 
 #### Pour $x \in \Sigma^\star$, $\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \-> y\}$ ensemble des mots directements dérivables depuis $x$.
 
-#### $\overset{*}{\->} := \bigcup_{n\in \mathbb{Z}}$ est la cloture transitive réflexive et symétrique de $\->$, $x\overset{*}{\->} x'$ si $x'$ dérive depuis $x$. ($x'\in \delta(x)$)
+#### $\overset{*}{\->} := \bigcup_{n\in \mathbb{N}}$ est la cloture transitive et réflexive de $\->$, $x\overset{*}{\->} x'$ si $x'$ dérive depuis $x$. ($x'\in \delta(x)$)
 
 #### Pour $x \in \Sigma^\star$, $\delta(x):=\{y \in \Sigma^\star \mid x \overset{*}{\->} y \}$ ensemble des mots dérivables depuis $x$.
 
@@ -245,3 +251,10 @@ Maintenant, une fois le graphe majorant associé à notre grammaire calculé, on
 
 #### $A$ graphe majorant $A_0$. ($(q,q') \in A_0 \implies (q,q') \in A$).
 ---i
+
+-----
+
+# ANNEXE 2 : Implémentation logicielle (OCaml)
+
+
+\lstinputlisting{../../programme/tout.ml}

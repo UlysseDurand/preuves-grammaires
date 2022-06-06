@@ -20,7 +20,7 @@ type 'e preuveformelle = ('e caractere array) list
 
 (*##### UTILES #####*)
 
-(* Implémentation de kmp *)
+(* Implementation de kmp *)
 let kmppreprocess w =
 	let n = Array.length w in
 	let pos = ref 1 in
@@ -71,7 +71,7 @@ let kmp s w t =
 	done;
 	!res;;
 
-(*remplace x i l b remplace dans x le sous mot de longueur l qui commence à l'indice i par le mot b*)
+(*remplace x i l b remplace dans x le sous mot de longueur l qui commence a l'indice i par le mot b*)
 let remplace x i l b =
   let n = Array.length x in
   let m = Array.length b in
@@ -101,7 +101,7 @@ let rec ajouteplein l1 l2 =
 		|t::q -> (ajouteplein q (ajoute t l2))
 
 
-(* Effectue un pretraitement (kmp) des membres de gauche des règles de dérivation *)
+(* Effectue un pretraitement (kmp) des membres de gauche des regles de derivation *)
 let preprocessgf grf =
   Array.map 
   (fun (a,b) ->
@@ -158,7 +158,7 @@ let rec parcoursmagique delta elimine termine dejavu avoir =
     |Some x -> Some x
   )
 
-(* Retourne les mots vers lesquels x peut dériver une fois *)
+(* Retourne les mots vers lesquels x peut deriver une fois *)
 let succ ppregles x =
   let res =
   List.flatten
@@ -178,7 +178,7 @@ let succ ppregles x =
   in
   ajouteplein res []
 
-(* Retourne les mots vers lesquels x peut dériver une fois *)
+(* Retourne les mots vers lesquels x peut deriver une fois *)
 let succbis ppregles (x,_,_) =
   let res =
   List.flatten
@@ -198,7 +198,7 @@ let succbis ppregles (x,_,_) =
   in
   ajouteplein res []
 
-(* Cherche une dérivation de x vers m *)
+(* Cherche une derivation de x vers m *)
 let chercherderivationnaif x m ppregles = 
   parcoursmagique
   (succ ppregles)
@@ -213,16 +213,16 @@ let lememeavecderivations x m ppregles =
   (fun (y,a,b) -> false)
   (fun (y,a,b) -> y = m)
   []
-  [[x,0,0]](* Fonction catégorisante binaire *)
+  [[x,0,0]](* Fonction categorisante binaire *)
 let fct_cat_bin n = if n > 0 then 1 else 0
 
-(* Vérifie si il existe un mot de catégorie q dérivable via la dérivation d dans la grammaire gram *)
+(* Verifie si il existe un mot de categorie q derivable via la derivation d dans la grammaire gram *)
 let estpossible q d gram =
   let (a,b) = d in
   let cata = categorisemot gram fct_cat_bin a in 
   q = cata
 
-(* Donne l'ensemble des indices des dérivations faisables depuis l'état q *)
+(* Donne l'ensemble des indices des derivations faisables depuis l'etat q *)
 let lesucc gram q =
   List.map 
   fst
@@ -239,12 +239,15 @@ let lesucc gram q =
     )
   ) 
 
-(* Donne, pour la dérivation i, l'état-couple vers lequel on arrive *)
+let vrailesucc gram q =
+  
+
+(* Donne, pour la derivation i, l'etat-couple vers lequel on arrive *)
 let etatsdederiv gram i = 
   let (a,b) = gram.reglesf.(i) in
   (i,categorisemot gram fct_cat_bin b)
 
-(* Donne, les couple de catégories des dérivations d'une grammaire*)
+(* Donne, les couple de categories des derivations d'une grammaire*)
 let pretraitegram gram = 
   Array.map
   (fun (a,b) -> (categorisemot gram fct_cat_bin a,categorisemot gram fct_cat_bin b)) 

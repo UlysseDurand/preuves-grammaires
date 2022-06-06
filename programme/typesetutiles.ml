@@ -20,7 +20,7 @@ type 'e preuveformelle = ('e caractere array) list
 
 (*##### UTILES #####*)
 
-(* Implémentation de kmp *)
+(* Implementation de kmp *)
 let kmppreprocess w =
 	let n = Array.length w in
 	let pos = ref 1 in
@@ -71,7 +71,7 @@ let kmp s w t =
 	done;
 	!res;;
 
-(*remplace x i l b remplace dans x le sous mot de longueur l qui commence à l'indice i par le mot b*)
+(*remplace x i l b remplace dans x le sous mot de longueur l qui commence a l'indice i par le mot b*)
 let remplace x i l b =
   let n = Array.length x in
   let m = Array.length b in
@@ -101,7 +101,7 @@ let rec ajouteplein l1 l2 =
 		|t::q -> (ajouteplein q (ajoute t l2))
 
 
-(* Effectue un pretraitement (kmp) des membres de gauche des règles de dérivation *)
+(* Effectue un pretraitement (kmp) des membres de gauche des regles de derivation *)
 let preprocessgf grf =
   Array.map 
   (fun (a,b) ->

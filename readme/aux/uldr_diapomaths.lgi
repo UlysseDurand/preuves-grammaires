@@ -35,7 +35,7 @@ if infoexists:
 3'^---tf~n~' -> '\end{answer}~n~'
 3'^---s~n~(.*?)~n~---s' -> '\begin{split}~n~%1~n~\end{split}'
 3'^---ml~n~(.*?)~n~---ml' -> '\begin{align*}~n~%1~n~\end{align*}'
-3'^---code~n~(.*?)~n~---code' -> '{\color{DarkBlue}\begin{verbatim}~n~%1~n~\end{verbatim}}'
+3'^---code~n~(.*?)~n~---code' -> '{\small \color{DarkBlue}\texttt{%1}}'
 3'^#### (.*?)~n~' -> '\item %1~n~'
 2'!b(.*?)!' -> '\textbf{ %1 }'
 2'!c(.*?)!' -> '\texttt{ %1 }'
@@ -43,7 +43,7 @@ if infoexists:
 2'!ftikz(.*?)!' -> '\tikzfig{%1}'
 2'!f(.*?)!' -> '\input{figures/%1}'
 2'!s(.*?)!' -> '\underline{ %1 }'
-2'!nb(.*?)!' -> '{\color{gray} NB : %1}\\'
+2'!nb(.*?)!' -> '{\color{gray} cf %1}\\'
 2'!todo(.*?)!' -> '{\color{red} TODO :\\\\ %1 }\\'
 2'!l(.*?)!(.*?)!' -> '\href{%1}{%2}'
 2'!u(.*?)!' -> '\url{%1}'
@@ -76,34 +76,21 @@ loadpackages()
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{xcolor}
-\usepackage{enumitem}
 \usepackage{bbold}
 \usepackage[xcolor,leftbars]{changebar}
 
+\setbeamertemplate{footline}[frame number]
 \setcounter{secnumdepth}{1}
-\newenvironment{myindentpar}
- {\begin{list}{}
-         {\setlength{\leftmargin}{1em}}
-         \item[]
- }
- { \end{list}}
 
 \definecolor{DarkBlue}{RGB}{0,16,80}
 \newcommand{\norm}[1]{\lvert #1 \rvert}
-\newsavebox{\mybox}
-\newlength{\mydepth}
-\newlength{\myheight}
-\newenvironment{answer}
-{\par\begin{lrbox}{\mybox}\quad\begin{minipage}{\linewidth}\color{black}\setlength{\parskip}{10pt plus 1pt minus 1pt}\vspace*{-.7\baselineskip}}
-{\end{minipage}\end{lrbox}
-\settodepth{\mydepth}{\usebox{\mybox}}
-\settoheight{\myheight}{\usebox{\mybox}}
-\addtolength{\myheight}{\mydepth}
-\noindent\makebox[0pt]{
-  \color{gray}\hspace{-0pt}\rule[-\mydepth]{1pt}{\myheight}}
-  \usebox{\mybox}
-  }
-
+\usepackage{array,multirow,makecell}
+\usepackage{subfig}
+\setcellgapes{1pt}
+\makegapedcells
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
 \usepackage{hyperref}
 \setlength{\parskip}{0.15cm}
 \hypersetup{

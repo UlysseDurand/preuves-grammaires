@@ -21,7 +21,7 @@ complet:
 diapo:
 	rm *.tex
 	rm *.pdf
-	uldr_compil_local uldr_diapomaths.lgi ../diapo.mdx latex -o diapo.tex -pdf
+	uldr_compil_local uldr_diapomaths.lgi ../diapo.mdx latex -o diapo.tex tikz -pdf
 
 all:
 	@make figures
