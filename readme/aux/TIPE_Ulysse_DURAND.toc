@@ -8,5 +8,5 @@
 \contentsline {section}{\numberline {4}Amélioration pour les grammaires croissantes}{4}{section.4}%
 \contentsline {section}{\numberline {5}Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre}{5}{section.5}%
 \contentsline {subsection}{Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb {N}^*\}^{\Sigma }$}{6}{section*.6}%
-\contentsline {section}{\numberline {6}ANNEXE 1 : Notations et rappel des définitions}{9}{section.6}%
-\contentsline {section}{\numberline {7}ANNEXE 2 : Implémentation logicielle (OCaml)}{10}{section.7}%
+\contentsline {section}{\numberline {6}ANNEXE 1 : Notations et rappel des définitions}{8}{section.6}%
+\contentsline {section}{\numberline {7}ANNEXE 2 : Implémentation logicielle (OCaml)}{9}{section.7}%

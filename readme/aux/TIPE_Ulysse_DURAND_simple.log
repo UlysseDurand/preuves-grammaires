@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  6 JUN 2022 18:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  7 JUN 2022 11:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -877,60 +877,20 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 214.
 
-
-Overfull \hbox (14.36096pt too wide) in paragraph at lines 253--254
-[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 253--254
-
- []
-
-
-Overfull \hbox (14.36096pt too wide) in paragraph at lines 260--261
-[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 260--261
-
- []
-
-
-Overfull \hbox (14.36096pt too wide) in paragraph at lines 270--271
-[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
-
- []
-
-
-Overfull \hbox (14.36096pt too wide) in paragraph at lines 271--272
-[] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 271--272
-
- []
-
-[5] [6]
-Overfull \hbox (41.50172pt too wide) in paragraph at lines 284--284
+[5]
+Overfull \hbox (41.50172pt too wide) in paragraph at lines 260--260
 []\OT1/cmr/bx/n/17.28 ANNEXE 1 : No-ta-tions et rap-pel des d^^Sefinitions 
  []
 
 
-Overfull \hbox (6.5389pt too wide) in paragraph at lines 289--291
+Overfull \hbox (6.5389pt too wide) in paragraph at lines 265--267
 []\OT1/cmr/m/n/12 On con-sid^^Rere la gram-maire formelle $\OML/cmm/m/it/12 G \
 OT1/cmr/m/n/12 = (\OML/cmm/m/it/12 T; N[]; S; D\OT1/cmr/m/n/12 )$ o^^Ru $\OML/c
 mm/m/it/12 T$ \OT1/cmr/m/n/12 est l'ensemble
  []
 
-[7]
-Overfull \hbox (46.35765pt too wide) in paragraph at lines 319--319
+[6]
+Overfull \hbox (46.35765pt too wide) in paragraph at lines 295--295
 []\OT1/cmr/bx/n/17.28 ANNEXE 2 : Impl^^Sementation logi-cielle (OCaml) 
  []
 
@@ -951,20 +911,20 @@ File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 29.
- [8] [9] [10] [11]
-[12] [13]) [14] (./TIPE_Ulysse_DURAND_simple.aux)
+ [7] [8] [9] [10]
+[11] [12]) [13] (./TIPE_Ulysse_DURAND_simple.aux)
 Package rerunfilecheck Info: File `TIPE_Ulysse_DURAND_simple.out' has not chang
 ed.
 (rerunfilecheck)             Checksum: 625666C463D2E8E87736B0D27D5BC8B0;1064.
  ) 
 Here is how much of TeX's memory you used:
- 21918 strings out of 479304
- 424809 string characters out of 5869778
+ 21917 strings out of 479304
+ 424802 string characters out of 5869778
  1063812 words of memory out of 5000000
  38341 multiletter control sequences out of 15000+600000
  414572 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,14n,130p,441b,1865s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 128i,10n,130p,441b,1865s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/bbold-type1/bbold7.pfb></usr/share/texlive/texmf-di
@@ -978,16 +938,15 @@ i8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-frm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/sh
-are/texmf/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on TIPE_Ulysse_DURAND_simple.pdf (14 pages, 238644 bytes).
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-
+super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb>
+Output written on TIPE_Ulysse_DURAND_simple.pdf (13 pages, 230429 bytes).
 PDF statistics:
- 581 PDF objects out of 1000 (max. 8388607)
- 539 compressed objects within 6 object streams
- 334 named destinations out of 1000 (max. 500000)
+ 573 PDF objects out of 1000 (max. 8388607)
+ 533 compressed objects within 6 object streams
+ 333 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

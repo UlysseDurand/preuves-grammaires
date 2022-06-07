@@ -35,6 +35,7 @@ if infoexists:
 3'^---tf~n~' -> '\end{answer}~n~'
 3'^---s~n~(.*?)~n~---s' -> '\begin{split}~n~%1~n~\end{split}'
 3'^---ml~n~(.*?)~n~---ml' -> '\begin{align*}~n~%1~n~\end{align*}'
+3'^---cases~n~(.*?)~n~---cases' -> '\begin{cases}~n~%1~n~\end{cases}'
 3'^---code~n~(.*?)~n~---code' -> '{\small \color{DarkBlue}\texttt{%1}}'
 3'^#### (.*?)~n~' -> '\item %1~n~'
 2'!b(.*?)!' -> '\textbf{ %1 }'

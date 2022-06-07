@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  6 JUN 2022 18:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  7 JUN 2022 11:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1511,32 +1511,8 @@ Overfull \vbox (0.77737pt too high) detected at line 205
 [14
 
 ]
-Overfull \hbox (15.19322pt too wide) detected at line 226
-\OT1/mathkerncmss/m/sl/12 A[]\OT1/cmss/m/n/12 (^^F) \OMS/cmsy/m/n/12 ^^Z f\OT1/
-cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 q\OML/cmm/m/it/12 ; \OT1/mathkerncmss/m/
-sl/12 b\OT1/cmss/m/n/12 ) \OMS/cmsy/m/n/12 2 \OT1/mathkerncmss/m/sl/12 Q[] \OMS
-/cmsy/m/n/12 j \OT1/cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 q[]\OML/cmm/m/it/12 
-; \OT1/mathkerncmss/m/sl/12 b[]\OT1/cmss/m/n/12 ) \OMS/cmsy/m/n/12 2 \OT1/mathk
-erncmss/m/sl/12 A[]\OT1/cmss/m/n/12 (^^F[])[]\OT1/mathkerncmss/m/sl/12 b\OT1/cm
-ss/m/n/12 (\OT1/mathkerncmss/m/sl/12 l\OT1/cmss/m/n/12 ) = \U/bbold/m/n/12 N[]\
-OMS/cmsy/m/n/12 g
- []
-
-
-Overfull \hbox (19.8321pt too wide) detected at line 226
-\OT1/mathkerncmss/m/sl/12 A[]\OT1/cmss/m/n/12 (^^F) \OMS/cmsy/m/n/12 ^^Z f\OT1/
-cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 q\OML/cmm/m/it/12 ; \OT1/mathkerncmss/m/
-sl/12 b\OT1/cmss/m/n/12 ) \OMS/cmsy/m/n/12 2 \OT1/mathkerncmss/m/sl/12 Q[] \OMS
-/cmsy/m/n/12 j \OT1/cmss/m/n/12 (\OT1/mathkerncmss/m/sl/12 q[]\OML/cmm/m/it/12 
-; \OT1/mathkerncmss/m/sl/12 b[]\OT1/cmss/m/n/12 ) \OMS/cmsy/m/n/12 2 \OT1/mathk
-erncmss/m/sl/12 A[]\OT1/cmss/m/n/12 (^^F[])[]\OT1/mathkerncmss/m/sl/12 b\OT1/cm
-ss/m/n/12 (\OT1/mathkerncmss/m/sl/12 l\OT1/cmss/m/n/12 ) = \OMS/cmsy/m/n/12 f\O
-T1/cmss/m/n/12 0\OMS/cmsy/m/n/12 gg
- []
-
-
-Overfull \hbox (16.49883pt too wide) detected at line 226
-[]
+Overfull \hbox (14.69742pt too wide) in paragraph at lines 225--225
+[]$  
  []
 
 [15
@@ -1584,7 +1560,7 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb>
-Output written on diapo.pdf (16 pages, 209370 bytes).
+Output written on diapo.pdf (16 pages, 209528 bytes).
 PDF statistics:
  513 PDF objects out of 1000 (max. 8388607)
  464 compressed objects within 5 object streams

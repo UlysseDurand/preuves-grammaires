@@ -208,21 +208,20 @@ Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver \und
 Pour un sommet de départ fixé et une dérivation fixée.
 $A_{q,d}(\Sigma) := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\rightarrow} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-Soit $l \in \Sigma$, $\Sigma ' := \Sigma \backslash \{l\}$, $A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}(\Sigma)$.
+$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}(\Sigma)$
 
-\begin{itemize}
-\item $cat(b)(l) = \mathbb{N}^\star$
-\begin{equation*}A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \mathbb{N}^\star\}\end{equation*}
+$
+A_{q,(a,b)} \subset
+\begin{cases}
+\emptyset \text{ si } cat(a) \neq q\\
+\{ (q,q') \in Q^2 \mid \forall l \in \Sigma,
+    (cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
+    (q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q(l)=\{0\}) 
+\}
+\text{ sinon}
+\end{cases}
+$
 
-\item $cat(b)(l) = \{0\}$ et $q(l) = \{0\}$
-\begin{equation*}A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\}\end{equation*}
-
-\item $cat(b)(l) = \{0\}$ et $q(l) = \Sigma^\star$
-\begin{align*}
-A_{q,d}(\Sigma) \subset &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\} \\
-\cup &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \Sigma^\star\}
-\end{align*}
-\end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Conclusion}

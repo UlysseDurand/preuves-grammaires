@@ -170,43 +170,19 @@ Intéressons nous au calcul des arrêtes $A$ du graphe.
 
 Considérons d'abord les arêtes partant d'un état $q$ donné, puis celles correspondant à une dérivation $d$ donnée.
 
-$A_q(\Sigma) := \{(a,b) \in A \mid a = q\}$
+$A_{q,d} := \{(a,b) \in A_q \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-$A_{q,d}(\Sigma) := \{(a,b) \in A_q \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
-
-Soit $l \in \Sigma$,
-
----t
-$\Sigma ' := \Sigma \backslash \{l\}$
-
-On a alors $A_q(\Sigma) = \bigcup_{d \in D} A_{q,d}(\Sigma)$ et $A = \bigcup_{q \in Q} A_q(\Sigma)$.
-
-Et les $A_{q,d}(\Sigma)$ sont majorables de la manière suivante : 
-
-
-Si $cat(b)(l) = \mathbb{N}^\star$, alors
----t
-!equu!A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \mathbb{N}^\star\}!equu!
-En effet, si $d$ produit la lettre $l$, elle est forcément dans le mot produit.
----tf
-
-
-Si $cat(b)(l) = \{0\}$ et $q(l) = \{0\}$, alors 
----t
-!equu!A_{q,d}(\Sigma) \subset \{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\}!equu!
-En effet, si $x$ ne contient pas la lettre $l$, et que $d$ ne produit pas la lettre $l$, le mot produit $x'$ n'aura pas de $l$.
----tf
-
-
-Si $cat(b)(l) = \{0\}$ et $q(l) = \Sigma^\star$, alors
----t
----ml
-A_{q,d}(\Sigma) \subset &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \{0\}\} \\
-\cup &\{(q,b) \in Q^2 \mid (q_{\Sigma '},b_{\Sigma '}) \in A_{q,d}(\Sigma ') \text{ et } b(l) = \Sigma^\star\}
----ml
-On ne peut rien dire, alors les deux prolongements possibles (sur la valeur de $b(l)$) seront explorés.
----tf
----tf
+$
+A_{q,(a,b)} \subset
+---cases
+\emptyset \text{ si } cat(a) \neq q\\
+\{ (q,q') \in Q^2 \mid \forall l \in \Sigma,
+    (cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
+    (q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q(l)=\{0\}) 
+\}
+\text{ sinon}
+---cases
+$
 
 On peut alors majorer l'ensemble des arêtes du graphe.
 
