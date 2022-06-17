@@ -56,7 +56,7 @@ let succ ppregles x =
   in
   ajouteplein res []
 
-(* Retourne les mots vers lesquels x peut deriver une fois *)
+(* Retourne les mots vers lesquels x peut deriver une fois et comment il derive *)
 let succbis ppregles (x,_,_) =
   let res =
   List.flatten
@@ -77,7 +77,7 @@ let succbis ppregles (x,_,_) =
   ajouteplein res []
 
 (* Cherche une derivation de x vers m *)
-let chercherderivationnaif x m ppregles = 
+let recherchesuitemots x m ppregles = 
   parcoursmagique
   (succ ppregles)
   (fun x -> false)
@@ -85,10 +85,12 @@ let chercherderivationnaif x m ppregles =
   []
   [[x]]
 
-let lememeavecderivations x m ppregles =
+(* La meme fonction mais fourni une preuve dans le type preuveformelle *)
+let recherchepreuvenaif gram ppregles x m =
   parcoursmagique
   (succbis ppregles)
   (fun (y,a,b) -> false)
   (fun (y,a,b) -> y = m)
   []
   [[x,0,0]]
+   

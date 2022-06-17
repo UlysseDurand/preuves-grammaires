@@ -1,4 +1,4 @@
-\newcommand{\letitle}{Sur la vérification de preuve et la preuve automatique d'appartenance d'un mot à une grammaire.}
+\newcommand{\letitle}{Vérification et preuve automatique d'appartenance d'un mot à une grammaire formelle.}
 \newcommand{\leauthor}{Ulysse Durand}
 \newcommand{\lesubject}{Preuve grammaire}
 
@@ -164,7 +164,7 @@ Ainsi, $\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm
 
 \begin{frame}\frametitle{Calcul de $s_x$ - Le graphe $A_0$ (2)}
 
-Les arêtes du graphe sont les dérivation possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
+Les arêtes du graphe sont les dérivations possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
 \begin{align*}
     &(q,q') \in A_0 \\
     &\iff \exists x,x' \in \Sigma^\star / x \rightarrow x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)\\
@@ -204,11 +204,11 @@ Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver \und
 
 \end{frame}
 
-\begin{frame}\frametitle{Calcul des arrêtes $A$ du graphe}
+\begin{frame}\frametitle{Calcul des arêtes $A$ du graphe}
 Pour un sommet de départ fixé et une dérivation fixée.
-$A_{q,d}(\Sigma) := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\rightarrow} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+$A_{q,d} := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\rightarrow} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}(\Sigma)$
+$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}$
 
 $
 A_{q,(a,b)} \subset

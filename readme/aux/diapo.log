@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  7 JUN 2022 11:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  16 JUN 2022 01:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1536,7 +1536,7 @@ Package rerunfilecheck Info: File `diapo.out' has not changed.
 Here is how much of TeX's memory you used:
  25483 strings out of 479304
  522424 string characters out of 5869778
- 886164 words of memory out of 5000000
+ 886152 words of memory out of 5000000
  42037 multiletter control sequences out of 15000+600000
  416031 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1560,7 +1560,7 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb>
-Output written on diapo.pdf (16 pages, 209528 bytes).
+Output written on diapo.pdf (16 pages, 209341 bytes).
 PDF statistics:
  513 PDF objects out of 1000 (max. 8388607)
  464 compressed objects within 5 object streams

@@ -28,11 +28,9 @@ $\norm{x}_l := \norm{\{i \in \mathbb{N} \mid x_i = l \}}$ est le nombre d'occure
 Alors le langage de la grammaire formelle  G est le suivant :
 !equu!\mathcal{L} (G) := \delta(S) \cap T^\star!equu!
 
-Nous allons supposer que $N_t$ est dénombrable et $T$ est fini.
+Nous allons supposer que $N_t$ et $T$ sont finis. Le mot preuve désignera une preuve d'appartenance d'un mot au langage de la grammaire.
 
-!cfANNEXE2 typesetutiles debut types l.!
-
-# Vérification de preuve - grammaire formelle
+# Vérification de preuve
 
 ## Une nouvelle structure de données pour les preuves
 
@@ -42,7 +40,7 @@ Nous allons aussi renseigner de quelle manière le mot $m_{i+1}$ dérive du mot 
 Nous aboutissons alors à :
 
 ---code
-type 'e preuveformelle = (int*int*('e caractere list)) list
+type 'e preuveformelle = (('e caractere list)*int*int) list
 ---code
 
 Nous prendrons comme exemple la grammaire formelle $G = (T,N_t,S,D)$ où :\\
@@ -54,13 +52,12 @@ $,\\
 alors !saabbcc! est dans $\mathcal{L}(G)$ car $!sS! \->_1 !saBSc! \->_2 !saBabcc! \->_3 !saaBbcc! \->_4 !saabbcc!$.\\
 En Ocaml :
 ---code
-let unepreuve = [(0,1,mot "aBSc");(2,3,mot "abc");(1,3,mot "aB");(2,4,mot "bb")]
+let unepreuve = [(mot "aBSc",0,1);(mot "abc",2,3);
+		 (mot "aB",1,3);(mot "bb",2,4)]
 ---code
 
-!cfANNEXE2 verifderiv l.!
-!cfANNEXE2 verifpreuve l.!
 
-# Preuve automatique - grammaire formelle
+# Preuve automatique
 
 Nous allons générer successivement les $G_n := \{x \in \Sigma^\star \mid S (\bigcup_{0 \leq k \leq n} \->^k) x\}$ à l'aide de $G_{n+1} = \bigcup_{x \in G_n} \mathcal{S}(x)$ où $\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \-> y \} = \bigcup_{d \in D} \{y \in \Sigma^\star \mid x \overset{d}{\->} y \}$
 Pour ce faire, on trouve les successeurs d'un mot $x$ par $d = (a,b)$ en recherchant le motif $a$ dans $x$. (L'algorithme de Knuth-Morris-Pratt est adéquat). 
@@ -68,28 +65,25 @@ Nous avons donc un algorithme qui permet théoriquement de prouver que n'importe
 Cet algorithme termine si et seulement si le mot à prouver est prouvable (si il est dans la grammaire).
 Le problème étant la complexité de ce dernier, qui fonctionne comme une machine non déterministe où on ne coupe pas les instances arrivant à un état puit.
 La suite va donc consister à trouver, de manière heuristique ou non, des méthodes affirmant qu'à partir d'un mot $m$, on aura des difficultés à dériver en notre mot $m'$ à prouver.
-Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.
-
-!cfcode preprocessgf et succ qui calcule $\mathcal{S}(x)$!
+Alors, nous allons arrêter les recherches de dérivations de S en $m'$ qui passent par le mot $m$.\\
+!cfANNEXE2 preprocessgf l.120 et succ l.198 qui calcule $\mathcal{S}(x)$!
 
 ## Un parcours en largeur particulier
-Nous allons utiliser un parcours qui nous permettra de trouver dans un graphe un chemin plus court entre le sommet initial et un sommet 'valide'.
-Ce parcours devra aussi éviter les chemins passant par un sommet 'interdit'.
+Pour générer cette preuve, nous allons utiliser un parcours qui nous permettra de trouver dans un graphe un chemin plus court entre le sommet initial (l'axiome !sS!) et un sommet 'valide' (le mot que l'on cherche à prouver).
+Ce parcours devra aussi éviter les chemins passant par un sommet 'interdit' (voir la suite).
 
 Alors on fournira à ce parcours une fonction !cinterdit! et une fonction !cvalide! toutes deux de type !csommet -> bool!.
 
 Ce parcours est donc un parcours en largeur depuis un sommet $x_0$ qui garde en mémoire le chemin parcouru et qui s'arrête dès qu'un 
 sommet $s$, tel que !cvalide s!, est parcouru. Il renvoit alors un chemin de $x_0$ à $s$. Lorsque le parcours passe par un sommet $s$ tel que !cinterdit s!, 
-il ne parcourt pas ensuite ses voisins.
-
-!cfANNEXE2 parcoursmagique l.!
+il ne parcourt pas ensuite ses voisins.\\
+!cfANNEXE2 parcoursmagique l.167!
 
 ## Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle
 
 Il ne nous reste plus qu'à appliquer notre parcours sur un graphe où les sommets sont les mots de $\Sigma^\star$, et les
-arêtes sont $\{(a,b) \in  \Sigma^\star \mid a \rightarrow b\} = \{(a,b) \in \Sigma^\star \mid b \in \mathcal{S}(a)\}$.
-
-!cfANNEXE2 chercherderivationnaif l.!
+arêtes sont $\{(a,b) \in  \Sigma^\star \mid a \rightarrow b\} = \{(a,b) \in \Sigma^\star \mid b \in \mathcal{S}(a)\}$.\\
+!cfANNEXE2 recherchepreuvenaif l.210!
 
 Par la suite, nous allons apporter des améliorations, en fournissant des fonctions !cinterdit!.
 
@@ -170,19 +164,25 @@ Intéressons nous au calcul des arrêtes $A$ du graphe.
 
 Considérons d'abord les arêtes partant d'un état $q$ donné, puis celles correspondant à une dérivation $d$ donnée.
 
-$A_{q,d} := \{(a,b) \in A_q \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+$A_{q,d} := \{(q,q') \in Q^2 \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-$
-A_{q,(a,b)} \subset
+!equu!
+A_{q,(a,b)} \subset \\{(q,q') \in Q^2 \mid
 ---cases
-\emptyset \text{ si } cat(a) \neq q\\
-\{ (q,q') \in Q^2 \mid \forall l \in \Sigma,
-    (cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
-    (q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q(l)=\{0\}) 
-\}
-\text{ sinon}
+    &cat(a) \preceq q \text{ et } q-cat(a) \preceq q' \text{ et }\\ 
+    &\forall l \in \Sigma,\\
+    &\text{  }(cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
+    &\text{  }(q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q'(l)=\{0\})
 ---cases
-$
+\\}
+!equu!
+Pour $(q \preceq q') \iff \forall l \in \Sigma, \max q(l) \leq \min q'(l)$ et\\ 
+$(q - q')(l) =
+---cases
+\{0\} & \text { si } q'(l) = \mathbb{N} \text{ ou }q(l) = \{0\}\\
+\mathbb{N} & \text{sinon}
+---cases
+$ 
 
 On peut alors majorer l'ensemble des arêtes du graphe.
 
@@ -211,13 +211,15 @@ Il peut être pertinent d'étendre l'étude au cas $Q \subset \{2 \mathbb{N} , 2
 
 #### Pour $x \in \Sigma^\star$, $\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \-> y\}$ ensemble des mots directements dérivables depuis $x$.
 
-#### $\overset{*}{\->} := \bigcup_{n\in \mathbb{N}}$ est la cloture transitive et réflexive de $\->$, $x\overset{*}{\->} x'$ si $x'$ dérive depuis $x$. ($x'\in \delta(x)$)
+#### $\overset{*}{\->} := \bigcup_{n\in \mathbb{N}} \-> ^n$ est la cloture transitive et réflexive de $\->$, $x\overset{*}{\->} x'$ si $x'$ dérive depuis $x$. ($x'\in \delta(x)$)
 
 #### Pour $x \in \Sigma^\star$, $\delta(x):=\{y \in \Sigma^\star \mid x \overset{*}{\->} y \}$ ensemble des mots dérivables depuis $x$.
 
 #### $\mathcal{L}(G) := \delta(S)\cap T^\star$ le langage de la grammaire.
 
-#### Pour $x \in \Sigma^\star$, $\norm{x}_l:=\norm{\{1 \leq i \leq \norm{x} \mid x_i = l\}}$ le nombre d'occurences de la lettre $l$ dans $x$.
+#### Pour $x \in \Sigma^\star, l \in \Sigma, \norm{x}_l:=\norm{\{1 \leq i \leq \norm{x} \mid x_i = l\}}$ le nombre d'occurences de la lettre $l$ dans $x$.
+
+#### Pour $x \in \Sigma^\star, l \in \Sigma, s_x(l)$ est un ensemble qui majore $\norm{\delta(x)}_l = \{\norm{y}_l \mid x \overset{*}{\->} y\}$
 
 #### $Q \subset (\mathcal{P}(\mathbb{N}))^\Sigma$ ensemble d'états / familles majorantes / sommets.
 
@@ -232,5 +234,14 @@ Il peut être pertinent d'étendre l'étude au cas $Q \subset \{2 \mathbb{N} , 2
 
 # ANNEXE 2 : Implémentation logicielle (OCaml)
 
-
 \lstinputlisting{../../programme/tout.ml}
+
+-----
+
+# ANNEXE 3 : Resultat de l'execution logicielle
+
+Voici la fin de ce que le programme executé en toplevel retourne :
+
+\lstinputlisting{../../programme/sortie.txt}
+
+On a donc seulement trois instants dans le parcours où l'amélioration a été utile pour cette grammaire (les trois '1' affichés ligne 9 lors de l'execution de !cinterditfort!).

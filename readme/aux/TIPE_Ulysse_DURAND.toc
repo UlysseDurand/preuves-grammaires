@@ -1,12 +1,13 @@
 \contentsline {section}{\numberline {1}Définitions}{2}{section.1}%
 \contentsline {subsection}{Les grammaires formelles}{2}{section*.2}%
-\contentsline {section}{\numberline {2}Vérification de preuve - grammaire formelle}{2}{section.2}%
+\contentsline {section}{\numberline {2}Vérification de preuve}{2}{section.2}%
 \contentsline {subsection}{Une nouvelle structure de données pour les preuves}{2}{section*.3}%
-\contentsline {section}{\numberline {3}Preuve automatique - grammaire formelle}{3}{section.3}%
-\contentsline {subsection}{Un parcours en largeur particulier}{4}{section*.4}%
+\contentsline {section}{\numberline {3}Preuve automatique}{3}{section.3}%
+\contentsline {subsection}{Un parcours en largeur particulier}{3}{section*.4}%
 \contentsline {subsection}{Enfin, un prouveur automatique d'appartenance d'un mot à une grammaire formelle}{4}{section*.5}%
 \contentsline {section}{\numberline {4}Amélioration pour les grammaires croissantes}{4}{section.4}%
 \contentsline {section}{\numberline {5}Amélioration dans le cas général : déduction sur le nombre d'occurence de chaque lettre}{5}{section.5}%
-\contentsline {subsection}{Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb {N}^*\}^{\Sigma }$}{6}{section*.6}%
+\contentsline {subsection}{Les états $q$ sous la forme $q \in Q = \{\{0\},\mathbb {N}^*\}^{\Sigma }$}{5}{section*.6}%
 \contentsline {section}{\numberline {6}ANNEXE 1 : Notations et rappel des définitions}{8}{section.6}%
 \contentsline {section}{\numberline {7}ANNEXE 2 : Implémentation logicielle (OCaml)}{9}{section.7}%
+\contentsline {section}{\numberline {8}ANNEXE 3 : Resultat de l'execution logicielle}{17}{section.8}%

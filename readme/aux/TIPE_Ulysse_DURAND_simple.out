@@ -1,8 +1,8 @@
 \BOOKMARK [1][-]{section.1}{D\351finitions}{}% 1
 \BOOKMARK [2][-]{section*.1}{Les grammaires formelles}{section.1}% 2
-\BOOKMARK [1][-]{section.2}{V\351rification de preuve - grammaire formelle}{}% 3
+\BOOKMARK [1][-]{section.2}{V\351rification de preuve}{}% 3
 \BOOKMARK [2][-]{section*.2}{Une nouvelle structure de donn\351es pour les preuves}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Preuve automatique - grammaire formelle}{}% 5
+\BOOKMARK [1][-]{section.3}{Preuve automatique}{}% 5
 \BOOKMARK [2][-]{section*.3}{Un parcours en largeur particulier}{section.3}% 6
 \BOOKMARK [2][-]{section*.4}{Enfin, un prouveur automatique d'appartenance d'un mot \340 une grammaire formelle}{section.3}% 7
 \BOOKMARK [1][-]{section.4}{Am\351lioration pour les grammaires croissantes}{}% 8
@@ -10,3 +10,4 @@
 \BOOKMARK [2][-]{section*.5}{Les \351tats q sous la forme q Q = \173\1730\175,N*\175}{section.5}% 10
 \BOOKMARK [1][-]{section.6}{ANNEXE 1 : Notations et rappel des d\351finitions}{}% 11
 \BOOKMARK [1][-]{section.7}{ANNEXE 2 : Impl\351mentation logicielle \(OCaml\)}{}% 12
+\BOOKMARK [1][-]{section.8}{ANNEXE 3 : Resultat de l'execution logicielle}{}% 13

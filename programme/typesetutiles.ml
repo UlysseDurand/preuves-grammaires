@@ -11,14 +11,30 @@ type 'e fg = {
   reglesf : ('e caractere) regle array
 } 
 
-type 'e preuveformelle = ('e caractere array) list
-
-
-
+type 'e preuveformelle = (('e caractere list)*int*int) list
 
 
 
 (*##### UTILES #####*)
+
+(* Donne le trableau des lettres de la grammaire *)
+let lettres gram = Array.append gram.terminaux (Array.mapi (fun i x -> Nt i) (Array.make (gram.nbnonterminaux) 0))
+
+let implies a b = (not a) || b
+
+(* Genere tous les n uplets dans {0,1}*)
+let rec nuplets n =
+  if n = 1 then [[0];[1]]
+  else
+  let autre = nuplets (n-1) in
+  (List.map (fun l -> 0::l) autre )@( List.map (fun l -> 1::l) autre)
+
+(* Produit cartesien *)
+let cartesian l l' = 
+  List.concat (List.map (fun e -> List.map (fun e' -> (e,e')) l') l)
+
+let enarray x = (List.map Array.of_list x)
+
 
 (* Implementation de kmp *)
 let kmppreprocess w =
@@ -71,7 +87,7 @@ let kmp s w t =
 	done;
 	!res;;
 
-(*remplace x i l b remplace dans x le sous mot de longueur l qui commence a l'indice i par le mot b*)
+(* remplace x i l b remplace dans x le sous mot de longueur l qui commence a l'indice i par le mot b *)
 let remplace x i l b =
   let n = Array.length x in
   let m = Array.length b in
@@ -100,7 +116,6 @@ let rec ajouteplein l1 l2 =
 		|[] -> l2
 		|t::q -> (ajouteplein q (ajoute t l2))
 
-
 (* Effectue un pretraitement (kmp) des membres de gauche des regles de derivation *)
 let preprocessgf grf =
   Array.map 
@@ -111,6 +126,14 @@ let preprocessgf grf =
 
 let nboccur m l = List.length ((List.filter (fun x -> x = l) ) (Array.to_list m))
 
+(* Parcours en largeur *)
+let rec bfs g dejaVus aVoir = 
+  match aVoir with
+    |[] -> dejaVus
+    |tete::queue -> if List.mem tete dejaVus
+      then bfs g dejaVus queue
+      else bfs g (tete::dejaVus) (queue@(g tete));;
+
 (* Donne le nombre d'occurences des lettres de la grammaire dans le mot *)
 let analysemot mot gram = 
 	let n = gram.nbnonterminaux in
@@ -118,5 +141,18 @@ let analysemot mot gram =
 	let res = Array.make (n+m) 0 in
 	Array.mapi (fun i l -> if i < n then nboccur mot (Nt i) else nboccur mot (gram.terminaux.(i-n)) ) res
 
-let categorisemot gram fctcat m = Array.map fctcat (analysemot m gram)
+let ordre a b = (Array.length a <= Array.length b ) && (
+    let res = ref true in
+    for i=0 to ((Array.length a ) - 1) do
+    	if b.(i) < a.(i) then res:=false;
+    done;
+    !res
+  )
+
+let moins a b = 
+ let res = Array.make (Array.length a) 0 in
+ for i=0 to ((Array.length a) - 1) do
+   res.(i) <- a.(i)-b.(i);
+ done;
+ res
 

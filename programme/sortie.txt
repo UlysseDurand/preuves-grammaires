@@ -1,0 +1,15 @@
+val reszero : bool = true
+val resun : (char caractere array * int * int) list option =
+  Some
+   [([|T 'a'; T 'a'; T 'a'; T 'k'; T 'a'; T 'a'; T 'a'; T 'k'|], 5, 4);
+    ([|T 'a'; T 'a'; T 'a'; T 'k'; T 'a'; T 'k'|], 3, 4);
+    ([|T 'a'; T 'a'; T 'a'; T 'k'; T 'c'|], 2, 3);
+    ([|T 'a'; T 'a'; T 'a'; T 'b'; T 'c'|], 5, 0);
+    ([|T 'a'; T 'b'; T 'c'|], 0, 0); ([|Nt 0|], 0, 0)]
+111val resdeux : (char caractere array * int * int) list option =
+  Some
+   [([|T 'a'; T 'a'; T 'a'; T 'k'; T 'a'; T 'a'; T 'a'; T 'k'|], 5, 4);
+    ([|T 'a'; T 'a'; T 'a'; T 'k'; T 'a'; T 'k'|], 3, 4);
+    ([|T 'a'; T 'a'; T 'a'; T 'k'; T 'c'|], 2, 3);
+    ([|T 'a'; T 'a'; T 'a'; T 'b'; T 'c'|], 5, 0);
+    ([|T 'a'; T 'b'; T 'c'|], 0, 0); ([|Nt 0|], 0, 0)]
