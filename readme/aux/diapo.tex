@@ -52,7 +52,7 @@ $G = (T,N_t,S,D)$ où :
 \item $S \in N_t$ est l'axiome
 
 Notons $\Sigma := N_t \cup T$
-\item $D \subset (\Sigma ^ \star )^2$, est l'ensemble des règles de dérivation.
+\item $D \subset (\Sigma ^ \star )^2$ est l'ensemble des règles de dérivation.
 \end{itemize}
 \end{frame}
 
@@ -76,18 +76,18 @@ $D = \{d_1,\dots,d_n\} = \{(a_1,b_1),\dots,(a_n,b_n)\}$
 
 $S \overset{d_{\color{blue} i_1}}{\rightarrow} m_1 \overset{d_{\color{blue} i_2}}{\rightarrow} \dots \overset{d_{\color{blue} i_p}}{\rightarrow} m_p$
 
-${m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} a } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]} \overset{(a_{{\color{blue} i_k}},b_{{\color{blue} i_k}})}{\rightarrow} {m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} b } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]}$
+${m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} a_{i_k} } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]} \overset{(a_{{\color{blue} i_k}},b_{{\color{blue} i_k}})}{\rightarrow} {m_k}_{\mid [1,{\color{blue} j_k} - 1]} {\color{red} b_{i_k} } {m_k}_{\mid [\norm{a_{{\color{blue} i_k}}} + {\color{blue} j_k},\norm{m_k}]}$
 
 {\small \color{DarkBlue}\texttt{type 'e preuveformelle = \\
-(int*int*('e caractere list)) list}}
+(('e caractere list)*int*int) list}}
 
-{\small \color{DarkBlue}\texttt{[\dots ,(}}
+{\small \color{DarkBlue}\texttt{[\dots ;(}}
+$m_k$
+{\small \color{DarkBlue}\texttt{,}}
 $\color{blue} i_k$
 {\small \color{DarkBlue}\texttt{,}}
 $\color{blue} j_k$
-{\small \color{DarkBlue}\texttt{,}}
-$m_k$
-{\small \color{DarkBlue}\texttt{),\dots ]}}
+{\small \color{DarkBlue}\texttt{);\dots ]}}
 \end{frame}
 \begin{frame}\frametitle{Vérification de preuve - Exemple}
 $G = (T,N_t,S,D)$ où :
@@ -101,7 +101,8 @@ alors \underline{ aabbcc } est dans $\mathcal{L}(G)$ car $\underline{ S } \right
 
 En Ocaml :
 
-{\small \color{DarkBlue}\texttt{let unepreuve = [(0,1,mot "aBSc");(2,3,mot "abc");(1,3,mot "aB");(2,4,mot "bb")]}}
+{\small \color{DarkBlue}\texttt{let unepreuve = [(mot "aBSc",0,0);(mot "aBabcc",1,2);
+		 (mot "aaBbcc",2,1);(mot "aabbcc",3,2)]}}
 \end{frame}
 
 \begin{frame}\frametitle{Preuve automatique d'appartenance d'un mot}
@@ -111,7 +112,7 @@ $G_n := \{x \in \Sigma^\star \mid S (\bigcup_{0 \leq k \leq n} \rightarrow^k) x\
 $G_{n+1} = \bigcup_{x \in G_n} \mathcal{S}(x)$
 où 
 $\mathcal{S}(x) := \{y \in \Sigma^\star \mid x \rightarrow y \} = \bigcup_{d \in D} \{y \in \Sigma^\star \mid x \overset{d}{\rightarrow} y \}$
-l'algorithme de Knuth-Morris-Pratt pour le calcul de $\mathcal{S}(x)$
+Algorithme de Knuth-Morris-Pratt pour le calcul de $\mathcal{S}(x)$
 
 On fait en réalité un parcours en largeur du graphe $(\Sigma^\star,\rightarrow)$ depuis \underline{ S } pour trouver un chemin vers $m$.
 \end{frame}
@@ -151,34 +152,44 @@ Ainsi, $x \overset{*}{\rightarrow} m \implies \forall l \in \Sigma, \norm{m}_l \
 Alors \texttt{ interdit x } devra renvoyer vrai.
 \end{frame}
 
-\begin{frame}\frametitle{Calcul de $s_x$ - Le graphe $A_0$ (1)}
-Considérons le graphe $A_0$ où les sommets sont dans 
-$Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
+\begin{frame}\frametitle{Calcul de $s_x$ - Description des mots}
+On cherche à associer une description unique à un mot $x$ (par ses nombres d'occurences des lettres).
+
+L'ensemble de ces descriptions sera
+$Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tel que :
 \begin{align*}
     &\forall q,q' \in Q, \exists l \in \Sigma / q(l) \cap q'(l) = \emptyset\\
     \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in \Sigma, \norm{m}_l \in q(l)
 \end{align*}
 
-Ainsi, $\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm{x}_l \in q(l)$, notons ce sommet $cat(x)$
+Ainsi, grâce à ces deux axiomes, on a existence et unicité d'une telle description pour un mot $x$ donné.
+
+$\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm{x}_l \in q(l)$, notons cette description $cat(x)$.
+
+On a ainsi partitionné $\Sigma^\star$ par $x \sim y \iff cat(x) = cat(y)$.
 \end{frame}
 
-\begin{frame}\frametitle{Calcul de $s_x$ - Le graphe $A_0$ (2)}
-
-Les arêtes du graphe sont les dérivations possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
+\begin{frame}\frametitle{Calcul de $s_x$ - Le graphe $(Q,A_0)$}
+Constuisons le graphe dont l'ensemble des sommets est $Q$ et les arêtes sont les dérivations possibles d'une description $q \in Q$ à une autre $q' \in Q$.
 \begin{align*}
     &(q,q') \in A_0 \\
     &\iff \exists x,x' \in \Sigma^\star / x \rightarrow x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)\\
     &\iff \exists x,x' \in \Sigma^\star / x \rightarrow x' \text{ et } cat(x) = q \text{ et } cat(x') = q'
 \end{align*}
-Pour A un graphe majorant $A_0$ : 
+On a en fait $A_0 = cat(\rightarrow)$.
 
-On a $\forall l \in \Sigma$, $s_x(l) = \bigcup_{q\text{ accessible depuis } cat(x) \text{ dans A}}q(l)$.
+Pour tout $(Q,A)$ majorant $(Q,A_0)$, $cat$ est un homomorphisme du graphe $(\Sigma^\star,\rightarrow)$ vers $(Q,A)$. ($x \rightarrow y \implies (cat(x),cat(y)) \in A$).
+
 \end{frame}
-\begin{frame}\frametitle{Calcul de $s_x$ - Le graphe $A_0$ (3)}
-Ainsi, si $cat(x) = q$, et $cat(x')=q'$, alors $x \overset{*}{\rightarrow} x' \implies$ $q'$ est accessible depuis $q$ dans $A$. 
+\begin{frame}\frametitle{Calcul de $s_x$}
+Ainsi, si $cat(x) = q$, et $cat(x')=q'$, alors $x \overset{*}{\rightarrow} x' \implies$ $q'$ est accessible depuis $q$ dans $(Q,A)$.
+
+Voilà une condition nécessaire pour que $x \overset{*}{\rightarrow} m$.
+
+On prend $s_x / \forall l \in \Sigma$, $s_x(l) = \bigcup_{y / x\overset{*}{\rightarrow} y} cat(y)(l) = \bigcup_{q\text{ accessible depuis } cat(x) \text{ dans A}}q(l)$.
 
 \fbox{\parbox{\linewidth}{
-    Si $m$ n'est pas accessible depuis $x$ dans un graphe $A$ majorant $A_0$, 
+    Si $cat(m)$ n'est pas accessible depuis $cat(x)$ dans un graphe $(Q,A)$ majorant $(Q,A_0)$, 
     alors on peut interdire le parcours passant par $x$, \texttt{ interdit x } renverra vrai.
 }}
 \end{frame}
@@ -204,33 +215,67 @@ Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver \und
 
 \end{frame}
 
-\begin{frame}\frametitle{Calcul des arêtes $A$ du graphe}
-Pour un sommet de départ fixé et une dérivation fixée.
-$A_{q,d} := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\rightarrow} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+\begin{frame}\frametitle{Calcul des arêtes $A$ du graphe (1)}
+Pour une dérivation $(a,b)$ fixée, notons\\
+$A_{(a,b)} := \{(q,q') \in A \mid \exists x,x' \in \Sigma^\star / x \overset{(a,b)}{\rightarrow} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}$
+Pour calculer les $(q,q') \in A_{(a,b)}$(majorant ${A_0}_{(a,b)}$), trouvons des conditions nécessaires telles que $\exists x,y / cat(x) = q \text{ et } cat(y) = q \text { et } x \overset{(a,b)}{\rightarrow} y$.
+\end{frame}
 
-$
-A_{q,(a,b)} \subset
+\begin{frame}\frametitle{Calcul des arêtes $A$ du graphe (2)}
+$(\exists x,y / cat(x) = q \text{ et } cat(y) = q \text { et } x \overset{(a,b)}{\rightarrow} y) \implies$
+\begin{itemize}
+\item $x$ doit contenir les lettres de $a$, donc $cat(a) \preceq cat(x)$ où\\ $\forall \alpha, \beta \in Q, (\alpha \preceq \beta) \iff \forall l \in \Sigma, \max \alpha(l) \leq \min \beta(l)$.
+
+\item $y$ doit contenir au moins les lettres de $x$ moins celles de $a$, donc $cat(x)-cat(a) \preceq cat(y)$ où\\ $\forall \alpha,\beta \in Q, \alpha-\beta : l \mapsto 
 \begin{cases}
-\emptyset \text{ si } cat(a) \neq q\\
-\{ (q,q') \in Q^2 \mid \forall l \in \Sigma,
-    (cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
-    (q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q(l)=\{0\}) 
-\}
-\text{ sinon}
+\{0\} & \text { si } q'(l) = \mathbb{N} \text{ ou }q(l) = \{0\}\\
+\mathbb{N} & \text{sinon}
 \end{cases}
 $
+
+\item Pour $l \in \Sigma$, si $l$ est dans $b$, $l$ sera dans $y$, donc $cat(b)(l) = \mathbb{N}^* \implies cat(y)(l) \mathbb{N}^*$. 
+
+\item Pour $l \in \Sigma$, si $x$ ne contient pas $l$ et $b$ non plus, y ne contiendra pas $l$, donc $cat(x)(l) = \{0\}$ et $cat(b)(l) = \{0\} \implies cat(y)(l) = \{0\}$.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Calcul des arêtes $A$ du graphe (3)}
+
+On en déduit
+\begin{align*}
+&A_{(a,b)} = \\
+&\{(q,q') \in Q^2 \mid \\
+&
+\begin{cases}
+    &cat(a) \preceq q \text{ et }\\
+    &q-cat(a) \preceq q' \text{ et }\\ 
+    &\forall l \in \Sigma,\\
+    &\text{\hspace{1cm}}(cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
+    &\text{\hspace{1cm}}(q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q'(l)=\{0\})
+\end{cases}
+\\
+&\}
+\end{align*}
+et 
+$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}$.
 
 \end{frame}
 
 \begin{frame}\frametitle{Conclusion}
-En précalculant la matrice d'accessibilité de A (avec Floyd-Warshall), on a une fonction \texttt{ elimine x } s'executant en temps constant.
+En précalculant la matrice d'accessibilité de A (avec Floyd-Warshall), on a une fonction \texttt{ elimine x } s'executant en $\mathcal{O} (|x|)$.
 
-On arrive alors à réduire le temps de recherche d'une preuve d'appartenance du mot $m$ au langage de notre grammaire.
+On arrive alors dans certains cas à réduire le temps de recherche d'une preuve d'appartenance du mot $m$ au langage de notre grammaire.
 
-Extension probablement possible pour $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$
+Mais, seulement 3 appels à \texttt{ inderdit } réussis pour dériver \underline{ S } en \underline{ aaakaaak } de profondeur 5...
+
+Prétraitement couteux
+
+Extension probablement possible (mais aussi peu utile ?) pour $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$
 \end{frame}
+
 
 \end{document}
     

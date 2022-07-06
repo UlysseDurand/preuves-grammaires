@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  16 JUN 2022 01:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.30)  6 JUL 2022 10:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1230,14 +1230,14 @@ LaTeX Font Info:    Trying to load font information for U+bbold on input line 7
 ] [10
 
 ]
-Overfull \hbox (1.81233pt too wide) detected at line 176
+Overfull \hbox (1.81233pt too wide) detected at line 183
 []
  []
 
 [11
 
 ]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 184--184
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 195--195
 [][]  
  []
 
@@ -1494,30 +1494,29 @@ Overfull \hbox (3.54564pt too wide) in paragraph at lines 13--13
  []
 
 )
-Overfull \vbox (6.29074pt too high) detected at line 197
+Overfull \vbox (6.29074pt too high) detected at line 208
  []
 
 [13
 
 ] (./figures/ptitgraphe.tikz)
-Overfull \hbox (5.21637pt too wide) in paragraph at lines 21--205
+Overfull \hbox (5.21637pt too wide) in paragraph at lines 21--216
 [][] 
  []
 
 
-Overfull \vbox (0.77737pt too high) detected at line 205
+Overfull \vbox (0.77737pt too high) detected at line 216
  []
 
 [14
 
-]
-Overfull \hbox (14.69742pt too wide) in paragraph at lines 225--225
-[]$  
- []
-
-[15
+] [15
 
 ] [16
+
+] [17
+
+] [18
 
 ]
 \tf@nav=\write8
@@ -1534,13 +1533,13 @@ Package rerunfilecheck Info: File `diapo.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25483 strings out of 479304
- 522424 string characters out of 5869778
- 886152 words of memory out of 5000000
- 42037 multiletter control sequences out of 15000+600000
+ 25492 strings out of 479304
+ 522502 string characters out of 5869778
+ 886225 words of memory out of 5000000
+ 42042 multiletter control sequences out of 15000+600000
  416031 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 131i,14n,132p,428b,1047s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 131i,19n,132p,428b,1047s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/bbold-type1/bbold5.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/tex
@@ -1560,10 +1559,10 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb>
-Output written on diapo.pdf (16 pages, 209341 bytes).
+Output written on diapo.pdf (18 pages, 217170 bytes).
 PDF statistics:
- 513 PDF objects out of 1000 (max. 8388607)
- 464 compressed objects within 5 object streams
- 33 named destinations out of 1000 (max. 500000)
+ 567 PDF objects out of 1000 (max. 8388607)
+ 515 compressed objects within 6 object streams
+ 37 named destinations out of 1000 (max. 500000)
  43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

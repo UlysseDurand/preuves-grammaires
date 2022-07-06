@@ -126,44 +126,34 @@ Ainsi, $x \overset{*}{\->} m \implies \forall l \in \Sigma, \norm{m}_l \in s_x(l
 Alors !cinterdit x! devra renvoyer vrai.
 ---f
 
----f-Calcul de $s_x$ - Description des mots-
-On cherche à associer une description unique à un mot $x$ (par ses nombres d'occurences des lettres).
-
-L'ensemble de ces descriptions sera
-$Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tel que :
+---f-Calcul de $s_x$ - Le graphe $A_0$ (1)-
+Considérons le graphe $A_0$ où les sommets sont dans 
+$Q \subset ({\mathcal{P}(\mathbb{N})})^{\Sigma}$ tels que :
 ---ml
     &\forall q,q' \in Q, \exists l \in \Sigma / q(l) \cap q'(l) = \emptyset\\
     \text{ et }&\forall m \in \delta(S), \exists q \in Q / \forall l \in \Sigma, \norm{m}_l \in q(l)
 ---ml
 
-Ainsi, grâce à ces deux axiomes, on a existence et unicité d'une telle description pour un mot $x$ donné.
-
-$\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm{x}_l \in q(l)$, notons cette description $cat(x)$.
-
-On a ainsi partitionné $\Sigma^\star$ par $x \sim y \iff cat(x) = cat(y)$.
+Ainsi, $\forall x \in \delta(S), \exists ! q \in Q / \forall l \in \Sigma, \norm{x}_l \in q(l)$, notons ce sommet $cat(x)$
 ---f
 
----f-Calcul de $s_x$ - Le graphe $(Q,A_0)$-
-Constuisons le graphe dont l'ensemble des sommets est $Q$ et les arêtes sont les dérivations possibles d'une description $q \in Q$ à une autre $q' \in Q$.
+---f-Calcul de $s_x$ - Le graphe $A_0$ (2)-
+
+Les arêtes du graphe sont les dérivations possibles d'un famille majorante $q \in Q$ à une autre $q' \in Q$.
 ---ml
     &(q,q') \in A_0 \\
     &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } \forall l \in \Sigma, \norm{x}_l \in q(l) \text{ et } \norm{x'}_l \in q(l)\\
     &\iff \exists x,x' \in \Sigma^\star / x \-> x' \text{ et } cat(x) = q \text{ et } cat(x') = q'
 ---ml
-On a en fait $A_0 = cat(\rightarrow)$.
+Pour A un graphe majorant $A_0$ : 
 
-Pour tout $(Q,A)$ majorant $(Q,A_0)$, $cat$ est un homomorphisme du graphe $(\Sigma^\star,\rightarrow)$ vers $(Q,A)$. ($x \-> y \implies (cat(x),cat(y)) \in A$).
-
+On a $\forall l \in \Sigma$, $s_x(l) = \bigcup_{q\text{ accessible depuis } cat(x) \text{ dans A}}q(l)$.
 ---f
----f-Calcul de $s_x$-
-Ainsi, si $cat(x) = q$, et $cat(x')=q'$, alors $x \overset{*}{\->} x' \implies$ $q'$ est accessible depuis $q$ dans $(Q,A)$.
-
-Voilà une condition nécessaire pour que $x \overset{*}{\->} m$.
-
-On prend $s_x / \forall l \in \Sigma$, $s_x(l) = \bigcup_{y / x\overset{*}{\->} y} cat(y)(l) = \bigcup_{q\text{ accessible depuis } cat(x) \text{ dans A}}q(l)$.
+---f-Calcul de $s_x$ - Le graphe $A_0$ (3)-
+Ainsi, si $cat(x) = q$, et $cat(x')=q'$, alors $x \overset{*}{\->} x' \implies$ $q'$ est accessible depuis $q$ dans $A$. 
 
 \fbox{\parbox{\linewidth}{
-    Si $cat(m)$ n'est pas accessible depuis $cat(x)$ dans un graphe $(Q,A)$ majorant $(Q,A_0)$, 
+    Si $m$ n'est pas accessible depuis $x$ dans un graphe $A$ majorant $A_0$, 
     alors on peut interdire le parcours passant par $x$, !cinterdit x! renverra vrai.
 }}
 ---f
@@ -190,62 +180,40 @@ Ainsi, nous pouvons tout de suite affirmer qu'il est impossible de dériver !saa
 ---f
 
 ---f-Calcul des arêtes $A$ du graphe (1)-
-Pour une dérivation $(a,b)$ fixée, notons\\
-$A_{(a,b)} := \{(q,q') \in A \mid \exists x,x' \in \Sigma^\star / x \overset{(a,b)}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
+Pour un sommet de départ fixé et une dérivation fixée.
+$A_{q,d} := \{(q,b) \in A \mid \exists x,x' \in \Sigma^\star / x \overset{d}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
-Pour calculer les $(q,q') \in A_{(a,b)}$(majorant ${A_0}_{(a,b)}$), trouvons des conditions nécessaires telles que $\exists x,y / cat(x) = q \text{ et } cat(y) = q \text { et } x \overset{(a,b)}{\->} y$.
+$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}$
 ---f
-
 ---f-Calcul des arêtes $A$ du graphe (2)-
-$(\exists x,y / cat(x) = q \text{ et } cat(y) = q \text { et } x \overset{(a,b)}{\->} y) \implies$
----i
-#### $x$ doit contenir les lettres de $a$, donc $cat(a) \preceq cat(x)$ où\\ $\forall \alpha, \beta \in Q, (\alpha \preceq \beta) \iff \forall l \in \Sigma, \max \alpha(l) \leq \min \beta(l)$.
-
-#### $y$ doit contenir au moins les lettres de $x$ moins celles de $a$, donc $cat(x)-cat(a) \preceq cat(y)$ où\\ $\forall \alpha,\beta \in Q, \alpha-\beta : l \mapsto 
+---ml
+&A_{q,(a,b)} \subset \\
+&\{(q,q') \in Q^2 \mid \\
+&
+---cases
+    &cat(a) \preceq q \text{ et } q-cat(a) \preceq q' \text{ et }\\ 
+    &\forall l \in \Sigma,\\
+    &\text{  }(cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
+    &\text{  }(q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q'(l)=\{0\})
+---cases
+\\
+&\}
+---ml
+$(q \preceq q') \iff \forall l \in \Sigma, \max q(l) \leq \min q'(l)$ et\\ 
+$(q - q')(l) =
 ---cases
 \{0\} & \text { si } q'(l) = \mathbb{N} \text{ ou }q(l) = \{0\}\\
 \mathbb{N} & \text{sinon}
 ---cases
 $
-
-#### Pour $l \in \Sigma$, si $l$ est dans $b$, $l$ sera dans $y$, donc $cat(b)(l) = \mathbb{N}^* \implies cat(y)(l) \mathbb{N}^*$. 
-
-#### Pour $l \in \Sigma$, si $x$ ne contient pas $l$ et $b$ non plus, y ne contiendra pas $l$, donc $cat(x)(l) = \{0\}$ et $cat(b)(l) = \{0\} \implies cat(y)(l) = \{0\}$.
-
----i
-
----f
-
----f-Calcul des arêtes $A$ du graphe (3)-
-
-On en déduit
----ml
-&A_{(a,b)} = \\
-&\{(q,q') \in Q^2 \mid \\
-&
----cases
-    &cat(a) \preceq q \text{ et }\\
-    &q-cat(a) \preceq q' \text{ et }\\ 
-    &\forall l \in \Sigma,\\
-    &\text{\hspace{1cm}}(cat(b)(l)=\mathbb{N}^* \implies q'(l)=\mathbb{N}^*) \text{ et }\\
-    &\text{\hspace{1cm}}(q(l)=\{0\} \text{ et } cat(b)(l) = \{0\} \implies q'(l)=\{0\})
----cases
-\\
-&\}
----ml
-et 
-$A = \bigcup_{q \in Q}  \bigcup_{d \in D} A_{q,d}$.
-
 ---f
 
 ---f-Conclusion-
-En précalculant la matrice d'accessibilité de A (avec Floyd-Warshall), on a une fonction !celimine x! s'executant en $\mathcal{O} (|x|)$.
+En précalculant la matrice d'accessibilité de A (avec Floyd-Warshall), on a une fonction !celimine x! s'executant en temps constant.
 
-On arrive alors dans certains cas à réduire le temps de recherche d'une preuve d'appartenance du mot $m$ au langage de notre grammaire.
+On arrive alors à réduire le temps de recherche d'une preuve d'appartenance du mot $m$ au langage de notre grammaire.
 
-Mais, seulement 3 appels à !cinderdit! réussis pour dériver !sS! en !saaakaaak! de profondeur 5...
+Extension probablement possible pour $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$
 
-Prétraitement couteux
-
-Extension probablement possible (mais aussi peu utile ?) pour $Q \subset \{2 \mathbb{N} , 2 \mathbb{N} + 1 \}^\Sigma$
+Mais, seulement 3 appels à !cinderdit! réussis pour dériver !sS! en !saaakaaak!...
 ---f
