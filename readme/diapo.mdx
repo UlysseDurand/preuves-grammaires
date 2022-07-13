@@ -197,7 +197,7 @@ $\neg$ (!saaabakab! $\overset{*}{\->}$ !sakkcckaaakck!) ($\psi$ pas accessible d
 ---f
 
 ---f-Calcul des arêtes $A$ du graphe, conditions nécessaires-
-$\exists x,y / cat(x) = q \text{ et } cat(y) = q \text { et } x \overset{(a,b)}{\->} y$\\
+$\exists x,y / cat(x) = q \text{ et } cat(y) = q' \text { et } x \overset{(a,b)}{\->} y$\\
 $\implies$
 ---i
 #### $cat(a) \preceq cat(x)$ où\\ $\forall \alpha, \beta \in Q, (\alpha \preceq \beta) \iff \forall l \in \Sigma, \max \alpha(l) \leq \min \beta(l)$.
@@ -205,7 +205,7 @@ $\implies$
 
 #### $cat(x)-cat(a) \preceq cat(y)$ où\\ $\forall \alpha,\beta \in Q, \alpha-\beta : l \mapsto 
 ---cases
-\{0\} & \text { si } q'(l) = \mathbb{N} \text{ ou }q(l) = \{0\}\\
+\{0\} & \text { si } \beta(l) = \mathbb{N} \text{ ou }\alpha(l) = \{0\}\\
 \mathbb{N} & \text{sinon}
 ---cases
 $
@@ -220,7 +220,7 @@ $
 
 ---f
 
----f-Calcul des arêtes $A$ du graphe (3)-
+---f-Calcul des arêtes $A$ du graphe-
 Pour
 $A_{(a,b)} \supset \{(q,q') \in A \mid \exists x,x' \in \Sigma^\star / x \overset{(a,b)}{\->} x' \text{ et } cat(x) = q \text{ et } cat(x') = q'\}$
 
