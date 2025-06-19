@@ -1,0 +1,30 @@
+stages:
+  - build
+  - run
+
+variables:
+  IMAGE_NAME: "ocamltest"
+
+build_image:
+  stage: build
+  image: docker:24  # or any recent Docker version
+  services:
+    - docker:24-dind
+  before_script:
+    - docker info
+  script:
+    - docker build -t $IMAGE_NAME ./programme
+
+pages:
+  stage: run
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker run --rm -v "$CI_PROJECT_DIR/programme:/app" -w /app $IMAGE_NAME
+	- mkdir -p public
+	- cp programme/output.txt public/index.html
+  artifacts:
+    paths:
+      - public
+

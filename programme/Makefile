@@ -1,7 +1,7 @@
 toplevel:
 	@make -s tout
 	@echo "#use \"tout.ml\";;" > tmp.ml
-	@ocaml < tmp.ml
+	@ocaml < tmp.ml > output.txt
 	@rm tmp.ml
 
 tout:
