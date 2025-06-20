@@ -1,4 +1,0 @@
-~CODER la méthode bottom-up
-VERIFIER la partie Vérification de preuve - grammaire formelle
-ADAPTER fonction succ pour stocker les dérivations successives et adapter la sortie avec une preuve vérifiable (du type preuveformelle)
-CODER la partie Les états q sous la forme ...

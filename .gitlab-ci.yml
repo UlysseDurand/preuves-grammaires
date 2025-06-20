@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: "ocamltest"
+  IMAGE_NAME: "ocamltest:latest"
 
 build_image:
   stage: build
@@ -11,9 +11,11 @@ build_image:
   services:
     - docker:24-dind
   before_script:
-    - docker info
+    - docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
   script:
     - docker build -t $IMAGE_NAME ./programme
+    - docker push "$IMAGE_NAME"
+
 
 pages:
   stage: deploy 
