@@ -7,6 +7,7 @@ default:
 
 stages:
   - build
+  - test
   - deploy
 
 variables:
@@ -18,10 +19,19 @@ build_image:
     - docker build -t $IMAGE_NAME ./programme
     - docker push "$IMAGE_NAME"
 
+test-ocamlrun:
+  stage: test
+  script:
+    - cd programme
+    - cp test.ml main.ml
+    - docker run --rm -v ".:/app" $IMAGE_NAME
+  artifacts:
+    paths:
+      - programme/output.txt
+
 pages:
   stage: deploy 
   script:
-    - docker run --rm -v "$CI_PROJECT_DIR/programme:/app" -w /app $IMAGE_NAME    
     - mkdir -p public
     - cp programme/output.txt public/index.html
   artifacts:

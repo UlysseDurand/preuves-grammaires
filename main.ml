@@ -1,7 +1,3 @@
-(*##### IMPLEMENTATION DU CODE #####*)
-
-(* Un exemple de grammaire formelle *)
-
 let exfg = {
   terminaux = [| T 'a' ; T 'b' ; T 'c' ; T 'k' |];
   nbnonterminaux = 1;
