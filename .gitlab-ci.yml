@@ -1,6 +1,6 @@
 stages:
   - build
-  - run
+  - deploy
 
 variables:
   IMAGE_NAME: "ocamltest"
@@ -16,14 +16,14 @@ build_image:
     - docker build -t $IMAGE_NAME ./programme
 
 pages:
-  stage: run
+  stage: deploy 
   image: docker:24
   services:
     - docker:24-dind
   script:
-    - docker run --rm -v "$CI_PROJECT_DIR/programme:/app" -w /app $IMAGE_NAME
-	- mkdir -p public
-	- cp programme/output.txt public/index.html
+    - docker run --rm -v "$CI_PROJECT_DIR/programme:/app" -w /app $IMAGE_NAME    
+    - mkdir -p public
+    - cp programme/output.txt public/index.html
   artifacts:
     paths:
       - public
