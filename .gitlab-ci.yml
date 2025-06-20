@@ -10,7 +10,7 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: "$CI_REGISTRY/ocamlrun:latest"
+  IMAGE_NAME: "$CI_REGISTRY_IMAGE/ocamlrun:latest"
 
 build_image:
   stage: build
