@@ -13,7 +13,7 @@ variables:
 
 build_ocamlrun:
   stage: build
-  extends: .gitlab-registry-build-push: 
+  extends: .gitlab-registry-build-push
   variables:
     IMAGENAME: $IMAGENAME_RUN
     BUILD_CONTEXT: .
