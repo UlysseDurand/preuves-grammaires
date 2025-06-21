@@ -11,7 +11,7 @@ variables:
   IMAGENAME_RUN: ocamlrun 
   IMAGENAME_API: ocamlapi
 
-build_ocamlrun:
+build-ocamlrun:
   stage: build
   extends: .gitlab-registry-build-push
   variables:
@@ -25,7 +25,7 @@ test-ocamlrun:
   services:
     - docker:24-dind
   needs:
-    - job: build_ocamlrun
+    - job: build-ocamlrun
   variables:
     IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
