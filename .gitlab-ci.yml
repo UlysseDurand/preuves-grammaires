@@ -18,6 +18,7 @@ build-ocamlrun:
     IMAGENAME: $IMAGENAME_RUN
     BUILD_CONTEXT: .
     DOCKERFILE: Dockerfile.ocamlrun
+    ONLY_BRANCH: master
 
 test-ocamlrun:
   stage: test
