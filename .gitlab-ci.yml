@@ -1,9 +1,6 @@
-default:
-  image: docker:24
-  services:
-    - docker:24-dind
-  before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+include:
+  - project: ulysse_durand/gitlabci-templates
+    file: templates/gitlab-registry-build-push.yml
 
 stages:
   - build
@@ -11,29 +8,40 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: "$CI_REGISTRY_IMAGE/ocamlrun:latest"
+  IMAGENAME_RUN: ocamlrun 
+  IMAGENAME_API: ocamlapi
 
-build_image:
+build_ocamlrun:
   stage: build
-  script:
-    - docker build -t $IMAGE_NAME ./programme
-    - docker push "$IMAGE_NAME"
+  extends: .gitlab-registry-build-push: 
+  variables:
+    IMAGENAME: $IMAGENAME_RUN
+    BUILD_CONTEXT: .
+    DOCKERFILE: Dockerfile.ocamlrun
 
 test-ocamlrun:
   stage: test
+  image: docker:24
+  services:
+    - docker:24-dind
+  needs:
+    - job: build_ocamlrun
+  variables:
+    IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
-    - cd programme
-    - cp test.ml main.ml
-    - docker run --rm -v ".:/app" $IMAGE_NAME
+    - mkdir -p public/tests/basic/output
+    - cd tests/
+    - chmod +x test-ocamlrun.sh
+    - ./test-ocamlrun.sh
+    - cp output.txt $CI_PROJECT_DIR/public/tests/ocamlrun/output.txt
   artifacts:
     paths:
-      - programme/output.txt
+      - public/tests/ocamlrun/output.txt
 
 pages:
-  stage: deploy 
+  stage: deploy-tests 
   script:
-    - mkdir -p public
-    - cp programme/output.txt public/index.html
+    - echo "Deploying GitLab pages..."
   artifacts:
     paths:
       - public
