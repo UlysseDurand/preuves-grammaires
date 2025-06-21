@@ -1,4 +1,4 @@
-FROM alpine
+FROM ocaml/opam:latest
 
 USER root
 
