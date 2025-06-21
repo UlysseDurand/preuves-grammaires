@@ -5,7 +5,7 @@ include:
 stages:
   - build
   - test
-  - deploy
+  - deploy-tests
 
 variables:
   IMAGENAME_RUN: ocamlrun 
@@ -39,7 +39,7 @@ test-ocamlrun:
       - public/tests/ocamlrun/output.txt
 
 pages:
-  stage: deploy-tests 
+  stage: deploy-tests
   script:
     - echo "Deploying GitLab pages..."
   artifacts:
