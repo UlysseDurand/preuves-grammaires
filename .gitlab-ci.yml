@@ -30,7 +30,7 @@ test-ocamlrun:
     IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
     - mkdir -p public/tests/basic/output
-    - cd tests/
+    - cd deployment/tests
     - chmod +x test-ocamlrun.sh
     - ./test-ocamlrun.sh
     - cp output.txt $CI_PROJECT_DIR/public/tests/ocamlrun/output.txt
