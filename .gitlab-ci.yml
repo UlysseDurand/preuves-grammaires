@@ -30,11 +30,11 @@ test-ocamlrun:
   variables:
     IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
-    - mkdir -p public/tests/basic/output
     - cd deployment/tests
     - cp ../../examples/basic.ml ./input.txt
     - chmod +x test-ocamlrun.sh
     - ./test-ocamlrun.sh
+    - mkdir -p $CI_PROJECT_DIR/public/tests/ocamlrun/
     - cp output.txt $CI_PROJECT_DIR/public/tests/ocamlrun/output.txt
   artifacts:
     paths:
