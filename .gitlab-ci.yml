@@ -5,15 +5,15 @@ include:
 stages:
   - build
   - test
-  - deploy
+  - deploy-tests
 
 variables:
   IMAGENAME_RUN: ocamlrun 
   IMAGENAME_API: ocamlapi
 
-build_ocamlrun:
+build-ocamlrun:
   stage: build
-  extends: .gitlab-registry-build-push: 
+  extends: .gitlab-registry-build-push
   variables:
     IMAGENAME: $IMAGENAME_RUN
     BUILD_CONTEXT: .
@@ -24,8 +24,13 @@ test-ocamlrun:
   image: docker:24
   services:
     - docker:24-dind
+<<<<<<< HEAD
   # needs:
   #   - job: build_ocamlrun
+=======
+  needs:
+    - job: build-ocamlrun
+>>>>>>> d78aedfef29f1746303f86986e7cfc1f57d22483
   variables:
     IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
@@ -39,7 +44,7 @@ test-ocamlrun:
       - public/tests/ocamlrun/output.txt
 
 pages:
-  stage: deploy-tests 
+  stage: deploy-tests
   script:
     - echo "Deploying GitLab pages..."
   artifacts:
