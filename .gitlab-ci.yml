@@ -24,13 +24,8 @@ test-ocamlrun:
   image: docker:24
   services:
     - docker:24-dind
-<<<<<<< HEAD
   # needs:
   #   - job: build_ocamlrun
-=======
-  needs:
-    - job: build-ocamlrun
->>>>>>> d78aedfef29f1746303f86986e7cfc1f57d22483
   variables:
     IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
   script:
