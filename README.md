@@ -9,3 +9,19 @@ Here is the report https://gitlab.com/ulysse_durand/preuves-grammaires/-/blob/ma
 Here are the slides https://gitlab.com/ulysse_durand/preuves-grammaires/-/blob/master/readme/diapo.pdf?ref_type=heads
 
 The OCaml code can be found in the `programme` folder.
+
+## Run an API with this code
+
+You can run
+```sh
+docker run \
+    --privileged \
+    --rm \
+    -p 8000:8000 \
+    -v $PWD/examples:/app/examples \
+    -e IMAGE=registry.gitlab.com/ulysse_durand/preuves-grammaires/ocamlrun \
+    registry.gitlab.com/ulysse_durand/gitlabci-templates/str2str-api
+```
+
+To run an API executing this code
+[str2str-api](gitlab.com/ulysse_durand/gitlabci-templates/str2str-api)

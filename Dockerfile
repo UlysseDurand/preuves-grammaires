@@ -7,7 +7,7 @@ ENV SRC_DIR=/app-src \
 
 RUN mkdir -p $SRC_DIR $DEST_DIR
 
-COPY deployment/ocamlrun/entrypoint.sh /entrypoint.sh
+COPY deployment/str2str/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY src/* $SRC_DIR/
 

@@ -1,50 +1,14 @@
 include:
   - project: ulysse_durand/gitlabci-templates
-    file: templates/gitlab-registry-build-push.yml
+    file: templates/str2str-api.yml
 
 stages:
   - build
-  - test
-  - deploy-tests
-
-variables:
-  IMAGENAME_RUN: ocamlrun 
-  IMAGENAME_API: ocamlapi
 
 build-ocamlrun:
   stage: build
-  extends: .gitlab-registry-build-push
+  extends: .str2str-api-build
   variables:
-    IMAGENAME: $IMAGENAME_RUN
-    BUILD_CONTEXT: .
-    DOCKERFILE: Dockerfile.ocamlrun
-    ONLY_BRANCH: master
-
-test-ocamlrun:
-  stage: test
-  image: docker:24
-  services:
-    - docker:24-dind
-  # needs:
-  #   - job: build_ocamlrun
-  variables:
-    IMAGE: "$CI_REGISTRY_IMAGE/$IMAGENAME_RUN:$CI_COMMIT_SHORT_SHA"
-  script:
-    - cd deployment/tests
-    - cp ../../examples/basic.ml ./input.txt
-    - chmod +x test-ocamlrun.sh
-    - ./test-ocamlrun.sh
-    - mkdir -p $CI_PROJECT_DIR/public/tests/ocamlrun/
-    - cp output.txt $CI_PROJECT_DIR/public/tests/ocamlrun/output.txt
-  artifacts:
-    paths:
-      - public/tests/ocamlrun/output.txt
-
-pages:
-  stage: deploy-tests
-  script:
-    - echo "Deploying GitLab pages..."
-  artifacts:
-    paths:
-      - public
-
+    STR2STR_DIR: .
+    STR2STR_IMAGENAME: str2str
+    API_IMAGENAME: api
