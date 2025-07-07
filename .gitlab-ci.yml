@@ -1,14 +1,38 @@
 include:
   - project: ulysse_durand/gitlabci-templates
     file: templates/str2str-api.yml
+  - project: ulysse_durand/code-runner
+    file: deploy-code-runner.yml
 
 stages:
   - build
+  - deploy
 
-build-ocamlrun:
+build-api:
   stage: build
   extends: .str2str-api-build
   variables:
     STR2STR_DIR: .
     STR2STR_IMAGENAME: str2str
     API_IMAGENAME: api
+
+deploy-coderunner:
+  stage: deploy
+  extends: .deploy-coderunner
+  variables:
+    TITLE: "Preuves grammaires"
+    HEADLINE: "Try it out ! Preuves grammaires"
+    LANG: ocaml
+    OUTLANG: ocaml
+    API_URL: https://api1.uldr.fr
+    DESC: "New functions can be used: preprocessgf, interditfort, recherchepreuvenaif, recherchepreuve."
+
+pages:
+  stage: deploy
+  needs:
+    - job: deploy-coderunner
+  script:
+    - echo "Deploying page"
+  artifacts:
+    paths:
+      - public
