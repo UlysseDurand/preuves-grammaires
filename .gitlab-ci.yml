@@ -24,7 +24,7 @@ deploy-coderunner:
     HEADLINE: "Try it out ! Preuves grammaires"
     LANG: ocaml
     OUTLANG: ocaml
-    API_URL: https://api1.uldr.fr
+    API_URL: https://api-preuves.uldr.fr
     DESC: "New functions can be used: preprocessgf, interditfort, recherchepreuvenaif, recherchepreuve."
 
 pages:
