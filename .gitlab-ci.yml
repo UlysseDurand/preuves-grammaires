@@ -1,5 +1,5 @@
 include:
-  - project: ulysse_durand/gitlabci-templates
+  - project: ulysse_durand/str2str-api
     file: templates/str2str-api.yml
   - project: ulysse_durand/code-runner
     file: deploy-code-runner.yml
