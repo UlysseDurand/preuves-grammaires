@@ -1,4 +1,4 @@
 demo: 'https://ulysse_durand.gitlab.io/preuves-grammaires/code-runner/'
 start_date: 2021
 end_date: 2022
-optsummary: 'Attempt at deciding membership problem for CFGs, reasoning on number of symbols in words. Implementation in OCaml'
+summary: 'Attempt at deciding membership problem for CFGs, reasoning on number of symbols in words. Implementation in OCaml'
