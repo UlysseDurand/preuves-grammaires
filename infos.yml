@@ -2,4 +2,4 @@ demo: 'https://ulysse_durand.gitlab.io/preuves-grammaires/code-runner/'
 start_date: 2021
 end_date: 2022
 summary: 'Attempt at deciding membership problem for CFGs, reasoning on number of symbols in words. Implementation in OCaml'
-summary_fr: 'Heuristique raisonnant sur le nombre d'occurences de caractères dans un mot pour décider son appartenance à une grammaire. Implémentation en OCaml'
+summary_fr: "Heuristique raisonnant sur le nombre d'occurences de caractères dans un mot pour décider son appartenance à une grammaire. Implémentation en OCaml"
